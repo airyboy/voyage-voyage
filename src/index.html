@@ -1,12 +1,9 @@
-<!doctype html>
 <html ng-app="voyageVoyage">
   <head>
-    <meta charset="utf-8">
-    <title>voyageVoyage</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <title>VoyageVoyage</title>
+  </head>
+  <body ng-controller="ToursController">
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
     <!-- bower:css -->
     <!-- run `gulp inject` to automatically populate bower styles dependencies -->
@@ -18,13 +15,84 @@
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
     <!-- endbuild -->
-  </head>
-  <body>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ng-view></div>
+    <div class="container">
+      <h1>
+        Voage
+      </h1>
+      <!--New tour button-->
+      <div class="row" ng-hide="isNew || edit.index != null"> 
+        <a class="btn btn-default pull-right" ng-click="setNew()" href=""> Add new </a>
+      </div>
+      <!--New tour form-->
+      <div class="row" ng-show="new.isNew">
+        <div class="col-md-8">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="title">Заголовок</label>
+              <input ng-model="new.tour.title" type="text" class="form-control" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label for="text">Описание</label>
+              <textarea ng-model="new.tour.text" class="form-control" rows="3" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="country">Страна</label>
+              <input ng-model="new.tour.country" class="form-control" type="text" placeholder="Country">
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3" style="margin-left: -15px;">
+                <label for="price">Цена</label>
+                <input ng-model="new.tour.price" class="form-control" type="number" placeholder="Price">
+              </div>
+            </div>
+            <div class="form-group">
+              <button ng-click="new.add()" class="btn btn-primary"> Создать </button>
+              <button ng-click="new.cancel()" class="btn btn-default"> Отменить </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!--Tour list-->
+      <div ng-hide="new.isNew" ng-repeat="tour in tours" class='entry'>
+        <div class="row">
+          <div class='title col-md-4'>
+            <span ng-hide="edit.isEdit($index)">
+              {{tour.title}}
+            </span>
+            <input ng-show="edit.isEdit($index)" ng-model="edit.tour.title" type="text" class="form-control" placeholder="Title">
+          </div>
+          <div class='price pull-right col-md-2 col-md-offset-6'>
+            <span ng-hide="edit.isEdit($index)">
+              {{tour.price | currency: "&#8381; " : 0}}
+            </span>
+            <input ng-show="edit.isEdit($index)" ng-model="edit.tour.price" class="form-control" type="number" placeholder="Price">
+          </div>
+        </div>
+        <div class="row">
+          <div class='description'>
+            <span ng-hide="edit.isEdit($index)">
+              {{tour.text}}
+            </span>
+            <textarea ng-show="edit.isEdit($index)" ng-model="edit.tour.text" class="form-control" rows="3" placeholder="Description">
+            </textarea>
+          </div>
+        </div>
+          <div class="row">
+            <a ng-hide="edit.isEdit($index)" ng-click="edit.setTour($index, tour)" href="" class="action pull-right">Edit</a>
+            <a ng-hide="edit.isEdit($index)" ng-click="remove($index)" href="" class="action pull-right">Remove</a>
+            <button ng-click="edit.update()" ng-show="edit.isEdit($index)" ng-click="add()" class="btn btn-primary">
+              Сохранить
+            </button>
+            <button ng-click="edit.cancel()" ng-show="edit.isEdit($index)" ng-click="cancel()" class="btn btn-default">
+              Отменить
+            </button>
+          </div>
+        </div>
+      </div>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
@@ -41,6 +109,5 @@
     <!-- angular templates will be automatically converted in js and inserted here -->
     <!-- endinject -->
     <!-- endbuild -->
-
   </body>
 </html>
