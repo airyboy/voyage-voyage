@@ -20,12 +20,14 @@
     <![endif]-->
 
     <div class="container">
-      <h1>
-        Voage
-      </h1>
       <!--New tour button-->
-      <div class="row" ng-hide="isNew || edit.index != null"> 
-        <a class="btn btn-default pull-right" ng-click="setNew()" href=""> Add new </a>
+      <div class="row top-row" > 
+        <span class="logo">
+          VoyageVoyage 
+        </span>
+        <span ng-hide="new.isNew || edit.index != null">
+          <a class="btn btn-default pull-right" ng-click="new.setNew()" href=""> Add new </a>
+        </span>
       </div>
       <!--New tour form-->
       <div class="row" ng-show="new.isNew">
@@ -44,7 +46,7 @@
               <input ng-model="new.tour.country" class="form-control" type="text" placeholder="Country">
             </div>
             <div class="form-group">
-              <div class="col-sm-3" style="margin-left: -15px;">
+              <div class="col-sm-3 nopadding">
                 <label for="price">Цена</label>
                 <input ng-model="new.tour.price" class="form-control" type="number" placeholder="Price">
               </div>
@@ -56,40 +58,48 @@
           </form>
         </div>
       </div>
-      <!--Tour list-->
+      <!--Tours list-->
       <div ng-hide="new.isNew" ng-repeat="tour in tours" class='entry'>
         <div class="row">
-          <div class='title col-md-4'>
-            <span ng-hide="edit.isEdit($index)">
-              {{tour.title}}
-            </span>
-            <input ng-show="edit.isEdit($index)" ng-model="edit.tour.title" type="text" class="form-control" placeholder="Title">
+          <!--Image-->
+          <div class="col-md-3">
+            <img src="" alt="" height="100" width="200">
           </div>
-          <div class='price pull-right col-md-2 col-md-offset-6'>
-            <span ng-hide="edit.isEdit($index)">
-              {{tour.price | currency: "&#8381; " : 0}}
-            </span>
-            <input ng-show="edit.isEdit($index)" ng-model="edit.tour.price" class="form-control" type="number" placeholder="Price">
-          </div>
-        </div>
-        <div class="row">
-          <div class='description'>
-            <span ng-hide="edit.isEdit($index)">
-              {{tour.text}}
-            </span>
-            <textarea ng-show="edit.isEdit($index)" ng-model="edit.tour.text" class="form-control" rows="3" placeholder="Description">
-            </textarea>
-          </div>
-        </div>
-          <div class="row">
-            <a ng-hide="edit.isEdit($index)" ng-click="edit.setTour($index, tour)" href="" class="action pull-right">Edit</a>
-            <a ng-hide="edit.isEdit($index)" ng-click="remove($index)" href="" class="action pull-right">Remove</a>
-            <button ng-click="edit.update()" ng-show="edit.isEdit($index)" ng-click="add()" class="btn btn-primary">
-              Сохранить
-            </button>
-            <button ng-click="edit.cancel()" ng-show="edit.isEdit($index)" ng-click="cancel()" class="btn btn-default">
-              Отменить
-            </button>
+          <!--Tour item-->
+          <div class="col-md-9">
+            <div class="row">
+              <div class='title col-md-4 nopadding'>
+                <span ng-hide="edit.isEdit($index)">
+                  {{tour.title}}
+                </span>
+                <input ng-show="edit.isEdit($index)" ng-model="edit.tour.title" type="text" class="form-control" placeholder="Title">
+              </div>
+              <div class='price pull-right col-md-2 col-md-offset-6'>
+                <span ng-hide="edit.isEdit($index)">
+                  {{tour.price | currency: "&#8381; " : 0}}
+                </span>
+                <input ng-show="edit.isEdit($index)" ng-model="edit.tour.price" class="form-control" type="number" placeholder="Price">
+              </div>
+            </div>
+            <div class="row description">
+              <span ng-hide="edit.isEdit($index)">
+                {{tour.text}}
+              </span>
+              <textarea ng-show="edit.isEdit($index)" ng-model="edit.tour.text" class="form-control" rows="3" placeholder="Description">
+              </textarea>
+            </div>
+            <div class="row">
+              <!--List actions-->
+              <a ng-hide="edit.isEdit($index)" ng-click="edit.setTour($index, tour)" href="" class="action pull-right">Edit</a>
+              <a ng-hide="edit.isEdit($index)" ng-click="remove($index)" href="" class="action pull-right">Remove</a>
+              <!--Inline edit actions-->
+              <button ng-click="edit.update()" ng-show="edit.isEdit($index)" class="btn btn-primary">
+                Сохранить
+              </button>
+              <button ng-click="edit.cancel()" ng-show="edit.isEdit($index)" class="btn btn-default">
+                Отменить
+              </button>
+            </div>
           </div>
         </div>
       </div>

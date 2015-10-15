@@ -5,24 +5,34 @@ UNSAVED_CHANGES_WARNING = "Есть несохраненные изменени�
 REMOVE_WARNING = "Удалить тур?"
 
 app.controller "ToursController", ($scope) ->
-  $scope.tours = tours
+  $scope.persistence = {
+    save: () ->
+      localStorage.setItem("tours", angular.toJson($scope.tours))
+    load: () ->
+      json = localStorage.getItem("tours")
+      $scope.tours = ((new Tour).fromJSON(e) for e in angular.fromJson(json))
+  }
+
+  if localStorage.getItem("tours") != null
+    $scope.persistence.load()
+  else
+    $scope.tours = tours_default
 
   $scope.new = {
-    #TODO: вынести в модель, когда настанет время
-    emptyTour: { title: null, country: null, text: null, price: 0.0 }
-    tour: null
+    tour: new Tour
     isNew: false
     setNew: () ->
       this.isNew = true
     add: () ->
       $scope.tours.push(angular.copy(this.tour))
+      $scope.persistence.save()
       this.reset()
     reset: () ->
-      this.tour = angular.copy(this.emptyTour)
+      this.tour = new Tour()
       this.isNew = false
     cancel: () ->
       # если форма пустая просто закрываем
-      if this.isEmpty(this.tour)
+      if this.tour.isEmpty()
         this.reset()
       else
         # если пользователь что-то ввел, спрашиваем
@@ -41,9 +51,10 @@ app.controller "ToursController", ($scope) ->
       $scope.edit.tour = angular.copy(tour)
     update: () ->
       $scope.tours[this.index] = this.tour
+      $scope.persistence.save()
       this.reset()
     cancel: () ->
-      if areEqual(tour, $scope.tours[this.index])
+      if this.tour.areEqual($scope.tours[this.index])
         this.reset()
       else
         if confirm(UNSAVED_CHANGES_WARNING)
@@ -56,13 +67,20 @@ app.controller "ToursController", ($scope) ->
   $scope.remove = (idx) ->
     if confirm(REMOVE_WARNING)
       $scope.tours.splice(idx, 1)
+      $scope.persistence.save()
 
-  #TODO: это надо бы вынести в модель
-  this.isEmpty = (tour) ->
-    tour.text == null and tour.title == null and tour.country == null and tour.price == 0.0
-
-  this.areEqual = (tour1, tour2) ->
-    tour1.text == tour2.text and tour1.title == tour2.title and tour1.country == tour2.country and tour1.price == tour2.price
+class Tour
+  constructor: (@title, @text, @country, @price) ->
+  isEmpty: ->
+    !@title & !@text & !@country & !@price
+  areEqual: (otherTour) ->
+    this.text == otherTour.text and this.title == otherTour.title and this.country == otherTour.country and this.price == otherTour.price
+  fromJSON: (json) ->
+    @title = json.title
+    @text = json.text
+    @country = json.country
+    @price = json.price
+    this
 
 lorem = "Lorem ipsum dolor sit amet. Magnam aliquam quaerat voluptatem sequi." +
     " Corporis suscipit laboriosam, nisi ut enim ipsam voluptatem quia. Velit esse, " +
@@ -72,29 +90,11 @@ lorem = "Lorem ipsum dolor sit amet. Magnam aliquam quaerat voluptatem sequi." +
     "aliquam. Voluptas sit, amet, consectetur adipisci. Deleniti atque corrupti, quos dolores " +
     "eos, qui dolorem ipsum."
     
-tours = [
-  {
-    title: 'Мытищи',
-    country: 'Россия',
-    text: lorem,
-    price: 5000.0
-  },
-  {
-    title: 'Реутов',
-    country: 'Россия',
-    text: lorem,
-    price: 40000.0
-  },
-  {
-    title: 'Одинцово',
-    country: 'Россия',
-    text: lorem,
-    price: 8000.0
-  },
-  {
-    title: 'Щербинка',
-    country: 'Россия',
-    text: lorem,
-    price: 90500.0
-  }
+json = [
+  { title: 'Мытищи', country: 'Россия', text: lorem, price: 5000.0 },
+  { title: 'Реутов', country: 'Россия', text: lorem, price: 40000.0 },
+  { title: 'Одинцово', country: 'Россия', text: lorem, price: 8000.0 },
+  { title: 'Щербинка', country: 'Россия', text: lorem, price: 90500.0 }
 ]
+
+tours_default = ((new Tour).fromJSON(e) for e in json)
