@@ -1,86 +1,25 @@
 app = angular.module "voyageVoyage", []
 
-#TODO: константы пока здесь
-UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
-REMOVE_WARNING = "Удалить тур?"
-
-app.controller "ToursController", ($scope) ->
-  $scope.persistence = {
-    save: () ->
-      localStorage.setItem("tours", angular.toJson($scope.tours))
-    load: () ->
-      json = localStorage.getItem("tours")
-      $scope.tours = ((new Tour).fromJSON(e) for e in angular.fromJson(json))
-  }
-
-  if localStorage.getItem("tours") != null
-    $scope.persistence.load()
-  else
-    $scope.tours = tours_default
-
-  $scope.new = {
-    tour: new Tour
-    isNew: false
-    setNew: () ->
-      this.isNew = true
-    add: () ->
-      $scope.tours.push(angular.copy(this.tour))
-      $scope.persistence.save()
-      this.reset()
-    reset: () ->
-      this.tour = new Tour()
-      this.isNew = false
-    cancel: () ->
-      # если форма пустая просто закрываем
-      if this.tour.isEmpty()
-        this.reset()
-      else
-        # если пользователь что-то ввел, спрашиваем
-        if confirm(UNSAVED_CHANGES_WARNING)
-          this.reset()
-  }
-
-  $scope.edit = {
-    index: null
-    # сохраняем сюда копию тура, которую и редактируем
-    tour: null
-    isEdit: (idx) ->
-      this.index != null && this.index == idx
-    setTour: (idx, tour) ->
-      $scope.edit.index = idx
-      $scope.edit.tour = angular.copy(tour)
-    update: () ->
-      $scope.tours[this.index] = this.tour
-      $scope.persistence.save()
-      this.reset()
-    cancel: () ->
-      if this.tour.areEqual($scope.tours[this.index])
-        this.reset()
-      else
-        if confirm(UNSAVED_CHANGES_WARNING)
-          this.reset()
-    reset: () ->
-      this.tour = null
-      this.index = null
-  }
-  
-  $scope.remove = (idx) ->
-    if confirm(REMOVE_WARNING)
-      $scope.tours.splice(idx, 1)
-      $scope.persistence.save()
-
 class Tour
   constructor: (@title, @text, @country, @price) ->
+  _copy = null
+  keepCopy: ->
+    _copy = (new Tour).fromJSON(this)
+  fromJSON: (json) ->
+    { title: @title, text: @text, country: @country, price: @price } = json
+    this
+  commitChanges: =>
+    _copy = null
+  rejectChanges: =>
+    if _copy
+      { title: @title, text: @text, country: @country, price: @price } = _copy
+      _copy = null
+  hasChanges: =>
+    !@isEqual(_copy)
   isEmpty: ->
     !@title & !@text & !@country & !@price
-  areEqual: (otherTour) ->
+  isEqual: (otherTour) ->
     this.text == otherTour.text and this.title == otherTour.title and this.country == otherTour.country and this.price == otherTour.price
-  fromJSON: (json) ->
-    @title = json.title
-    @text = json.text
-    @country = json.country
-    @price = json.price
-    this
 
 lorem = "Lorem ipsum dolor sit amet. Magnam aliquam quaerat voluptatem sequi." +
     " Corporis suscipit laboriosam, nisi ut enim ipsam voluptatem quia. Velit esse, " +
@@ -98,3 +37,98 @@ json = [
 ]
 
 tours_default = ((new Tour).fromJSON(e) for e in json)
+
+class BaseState
+  constructor: ->
+    @tour = null
+  newFormShown: -> false
+  listShown: -> false
+  newButShown: -> false
+  tour: null
+  editIndex: null
+  canCancel: -> true
+
+class NewState extends BaseState
+  constructor: ->
+    @tour = new Tour
+  newFormShown: -> true
+  canCancel: =>
+    answer = false
+    # если форма пустая просто закрываем
+    if @tour.isEmpty()
+      answer = true
+    else
+      # если пользователь что-то ввел, спрашиваем
+      if confirm(UNSAVED_CHANGES_WARNING)
+        answer = true
+    answer
+
+class InlineEditState extends BaseState
+  constructor: (@tour, @editIndex) ->
+    @tour.keepCopy()
+  listShown: -> true
+  canCancel: ->
+    console.log @tour
+    answer = false
+    console.log @tour.hasChanges()
+    if !@tour.hasChanges()
+      answer = true
+    else
+      if confirm(UNSAVED_CHANGES_WARNING)
+        answer = true
+    answer
+
+class BrowseState extends BaseState
+  listShown: -> true
+  newButShown: -> true
+
+#TODO: константы пока здесь
+UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
+REMOVE_WARNING = "Удалить тур?"
+
+app.controller "ToursController", ($scope) ->
+  $scope.title = "Title"
+  $scope.uiState = new BrowseState
+  $scope.tour = null
+
+  $scope.setState = (state, tour, idx) ->
+    console.log state
+    $scope.uiState = switch state
+      when 'browse' then new BrowseState
+      when 'new' then new NewState
+      when 'inlineEdit' then new InlineEditState(tour, idx)
+    $scope.tour = $scope.uiState.tour
+    console.log $scope.uiState
+
+  $scope.persistence = {
+    save: ->
+      localStorage.setItem("tours", angular.toJson($scope.tours))
+    load: ->
+      json = localStorage.getItem("tours")
+      $scope.tours = ((new Tour).fromJSON(e) for e in angular.fromJson(json))
+  }
+
+  if localStorage.getItem("tours") != null
+    $scope.persistence.load()
+  else
+    $scope.tours = tours_default
+
+  $scope.add = ->
+    $scope.tours.push(angular.copy(this.tour))
+    $scope.persistence.save()
+    $scope.setState("browse")
+    
+  $scope.update = ->
+    $scope.tour.commitChanges()
+    $scope.persistence.save()
+    $scope.setState("browse")
+
+  $scope.cancel = ->
+    if $scope.uiState.canCancel()
+      $scope.tour.rejectChanges()
+      $scope.setState("browse")
+
+  $scope.remove = (idx) ->
+    if confirm(REMOVE_WARNING)
+      $scope.tours.splice(idx, 1)
+      $scope.persistence.save()
