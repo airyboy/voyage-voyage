@@ -1,16 +1,13 @@
 angular.module('voyageVoyage')
   .controller 'ToursController', ($scope, PersistenceService, _) ->
-    $scope.title = 'Tours'
-
     do ->
       $scope.tours = PersistenceService.load()
       $scope.countries = PersistenceService.countriesDefault()
       $scope.selectedCountry = null
 
     $scope.countryFilter = (tour) ->
-      console.log $scope.selectedCountry
       if $scope.selectedCountry
-        tour.country == $scope.selectedCountry.name
+        tour.countryId == $scope.selectedCountry.id
       else
         true
 
