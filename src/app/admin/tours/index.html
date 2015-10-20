@@ -1,0 +1,93 @@
+<!--New tour button-->
+<div class="row top-row" > 
+  <span class="logo">
+    VoyageVoyage 
+    {{ title }}
+  </span>
+  <span ng-show="uiState.newButShown()">
+    <a class="btn btn-default pull-right" ng-click="setState('new')" href=""> Add new </a>
+  </span>
+</div>
+<!--New tour form-->
+<div class="row" ng-show="uiState.newFormShown()">
+  <div class="col-md-8">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="title">Заголовок</label>
+        <input ng-model="tour.title" type="text" class="form-control" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <label for="text">Описание</label>
+        <textarea ng-model="tour.text" class="form-control" rows="3" placeholder="Description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="country">Страна</label>
+        <select id="" class="form-control" ng-model="tour.countryId" ng-options="country.id as country.name for country in countries" name="">
+          <option value="">--Выберите страну--</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-3 nopadding">
+          <label for="price">Цена</label>
+          <input ng-model="tour.price" class="form-control" type="number" placeholder="Price">
+        </div>
+      </div>
+      <div class="form-group">
+        <button ng-click="add()" class="btn btn-primary"> Создать </button>
+        <button ng-click="cancel()" class="btn btn-default"> Отменить </button>
+      </div>
+    </form>
+  </div>
+</div>
+<!--Tours list-->
+<div ng-show="uiState.listShown()" ng-repeat="tour in tours track by $index" class='entry'>
+  <div class="row">
+    <!--Image-->
+    <div class="col-md-3">
+      <img src="" alt="" height="100" width="200">
+    </div>
+    <!--Tour item-->
+    <div class="col-md-9">
+      <div class="row">
+        <div class='title col-md-6 nopadding' ng-class="$index == uiState.editIndex ? 'col-md-3' : 'col-md-6'">
+          <span ng-hide="$index == uiState.editIndex">
+            {{tour.title}}
+            <span ng-hide="$index == uiState.editIndex" class="label label-primary">{{getCountryById(tour.countryId)}}</span>
+          </span>
+          <input ng-show="$index == uiState.editIndex" ng-model="tour.title" type="text" class="form-control" placeholder="Title">
+        </div>
+        <div class='title col-md-3 nopadding'>
+          <select ng-show="$index == uiState.editIndex" id="" class="form-control" ng-model="tour.countryId" 
+            ng-options="country.id as country.name for country in countries" name="">
+            <option value="">--Выберите страну--</option>
+          </select>
+        </div>
+        <div class='price pull-right col-md-2 col-md-offset-4'>
+          <span ng-hide="$index == uiState.editIndex">
+            {{tour.price | currency: "&#8381; " : 0}}
+          </span>
+          <input ng-show="$index == uiState.editIndex" ng-model="tour.price" class="form-control" type="number" placeholder="Price">
+        </div>
+      </div>
+      <div class="row description">
+        <span ng-hide="$index == uiState.editIndex">
+          {{tour.text}}
+        </span>
+        <textarea ng-show="$index == uiState.editIndex" ng-model="tour.text" class="form-control" rows="3" placeholder="Description">
+        </textarea>
+      </div>
+      <div class="row">
+        <!--List actions-->
+        <a ng-hide="$index == uiState.editIndex" ng-click="setState('inlineEdit', tour, $index)" href="" class="action pull-right">Edit</a>
+        <a ng-hide="$index == uiState.editIndex" ng-click="remove($index)" href="" class="action pull-right">Remove</a>
+        <!--Inline edit actions-->
+        <button ng-click="update()" ng-show="$index == uiState.editIndex" class="btn btn-primary">
+          Сохранить
+        </button>
+        <button ng-click="cancel()" ng-show="$index == uiState.editIndex" class="btn btn-default">
+          Отменить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

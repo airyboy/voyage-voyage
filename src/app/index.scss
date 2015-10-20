@@ -31,6 +31,10 @@ $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bo
 
 .title {
   font-size: 1.4em;
+  padding-right: 35px;
+  .label {
+    font-size: 0.6em;
+  }
 }
 
 .entry {

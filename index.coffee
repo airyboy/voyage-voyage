@@ -82,12 +82,10 @@ class BrowseState extends BaseState
   listShown: -> true
   newButShown: -> true
 
-#TODO: константы пока здесь
-UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
-REMOVE_WARNING = "Удалить тур?"
-
 app.controller "ToursController", ($scope) ->
-  $scope.title = "Title"
+  UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
+  REMOVE_WARNING = "Удалить тур?"
+
   $scope.uiState = new BrowseState
   $scope.tour = null
 

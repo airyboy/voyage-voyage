@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var include = require('gulp-include');
 
 var browserSync = require('browser-sync');
 
@@ -13,6 +14,7 @@ gulp.task('scripts', function () {
     .pipe($.sourcemaps.init())
     .pipe($.coffeelint())
     .pipe($.coffeelint.reporter())
+    .pipe(include('coffee')).on('error', console.log)
     .pipe($.coffee()).on('error', conf.errorHandler('CoffeeScript'))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app')))
