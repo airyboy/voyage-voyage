@@ -4,6 +4,10 @@ class Tour
   _copy = null
   keepCopy: ->
     _copy = (new Tour).fromJSON(this)
+  @fromJson: (json) ->
+    t = new Tour()
+    angular.extend(t, json)
+    t
   fromJSON: (json) ->
     {
       objectId: @objectId,

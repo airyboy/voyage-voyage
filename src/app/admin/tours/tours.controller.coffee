@@ -4,39 +4,28 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, T
   #=require tours.states.coffee
   #=require tour.coffee
 
-  loadPlaces = ->
-    deffered = $q.defer()
-    PersistenceService.loadResource('place').$promise
-      .then (response) ->
-        deffered.resolve(response)
-    deffered.promise
-    
-  loadCountries = ->
-    deffered = $q.defer()
-    PersistenceService.loadResource('country').$promise
-      .then (response) ->
-        deffered.resolve(response)
-    deffered.promise
-
-  load = ->
-    deffered = $q.defer()
-    PersistenceService.loadResource('tour').$promise
-      .then (response) ->
-        deffered.resolve(response)
-    deffered.promise
+  $scope.tours = []
+  $scope.countries = []
+  $scope.places = []
+  
+  loadPlaces = -> PersistenceService.loadResource('place').$promise
+  loadCountries = -> PersistenceService.loadResource('country').$promise
+  load = -> PersistenceService.loadResource('tour').$promise
 
   # для удобства каррируем
-  load = (tour) -> PersistenceService.loadResource('tour', tour)
   save = (tour) -> PersistenceService.saveResource('tour', tour)
   remove = (tour) -> PersistenceService.removeResource('tour', tour)
 
   promises = { tours: load(), places: loadPlaces(), countries: loadCountries() }
-  $q.all(promises).then (data) ->
-    console.log data
-    $scope.tours = ((new Tour).fromJSON(e) for e in data.tours)
-    $scope.countries = data.countries
-    $scope.places = data.places
-    $scope.setState('browse')
+  $q.all(promises)
+    .then (data) ->
+      #$scope.tours = ((new Tour).fromJSON(e) for e in data.tours)
+      $scope.tours = (Tour.fromJson(e) for e in data.tours)
+      $scope.countries = data.countries
+      $scope.places = data.places
+      console.log data
+    .catch (error) ->
+      alert(error)
 
   $scope.setState = (state, tour, idx) ->
     console.log state
@@ -47,6 +36,7 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, T
     $scope.tour = $scope.uiState.tour
     console.log $scope.uiState
 
+  $scope.setState('browse')
 
   $scope.add = ->
     $scope.tours.push(@tour)

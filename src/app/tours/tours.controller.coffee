@@ -1,25 +1,9 @@
 angular.module('voyageVoyage')
   .controller 'ToursController', ($scope, $q, PersistenceService, _) ->
-    loadPlaces = ->
-      deffered = $q.defer()
-      PersistenceService.loadResource('place').$promise
-        .then (response) ->
-          deffered.resolve(response)
-      deffered.promise
-      
-    loadCountries = ->
-      deffered = $q.defer()
-      PersistenceService.loadResource('country').$promise
-        .then (response) ->
-          deffered.resolve(response)
-      deffered.promise
 
-    load = ->
-      deffered = $q.defer()
-      PersistenceService.loadResource('tour').$promise
-        .then (response) ->
-          deffered.resolve(response)
-      deffered.promise
+    loadPlaces = -> PersistenceService.loadResource('place').$promise
+    loadCountries = -> PersistenceService.loadResource('country').$promise
+    load = -> PersistenceService.loadResource('tour').$promise
 
     promises = { tours: load(), places: loadPlaces(), countries: loadCountries() }
     $q.all(promises).then (data) ->
