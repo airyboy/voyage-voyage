@@ -26,7 +26,7 @@
     <div class="col-md-9">
       <div class="row">
         <div class='title col-md-4 nopadding'>
-          <a ng-href="/#/tour/{{tour.id}}">
+          <a ng-href="/#/tour/{{ tour.objectId }}">
             {{tour.title}}
           </a>
           <div class="label label-primary">{{getCountryById(tour.countryId)}}</div>
@@ -38,7 +38,7 @@
       </div>
       <div class="row description">
         {{shortenText(tour.text)}}
-        <a ng-href="/#/tour/{{tour.id}}">далее</a>
+        <a ng-href="/#/tour/{{ tour.objectId }}">далее</a>
       </div>
     </div>
   </div>

@@ -3,7 +3,6 @@ angular.module('voyageVoyage').controller 'PlacesController', ['$scope', '$resou
     #=require place.coffee
     #=require places.states.coffee
 
-    # для удобства каррируем
     loadCountries = ->
       deffered = $q.defer()
       PersistenceService.loadResource('country').$promise
@@ -18,15 +17,14 @@ angular.module('voyageVoyage').controller 'PlacesController', ['$scope', '$resou
           deffered.resolve(response)
       deffered.promise
 
+    # для удобства каррируем
     save = (place) -> PersistenceService.saveResource('place', place)
     remove = (place) -> PersistenceService.removeResource('place', place)
 
     promises = { places: load(), countries: loadCountries() }
-    console.log promises
     $q.all(promises).then (data) ->
-      console.log data
       $scope.places = ((new Place).fromJSON(e) for e in data.places)
-      $scope.countries = data.countries #((new Place).fromJSON(e) for e in data.countries)
+      $scope.countries = data.countries
       $scope.state = new BrowsePlaceState
 
     $scope.add = ->

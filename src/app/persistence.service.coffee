@@ -1,26 +1,7 @@
 angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q', 'ResourceFactory', ($resource, $q, ResourceFactory) ->
   {
-    parseResults: (data, headersGetter) ->
-      dt = angular.fromJson(data)
-      dt.results
-    
-    resourceName: "tour"
-
-    loadT: ->
-      ResourceFactory(@resourceName).query()
-    
-    TourResource:
-      $resource "https://api.parse.com/1/classes/tour/:objectId",
-        {objectId: '@objectId' },
-        {query:
-          {
-            isArray: true,
-            transformResponse: (data, headersGetter) -> angular.fromJson(data).results }
-        'update':
-          { method: 'PUT' } }
-    
-    loadTours: ->
-      @TourResource.query()
+    loadResourceById: (resourceName, objectId) ->
+      ResourceFactory(resourceName).getById { objectId: objectId }
 
     loadResource: (resourceName) ->
       ResourceFactory(resourceName).query()
@@ -52,33 +33,7 @@ angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q',
           console.log error
           alert "Error!"
 
-    saveTour: (tour) ->
-      console.log "tour from pers"
-      console.log tour
-      db = new @TourResource(tour)
-      if !tour.objectId
-        db.$save()
-          .then (response) ->
-            tour.objectId = response.objectId
-          .catch (error) ->
-            console.log error
-            alert "Error!"
-      else
-        db.$update()
-          .then (response) ->
-            tour.commitChanges()
-          .catch (error) ->
-            console.log error
-            alert "Error!"
-
-    removeTour: (tour) ->
-      console.log tour
-      db = new @TourResource({ objectId: tour.objectId })
-      db.$remove()
-        .catch (error) ->
-          console.log error
-          alert "Error!"
-
+    # I keep it for db seed
     countriesDefault: ->
       [ {id: 0, name: 'Россия'},
         {id: 1, name: 'США'},

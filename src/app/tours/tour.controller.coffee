@@ -1,5 +1,13 @@
 angular.module('voyageVoyage') .controller 'TourController', ($scope, $routeParams,  PersistenceService, _) ->
-  do ->
-    json = PersistenceService.load()
-    found  = _.find json, (tour) -> tour.id == +$routeParams.slug
-    $scope.tour = found if found
+  @loadDependencies = ->
+    PersistenceService.loadResourceById('country', $scope.tour.countryId).$promise
+      .then (country) ->
+        $scope.country = country
+    PersistenceService.loadResourceById('place', $scope.tour.placeId).$promise
+      .then (place) ->
+        $scope.place = place
+
+  PersistenceService.loadResourceById('tour', $routeParams.slug).$promise
+    .then (tour) =>
+      $scope.tour = tour
+      @loadDependencies()
