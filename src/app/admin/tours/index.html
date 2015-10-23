@@ -22,8 +22,14 @@
       </div>
       <div class="form-group">
         <label for="country">Страна</label>
-        <select id="" class="form-control" ng-model="tour.countryId" ng-options="country.id as country.name for country in countries" name="">
+        <select id="" class="form-control" ng-model="tour.countryId" ng-options="country.objectId as country.name for country in countries" name="">
           <option value="">--Выберите страну--</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="country">Место</label>
+        <select id="" class="form-control" ng-model="tour.placeId" ng-options="place.objectId as place.name for place in places" name="">
+          <option value="">--Выберите место--</option>
         </select>
       </div>
       <div class="form-group">
@@ -53,15 +59,22 @@
           <span ng-hide="$index == uiState.editIndex">
             {{tour.title}}
             <span ng-hide="$index == uiState.editIndex" class="label label-primary">{{getCountryById(tour.countryId)}}</span>
+            <span ng-hide="$index == uiState.editIndex" class="label label-success">{{getPlaceById(tour.placeId)}}</span>
           </span>
           <input ng-show="$index == uiState.editIndex" ng-model="tour.title" type="text" class="form-control" placeholder="Title">
         </div>
         <div class='title col-md-3 nopadding'>
           <select ng-show="$index == uiState.editIndex" id="" class="form-control" ng-model="tour.countryId" 
-            ng-options="country.id as country.name for country in countries" name="">
+            ng-options="country.objectId as country.name for country in countries" name="">
             <option value="">--Выберите страну--</option>
           </select>
         </div>
+        <div class='title col-md-3 nopadding'>
+          <select ng-show="$index == uiState.editIndex" id="" class="form-control" ng-model="tour.placeId" 
+            ng-options="place.objectId as place.name for place in places" name="">
+            <option value="">--Выберите место--</option>
+          </select>
+          </div>
         <div class='price pull-right col-md-2 col-md-offset-4'>
           <span ng-hide="$index == uiState.editIndex">
             {{tour.price | currency: "&#8381; " : 0}}

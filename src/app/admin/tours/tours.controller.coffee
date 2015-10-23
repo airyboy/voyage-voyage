@@ -1,8 +1,42 @@
-angular.module("voyageVoyage").controller "AdminToursController", ($scope, PersistenceService, _) ->
+angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, TourPersistence, PersistenceService, ResourceFactory, _) ->
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
   #=require tours.states.coffee
   #=require tour.coffee
+
+  loadPlaces = ->
+    deffered = $q.defer()
+    PersistenceService.loadResource('place').$promise
+      .then (response) ->
+        deffered.resolve(response)
+    deffered.promise
+    
+  loadCountries = ->
+    deffered = $q.defer()
+    PersistenceService.loadResource('country').$promise
+      .then (response) ->
+        deffered.resolve(response)
+    deffered.promise
+
+  load = ->
+    deffered = $q.defer()
+    PersistenceService.loadResource('tour').$promise
+      .then (response) ->
+        deffered.resolve(response)
+    deffered.promise
+
+  # для удобства каррируем
+  load = (tour) -> PersistenceService.loadResource('tour', tour)
+  save = (tour) -> PersistenceService.saveResource('tour', tour)
+  remove = (tour) -> PersistenceService.removeResource('tour', tour)
+
+  promises = { tours: load(), places: loadPlaces(), countries: loadCountries() }
+  $q.all(promises).then (data) ->
+    console.log data
+    $scope.tours = ((new Tour).fromJSON(e) for e in data.tours)
+    $scope.countries = data.countries
+    $scope.places = data.places
+    $scope.setState('browse')
 
   $scope.setState = (state, tour, idx) ->
     console.log state
@@ -13,20 +47,16 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, Persi
     $scope.tour = $scope.uiState.tour
     console.log $scope.uiState
 
-  $scope.setState('browse')
-
-  do ->
-    json = PersistenceService.load()
-    $scope.tours = ((new Tour).fromJSON(e) for e in json)
-    $scope.countries = PersistenceService.countriesDefault()
 
   $scope.add = ->
-    $scope.tours.push(this.tour)
+    $scope.tours.push(@tour)
+    PersistenceService.saveResource(@tour)
     PersistenceService.save($scope.tours)
     $scope.setState("browse")
     
   $scope.update = ->
     $scope.tour.commitChanges()
+    PersistenceService.saveTour(@tour)
     PersistenceService.save($scope.tours)
     $scope.setState("browse")
 
@@ -38,8 +68,19 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, Persi
   $scope.remove = (idx) ->
     if confirm(REMOVE_WARNING)
       $scope.tours.splice(idx, 1)
+      PersistenceService.removeTour(@tour)
       PersistenceService.save($scope.tours)
 
   $scope.getCountryById = (countryId) ->
-    found = _.find $scope.countries, (country) -> country.id == countryId
-    found.name
+    found = _.find $scope.countries, (country) -> country.objectId == countryId
+    if found
+      found.name
+    else
+      'n/a'
+    
+  $scope.getPlaceById = (placeId) ->
+    found = _.find $scope.places, (place) -> place.objectId == placeId
+    if found
+      found.name
+    else
+      'n/a'

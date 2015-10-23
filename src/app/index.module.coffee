@@ -1,1 +1,1 @@
-angular.module "voyageVoyage", ['ngRoute', 'underscore']
+angular.module "voyageVoyage", ['ngRoute', 'ngResource', 'underscore']

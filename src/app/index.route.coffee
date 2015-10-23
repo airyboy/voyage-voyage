@@ -1,5 +1,5 @@
 angular.module "voyageVoyage"
-  .config ($routeProvider, $locationProvider) ->
+  .config ($routeProvider, $locationProvider, $httpProvider) ->
     $routeProvider
       .when '/', {
         templateUrl: 'app/tours/index.html'
@@ -17,8 +17,17 @@ angular.module "voyageVoyage"
         templateUrl: 'app/admin/countries/index.html'
         controller: 'CountriesController'
       }
+      .when '/admin/places', {
+        templateUrl: 'app/admin/places/index.html'
+        controller: 'PlacesController'
+      }
       .otherwise {
         redirectTo: '/'
       }
 
     $locationProvider.html5Mode true
+
+    $httpProvider.defaults.headers.common = {
+      'X-Parse-Application-Id':'sXYBJKAzNLajxXs0SqkpjDmPKSY8eES5c4xOH275'
+      'X-Parse-REST-API-Key': 'kqikw9hrrEcVjXzXYBl3CpWstA9RodV2tOoKqFa0'
+    }

@@ -9,9 +9,14 @@
      <option value="">--Выберите страну--</option>
    </select>
  </div>
+ <div class="col-md-2 nopadding">
+   <select id="" class="form-control" ng-model="selectedPlace" ng-options="place.name for place in places" name="">
+     <option value="">--Выберите место--</option>
+   </select>
+ </div>
 </div>
 <!--Tours list-->
-<div ng-repeat="tour in tours | filter: countryFilter" class='entry'>
+<div ng-repeat="tour in tours | filter: countryFilter | filter: placeFilter" class='entry'>
   <div class="row">
     <!--Image-->
     <div class="col-md-3 nopadding">
@@ -25,6 +30,7 @@
             {{tour.title}}
           </a>
           <div class="label label-primary">{{getCountryById(tour.countryId)}}</div>
+          <span class="label label-success">{{getPlaceById(tour.placeId)}}</span>
         </div>
         <span class='price pull-right col-md-2 col-md-offset-6'>
           {{tour.price | currency: "&#8381; " : 0}}

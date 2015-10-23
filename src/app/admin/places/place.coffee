@@ -1,21 +1,21 @@
-class Country
+class Place
   constructor: (@name) ->
     @id = moment().unix()
   _copy = null
   keepCopy: ->
-    _copy = (new Country).fromJSON(this)
+    _copy = (new Place).fromJSON(this)
   fromJSON: (json) ->
-    { objectId: @objectId, id: @id, name: @name } = json
+    { objectId: @objectId, id: @id, name: @name, country: @country } = json
     this
   commitChanges: =>
     _copy = null
   rejectChanges: =>
-    if _copy
-      { id: @id, name: @name } = _copy
-      _copy = null
+    { id: @id, name: @name, country: @country } = _copy if _copy
+    _copy = null
   hasChanges: =>
     !@isEqual(_copy)
   isEmpty: ->
     !@name
   isEqual: (other) ->
     this.name == other.name
+

@@ -1,5 +1,84 @@
-angular.module('voyageVoyage').service 'PersistenceService', ->
+angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q', 'ResourceFactory', ($resource, $q, ResourceFactory) ->
   {
+    parseResults: (data, headersGetter) ->
+      dt = angular.fromJson(data)
+      dt.results
+    
+    resourceName: "tour"
+
+    loadT: ->
+      ResourceFactory(@resourceName).query()
+    
+    TourResource:
+      $resource "https://api.parse.com/1/classes/tour/:objectId",
+        {objectId: '@objectId' },
+        {query:
+          {
+            isArray: true,
+            transformResponse: (data, headersGetter) -> angular.fromJson(data).results }
+        'update':
+          { method: 'PUT' } }
+    
+    loadTours: ->
+      @TourResource.query()
+
+    loadResource: (resourceName) ->
+      ResourceFactory(resourceName).query()
+
+    saveResource: (resourceName, obj) ->
+      res = ResourceFactory(resourceName)
+      db = new res(obj)
+      
+      if !obj.objectId
+        db.$save()
+          .then (response) ->
+            obj.objectId = response.objectId
+          .catch (error) ->
+            console.log error
+            alert "Error!"
+      else
+        db.$update()
+          .then (response) ->
+            obj.commitChanges()
+          .catch (error) ->
+            console.log error
+            alert "Error!"
+            
+    removeResource: (resourceName, obj) ->
+      res = ResourceFactory(resourceName)
+      db = new res(obj)
+      db.$remove()
+        .catch (error) ->
+          console.log error
+          alert "Error!"
+
+    saveTour: (tour) ->
+      console.log "tour from pers"
+      console.log tour
+      db = new @TourResource(tour)
+      if !tour.objectId
+        db.$save()
+          .then (response) ->
+            tour.objectId = response.objectId
+          .catch (error) ->
+            console.log error
+            alert "Error!"
+      else
+        db.$update()
+          .then (response) ->
+            tour.commitChanges()
+          .catch (error) ->
+            console.log error
+            alert "Error!"
+
+    removeTour: (tour) ->
+      console.log tour
+      db = new @TourResource({ objectId: tour.objectId })
+      db.$remove()
+        .catch (error) ->
+          console.log error
+          alert "Error!"
+
     countriesDefault: ->
       [ {id: 0, name: 'Россия'},
         {id: 1, name: 'США'},
@@ -31,3 +110,4 @@ angular.module('voyageVoyage').service 'PersistenceService', ->
       else
         @toursDefault()
   }
+]
