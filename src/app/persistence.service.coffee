@@ -27,7 +27,7 @@ angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q',
             
     removeResource: (resourceName, obj) ->
       res = ResourceFactory(resourceName)
-      db = new res(obj)
+      db = new res({ objectId: obj.objectId })
       db.$remove()
         .catch (error) ->
           console.log error

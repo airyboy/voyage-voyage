@@ -45,7 +45,10 @@ angular.module('voyageVoyage')
 
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId
-      found.name
+      if found.name
+        found.name
+      else
+        'n/a'
       
     $scope.getPlaceById = (placeId) ->
       found = _.find $scope.places, (place) -> place.objectId == placeId

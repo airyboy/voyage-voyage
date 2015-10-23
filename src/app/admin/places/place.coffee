@@ -7,9 +7,9 @@ class Place
   fromJSON: (json) ->
     { objectId: @objectId, id: @id, name: @name, country: @country } = json
     this
-  commitChanges: =>
+  commitChanges: ->
     _copy = null
-  rejectChanges: =>
+  rejectChanges: ->
     { id: @id, name: @name, country: @country } = _copy if _copy
     _copy = null
   hasChanges: =>

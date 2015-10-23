@@ -25,14 +25,14 @@
     <!--Tour item-->
     <div class="col-md-9">
       <div class="row">
-        <div class='title col-md-4 nopadding'>
+        <div class='title col-md-6 nopadding'>
           <a ng-href="/#/tour/{{ tour.objectId }}">
             {{tour.title}}
           </a>
           <div class="label label-primary">{{getCountryById(tour.countryId)}}</div>
           <span class="label label-success">{{getPlaceById(tour.placeId)}}</span>
         </div>
-        <span class='price pull-right col-md-2 col-md-offset-6'>
+        <span class='price pull-right col-md-3'>
           {{tour.price | currency: "&#8381; " : 0}}
         </span>
       </div>

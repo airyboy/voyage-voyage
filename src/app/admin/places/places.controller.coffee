@@ -43,9 +43,9 @@ angular.module('voyageVoyage').controller 'PlacesController', ['$scope', '$resou
 
     $scope.remove = (idx) ->
       if confirm("Удалить?")
-        remove($scope.state.place)
         place = $scope.places[idx]
-        $scope.places.splice(idx)
+        remove(place)
+        $scope.places.splice(idx, 1)
       
     $scope.setState = (state, idx, place) ->
       $scope.state = switch state

@@ -50,14 +50,12 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, T
 
   $scope.add = ->
     $scope.tours.push(@tour)
-    PersistenceService.saveResource(@tour)
-    PersistenceService.save($scope.tours)
+    save(@tour)
     $scope.setState("browse")
     
   $scope.update = ->
     $scope.tour.commitChanges()
-    PersistenceService.saveTour(@tour)
-    PersistenceService.save($scope.tours)
+    save(@tour)
     $scope.setState("browse")
 
   $scope.cancel = ->
@@ -68,8 +66,7 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, T
   $scope.remove = (idx) ->
     if confirm(REMOVE_WARNING)
       $scope.tours.splice(idx, 1)
-      PersistenceService.removeTour(@tour)
-      PersistenceService.save($scope.tours)
+      remove(@tour)
 
   $scope.getCountryById = (countryId) ->
     found = _.find $scope.countries, (country) -> country.objectId == countryId

@@ -7,9 +7,9 @@ class Country
   fromJSON: (json) ->
     { objectId: @objectId, id: @id, name: @name } = json
     this
-  commitChanges: =>
+  commitChanges: ->
     _copy = null
-  rejectChanges: =>
+  rejectChanges: ->
     if _copy
       { id: @id, name: @name } = _copy
       _copy = null
