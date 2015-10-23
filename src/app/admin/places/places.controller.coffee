@@ -3,19 +3,8 @@ angular.module('voyageVoyage').controller 'PlacesController', ['$scope', '$resou
     #=require place.coffee
     #=require places.states.coffee
 
-    loadCountries = ->
-      deffered = $q.defer()
-      PersistenceService.loadResource('country').$promise
-        .then (response) ->
-          deffered.resolve(response)
-      deffered.promise
-
-    load = ->
-      deffered = $q.defer()
-      PersistenceService.loadResource('place').$promise
-        .then (response) ->
-          deffered.resolve(response)
-      deffered.promise
+    loadCountries = -> PersistenceService.loadResource('country').$promise
+    load = -> PersistenceService.loadResource('place').$promise
 
     # для удобства каррируем
     save = (place) -> PersistenceService.saveResource('place', place)
