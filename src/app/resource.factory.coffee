@@ -1,8 +1,6 @@
 angular.module('voyageVoyage').factory 'ResourceFactory', ['$resource', ($resource) ->
   (resourceName) ->
-    url = "https://api.parse.com/1/classes/#{resourceName}/:objectId"
-    console.log url
-    res = $resource url,
+    res = $resource "https://api.parse.com/1/classes/#{resourceName}/:objectId",
       {objectId: '@objectId' },
       {query:
         {

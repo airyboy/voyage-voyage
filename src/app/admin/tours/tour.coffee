@@ -1,6 +1,5 @@
 class Tour
   constructor: (@title, @text, @countryId, @duration, @placeId, @price) ->
-    @id = moment().unix()
   _copy = null
   keepCopy: ->
     _copy = (new Tour).fromJSON(this)
@@ -11,7 +10,6 @@ class Tour
   fromJSON: (json) ->
     {
       objectId: @objectId,
-      id: @id,
       title: @title,
       text: @text,
       countryId: @countryId,
@@ -22,7 +20,7 @@ class Tour
   commitChanges: ->
     _copy = null
   rejectChanges: =>
-    { objectId: @objectId, id: @id, title: @title, text: @text, countryId: @countryId, duration: @duration, price: @price } = _copy if _copy
+    { objectId: @objectId, title: @title, text: @text, countryId: @countryId, duration: @duration, price: @price } = _copy if _copy
     _copy = null
   hasChanges: =>
     !@isEqual(_copy)
