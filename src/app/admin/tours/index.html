@@ -4,12 +4,12 @@
     VoyageVoyage 
     {{ title }}
   </span>
-  <span ng-show="uiState.newButShown()">
+  <span ng-show="state.newButShown()">
     <a class="btn btn-default pull-right" ng-click="setState('new')" href=""> Add new </a>
   </span>
 </div>
 <!--New tour form-->
-<div class="row" ng-show="uiState.newFormShown()">
+<div class="row" ng-show="state.newFormShown()">
   <div class="col-md-8">
     <form class="form-horizontal">
       <div class="form-group">
@@ -46,7 +46,7 @@
   </div>
 </div>
 <!--Tours list-->
-<div ng-show="uiState.listShown()" ng-repeat="tour in tours track by $index" class='entry'>
+<div ng-show="state.listShown()" ng-repeat="tour in tours track by $index" class='entry'>
   <div class="row">
     <!--Image-->
     <div class="col-md-3">
@@ -55,49 +55,49 @@
     <!--Tour item-->
     <div class="col-md-9">
       <div class="row">
-        <div class='title col-md-6 nopadding' ng-class="$index == uiState.editIndex ? 'col-md-3' : 'col-md-6'">
-          <span ng-hide="$index == uiState.editIndex">
+        <div class='title col-md-6 nopadding' ng-class="$index == state.editIndex ? 'col-md-3' : 'col-md-6'">
+          <span ng-hide="$index == state.editIndex">
             {{tour.title}}
-            <span ng-hide="$index == uiState.editIndex" class="label label-primary">{{getCountryById(tour.countryId)}}</span>
-            <span ng-hide="$index == uiState.editIndex" class="label label-success">{{getPlaceById(tour.placeId)}}</span>
+            <span ng-hide="$index == state.editIndex" class="label label-primary">{{getCountryById(tour.countryId)}}</span>
+            <span ng-hide="$index == state.editIndex" class="label label-success">{{getPlaceById(tour.placeId)}}</span>
           </span>
-          <input ng-show="$index == uiState.editIndex" ng-model="tour.title" type="text" class="form-control" placeholder="Title">
+          <input ng-show="$index == state.editIndex" ng-model="tour.title" type="text" class="form-control" placeholder="Title">
         </div>
         <div class='title col-md-3 nopadding'>
-          <select ng-show="$index == uiState.editIndex" id="" class="form-control" ng-model="tour.countryId" 
+          <select ng-show="$index == state.editIndex" id="" class="form-control" ng-model="tour.countryId" 
             ng-options="country.objectId as country.name for country in countries" name="">
             <option value="">--Выберите страну--</option>
           </select>
         </div>
         <div class='title col-md-3 nopadding'>
-          <select ng-show="$index == uiState.editIndex" id="" class="form-control" ng-model="tour.placeId" 
+          <select ng-show="$index == state.editIndex" id="" class="form-control" ng-model="tour.placeId" 
             ng-options="place.objectId as place.name for place in places" name="">
             <option value="">--Выберите место--</option>
           </select>
           </div>
         <div class='price pull-right col-md-2 col-md-offset-4'>
-          <span ng-hide="$index == uiState.editIndex">
+          <span ng-hide="$index == state.editIndex">
             {{tour.price | currency: "&#8381; " : 0}}
           </span>
-          <input ng-show="$index == uiState.editIndex" ng-model="tour.price" class="form-control" type="number" placeholder="Price">
+          <input ng-show="$index == state.editIndex" ng-model="tour.price" class="form-control" type="number" placeholder="Price">
         </div>
       </div>
       <div class="row description">
-        <span ng-hide="$index == uiState.editIndex">
+        <span ng-hide="$index == state.editIndex">
           {{tour.text}}
         </span>
-        <textarea ng-show="$index == uiState.editIndex" ng-model="tour.text" class="form-control" rows="3" placeholder="Description">
+        <textarea ng-show="$index == state.editIndex" ng-model="tour.text" class="form-control" rows="3" placeholder="Description">
         </textarea>
       </div>
       <div class="row">
         <!--List actions-->
-        <a ng-hide="$index == uiState.editIndex" ng-click="setState('inlineEdit', tour, $index)" href="" class="action pull-right">Edit</a>
-        <a ng-hide="$index == uiState.editIndex" ng-click="remove($index)" href="" class="action pull-right">Remove</a>
+        <a ng-hide="$index == state.editIndex" ng-click="setState('inlineEdit', tour, $index)" href="" class="action pull-right">Edit</a>
+        <a ng-hide="$index == state.editIndex" ng-click="remove($index)" href="" class="action pull-right">Remove</a>
         <!--Inline edit actions-->
-        <button ng-click="update()" ng-show="$index == uiState.editIndex" class="btn btn-primary">
+        <button ng-click="update()" ng-show="$index == state.editIndex" class="btn btn-primary">
           Сохранить
         </button>
-        <button ng-click="cancel()" ng-show="$index == uiState.editIndex" class="btn btn-default">
+        <button ng-click="cancel()" ng-show="$index == state.editIndex" class="btn btn-default">
           Отменить
         </button>
       </div>

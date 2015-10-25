@@ -1,5 +1,5 @@
 angular.module("voyageVoyage").controller "HotelsController",
-($scope, PersistenceService, Entity, HotelStateFactory) ->
+($scope, PersistenceService, Entity, SimpleStateFactory) ->
 
   # для удобства каррируем
   load = -> PersistenceService.loadResource('hotel').$promise
@@ -10,7 +10,7 @@ angular.module("voyageVoyage").controller "HotelsController",
     $scope.hotels = Entity.fromArray(response)
 
   $scope.setState = (state, idx, hotel) ->
-    $scope.state = new HotelStateFactory(state, hotel, idx)
+    $scope.state = new SimpleStateFactory('hotel', state, hotel, idx)
     
   $scope.state = $scope.setState('browse')
 
@@ -33,4 +33,3 @@ angular.module("voyageVoyage").controller "HotelsController",
       place = $scope.hotels[idx]
       remove(hotel)
       $scope.hotels.splice(idx, 1)
-    

@@ -1,4 +1,6 @@
 angular.module("voyageVoyage").factory "Entity", ->
+  # класс используется для отмены редактирования объекта или для 
+  # избежания ненужных запросов пользователю в случае если объект не был изменен или заполнен
   class Entity
     constructor: (@name) ->
     _copy = null
@@ -6,7 +8,9 @@ angular.module("voyageVoyage").factory "Entity", ->
       _copy = Entity.fromJSON(this)
     @fromJSON: (json) ->
       entity = new Entity
-      angular.extend(entity, json)
+      for key, val of json
+        if typeof json[key] != 'function' && !(key.charAt(0) == '$')
+          entity[key] = json[key]
       entity
     commitChanges: ->
       _copy = null
@@ -31,4 +35,3 @@ angular.module("voyageVoyage").factory "Entity", ->
       result
     @fromArray: (jsonArray) ->
       result = (Entity.fromJSON(e) for e in jsonArray)
-
