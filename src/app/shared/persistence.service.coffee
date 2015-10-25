@@ -1,4 +1,5 @@
-angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q', 'ResourceFactory', ($resource, $q, ResourceFactory) ->
+angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q', 'ResourceFactory', '$log',
+($resource, $q, ResourceFactory, $log) ->
   {
     loadResourceById: (resourceName, objectId) ->
       ResourceFactory(resourceName).getById { objectId: objectId }
@@ -15,14 +16,14 @@ angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q',
           .then (response) ->
             obj.objectId = response.objectId
           .catch (error) ->
-            console.log error
+            $log.error error
             alert "Error!"
       else
         db.$update()
           .then (response) ->
             obj.commitChanges()
           .catch (error) ->
-            console.log error
+            $log.error error
             alert "Error!"
             
     removeResource: (resourceName, obj) ->
@@ -30,7 +31,7 @@ angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q',
       db = new res({ objectId: obj.objectId })
       db.$remove()
         .catch (error) ->
-          console.log error
+          $log.error error
           alert "Error!"
 
     # I keep it for db seed

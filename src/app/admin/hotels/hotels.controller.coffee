@@ -1,15 +1,36 @@
-angular.module("voyageVoyage").controller "HotelsController", ($scope, $q, $resource, PersistenceService, ResourceFactory, _) ->
-  Hotel = $resource "https://api.parse.com/1/classes/hotel/:objectId",
-    {objectId: '@objectId' },
-    {query:
-      {
-        isArray: true,
-        transformResponse: (data, headersGetter) -> angular.fromJson(data).results }
-    'update': { method: 'PUT' }
-    'getById': { method: 'GET', isArray: false } }
+angular.module("voyageVoyage").controller "HotelsController",
+($scope, PersistenceService, Entity, HotelStateFactory) ->
 
-  Hotel.query().$promise.then (response) ->
-    $scope.hotels = response
+  # для удобства каррируем
+  load = -> PersistenceService.loadResource('hotel').$promise
+  save = (hotel) -> PersistenceService.saveResource('hotel', hotel)
+  remove = (hotel) -> PersistenceService.removeResource('hotel', hotel)
+  
+  load().then (response) ->
+    $scope.hotels = Entity.fromArray(response)
 
+  $scope.setState = (state, idx, hotel) ->
+    $scope.state = new HotelStateFactory(state, hotel, idx)
+    
+  $scope.state = $scope.setState('browse')
 
+  $scope.add = ->
+    save($scope.state.place)
+    $scope.places.push($scope.state.place)
+    $scope.setState 'browse'
 
+  $scope.update = ->
+    save($scope.state.place)
+    $scope.state.place.commitChanges()
+    $scope.setState 'browse'
+    
+  $scope.cancelEdit = ->
+    $scope.state.place.rejectChanges()
+    $scope.setState 'browse'
+
+  $scope.remove = (idx) ->
+    if confirm("Удалить?")
+      place = $scope.places[idx]
+      remove(place)
+      $scope.places.splice(idx, 1)
+    

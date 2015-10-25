@@ -5,7 +5,9 @@ angular.module('voyageVoyage').factory 'ResourceFactory', ['$resource', ($resour
       {query:
         {
           isArray: true,
-          transformResponse: (data, headersGetter) -> angular.fromJson(data).results }
+          transformResponse: (data, headersGetter) -> angular.fromJson(data).results ,
+          cache: true
+        }
       'update': { method: 'PUT' }
       'getById': { method: 'GET', isArray: false } }
 ]
