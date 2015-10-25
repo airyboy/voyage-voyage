@@ -15,22 +15,22 @@ angular.module("voyageVoyage").controller "HotelsController",
   $scope.state = $scope.setState('browse')
 
   $scope.add = ->
-    save($scope.state.place)
-    $scope.places.push($scope.state.place)
+    save($scope.state.hotel)
+    $scope.hotels.push($scope.state.hotel)
     $scope.setState 'browse'
 
   $scope.update = ->
-    save($scope.state.place)
-    $scope.state.place.commitChanges()
+    save($scope.state.hotel)
+    $scope.state.hotel.commitChanges()
     $scope.setState 'browse'
     
   $scope.cancelEdit = ->
-    $scope.state.place.rejectChanges()
+    $scope.state.hotel.rejectChanges()
     $scope.setState 'browse'
 
   $scope.remove = (idx) ->
     if confirm("Удалить?")
-      place = $scope.places[idx]
-      remove(place)
-      $scope.places.splice(idx, 1)
+      place = $scope.hotels[idx]
+      remove(hotel)
+      $scope.hotels.splice(idx, 1)
     
