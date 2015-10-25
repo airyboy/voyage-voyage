@@ -1,0 +1,44 @@
+angular.module('voyageVoyage').controller 'PlacesController', ['$scope', '$resource', 'PersistenceService', '$q',
+  ($scope, $resource, PersistenceService, $q) ->
+    #=require place.coffee
+    #=require places.states.coffee
+
+    loadCountries = -> PersistenceService.loadResource('country').$promise
+    load = -> PersistenceService.loadResource('place').$promise
+
+    # для удобства каррируем
+    save = (place) -> PersistenceService.saveResource('place', place)
+    remove = (place) -> PersistenceService.removeResource('place', place)
+
+    promises = { places: load(), countries: loadCountries() }
+    $q.all(promises).then (data) ->
+      $scope.places = ((new Place).fromJSON(e) for e in data.places)
+      $scope.countries = data.countries
+      $scope.state = new BrowsePlaceState
+
+    $scope.add = ->
+      save($scope.state.place)
+      $scope.places.push($scope.state.place)
+      $scope.setState 'browse'
+
+    $scope.update = ->
+      save($scope.state.place)
+      $scope.state.place.commitChanges()
+      $scope.setState 'browse'
+      
+    $scope.cancelEdit = ->
+      $scope.state.place.rejectChanges()
+      $scope.setState 'browse'
+
+    $scope.remove = (idx) ->
+      if confirm("Удалить?")
+        place = $scope.places[idx]
+        remove(place)
+        $scope.places.splice(idx, 1)
+      
+    $scope.setState = (state, idx, place) ->
+      $scope.state = switch state
+        when 'browse' then new BrowsePlaceState
+        when 'add' then new NewPlaceState
+        when 'edit' then new EditPlaceState(place, idx)
+   ]

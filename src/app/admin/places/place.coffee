@@ -1,15 +1,15 @@
-class Country
+class Place
   constructor: (@name) ->
   _copy = null
   keepCopy: ->
-    _copy = (new Country).fromJSON(this)
+    _copy = (new Place).fromJSON(this)
   fromJSON: (json) ->
-    { objectId: @objectId, name: @name } = json
+    { objectId: @objectId, name: @name, countryId: @countryId } = json
     this
   commitChanges: ->
     _copy = null
   rejectChanges: ->
-    { name: @name } = _copy if _copy
+    { name: @name, countryId: @countryId } = _copy if _copy
     _copy = null
   hasChanges: =>
     !@isEqual(_copy)
@@ -17,3 +17,4 @@ class Country
     !@name
   isEqual: (other) ->
     this.name == other.name
+

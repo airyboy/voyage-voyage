@@ -1,5 +1,39 @@
-angular.module('voyageVoyage').service 'PersistenceService', ->
+angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q', 'ResourceFactory', ($resource, $q, ResourceFactory) ->
   {
+    loadResourceById: (resourceName, objectId) ->
+      ResourceFactory(resourceName).getById { objectId: objectId }
+
+    loadResource: (resourceName) ->
+      ResourceFactory(resourceName).query()
+
+    saveResource: (resourceName, obj) ->
+      res = ResourceFactory(resourceName)
+      db = new res(obj)
+      
+      if !obj.objectId
+        db.$save()
+          .then (response) ->
+            obj.objectId = response.objectId
+          .catch (error) ->
+            console.log error
+            alert "Error!"
+      else
+        db.$update()
+          .then (response) ->
+            obj.commitChanges()
+          .catch (error) ->
+            console.log error
+            alert "Error!"
+            
+    removeResource: (resourceName, obj) ->
+      res = ResourceFactory(resourceName)
+      db = new res({ objectId: obj.objectId })
+      db.$remove()
+        .catch (error) ->
+          console.log error
+          alert "Error!"
+
+    # I keep it for db seed
     countriesDefault: ->
       [ {id: 0, name: 'Россия'},
         {id: 1, name: 'США'},
@@ -31,3 +65,4 @@ angular.module('voyageVoyage').service 'PersistenceService', ->
       else
         @toursDefault()
   }
+]

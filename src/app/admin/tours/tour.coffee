@@ -1,20 +1,30 @@
 class Tour
-  constructor: (@title, @text, @countryId, @price) ->
-    @id = moment().unix()
+  constructor: (@title, @text, @countryId, @duration, @placeId, @price) ->
   _copy = null
   keepCopy: ->
     _copy = (new Tour).fromJSON(this)
+  @fromJson: (json) ->
+    t = new Tour()
+    angular.extend(t, json)
+    t
   fromJSON: (json) ->
-    { id: @id, title: @title, text: @text, countryId: @countryId, price: @price } = json
+    {
+      objectId: @objectId,
+      title: @title,
+      text: @text,
+      countryId: @countryId,
+      duration: @duration,
+      placeId: @placeId,
+      price: @price } = json
     this
-  commitChanges: =>
+  commitChanges: ->
     _copy = null
   rejectChanges: =>
-    { id: @id, title: @title, text: @text, countryId: @countryId, price: @price } = _copy if _copy
+    { objectId: @objectId, title: @title, text: @text, countryId: @countryId, duration: @duration, price: @price } = _copy if _copy
     _copy = null
   hasChanges: =>
     !@isEqual(_copy)
   isEmpty: ->
-    !@title & !@text & !@countryId & !@price
+    !@title & !@text & !@countryId & !@price & !@duration
   isEqual: (other) ->
     this.text == other.text and this.title == other.title and this.countryId == other.countryId and this.price == other.price

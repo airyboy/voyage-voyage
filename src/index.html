@@ -3,8 +3,6 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
     <title>VoyageVoyage</title>
     <base href="/">
-  </head>
-  <body>
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
     <!-- bower:css -->
     <!-- run `gulp inject` to automatically populate bower styles dependencies -->
@@ -19,7 +17,20 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+  </head>
+  <body>
     <div class="container">
+    <div>
+      <a ng-href="/">Home</a>
+      <div class="pull-right">
+        <span>Admin: </span>
+        <a ng-href="admin/">tours</a>
+        |
+        <a ng-href="admin/places">places</a>
+        |
+        <a ng-href="admin/countries">countries</a>
+      </div>
+    </div>
       <ng-view></ng-view>
     </div>
     <!-- build:js(src) scripts/vendor.js -->
