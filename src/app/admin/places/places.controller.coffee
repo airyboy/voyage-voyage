@@ -15,7 +15,6 @@ angular.module('voyageVoyage').controller 'PlacesController',
     $q.all(promises).then (data) ->
       $scope.places = Entity.fromArray(data.places)
       $scope.countries = data.countries
-      console.log data.countries
       $scope.setState('browse')
 
     $scope.add = ->
@@ -39,3 +38,6 @@ angular.module('voyageVoyage').controller 'PlacesController',
         remove(place)
         $scope.places.splice(idx, 1)
       
+    $scope.getCountryById = (countryId) ->
+      found = _.find $scope.countries, (country) -> country.objectId == countryId
+      found.name || 'n/a'

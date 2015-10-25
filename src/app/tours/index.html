@@ -5,7 +5,7 @@
     </span>
   </div>
  <div class="col-md-2 nopadding">
-   <select id="" class="form-control" ng-model="selectedCountry" ng-options="country.name for country in countries" name="">
+   <select id="" class="form-control" ng-model="selectedCountry" ng-options="country.name for country in countries" ng-change="updatePlaceList()">
      <option value="">--Выберите страну--</option>
    </select>
  </div>
