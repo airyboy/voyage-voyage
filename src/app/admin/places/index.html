@@ -7,6 +7,9 @@
   <div class="row action">
     <a class="btn btn-primary" ng-disabled="state.newButDisabled()" ng-show="state.newButShown()" ng-click="setState('add')" href="">Создать</a>
     <input type="text" ng-model="state.place.name" ng-show="state.newFormShown()" placeholder="наименование">
+    <select ng-show="state.newFormShown()" id="" class="form-control" ng-model="state.place.countryId" 
+      ng-options="country.objectId as country.name for country in countries" name="">
+    </select>
     <a class="btn btn-default pull-right" ng-show="state.newFormShown()" ng-click="setState('browse')" href="">Отмена</a>
     <a class="btn btn-primary pull-right" ng-show="state.newFormShown()" ng-click="add()" href="">Сохранить</a>
   </div>

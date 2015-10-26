@@ -7,6 +7,7 @@
   <div class="row action">
     <a class="btn btn-primary" ng-disabled="state.newButDisabled()" ng-show="state.newButShown()" ng-click="setState('add')" href="">Создать</a>
     <input type="text" ng-model="state.hotel.name" ng-show="state.newFormShown()" placeholder="наименование">
+    <input type="number" ng-model="state.hotel.stars" ng-show="state.newFormShown()" min="0" max="5" >
     <a class="btn btn-default pull-right" ng-show="state.newFormShown()" ng-click="setState('browse')" href="">Отмена</a>
     <a class="btn btn-primary pull-right" ng-show="state.newFormShown()" ng-click="add()" href="">Сохранить</a>
   </div>
@@ -23,7 +24,7 @@
           <span ng-show="$index != state.editIndex">
             {{hotel.stars}}*
           </span>
-          <input type="number" ng-model="state.hotel.stars" ng-show="$index == state.editIndex" min="2" max="5" >
+          <input type="number" ng-model="state.hotel.stars" ng-show="$index == state.editIndex" min="0" max="5" >
         </td>
         <!--<td>-->
           <!--<span ng-show="$index != state.editIndex">-->
