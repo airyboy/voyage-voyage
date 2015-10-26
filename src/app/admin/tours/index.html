@@ -21,6 +21,10 @@
         <textarea ng-model="tour.text" class="form-control" rows="3" placeholder="Description"></textarea>
       </div>
       <div class="form-group">
+        <label for="country">Продолжительность</label>
+        <input ng-model="tour.duration" type="number" min="1" class="form-control" placeholder="Duration">
+      </div>
+      <div class="form-group">
         <label for="country">Страна</label>
         <select id="" class="form-control" ng-model="tour.countryId" ng-options="country.objectId as country.name for country in countries" name="">
           <option value="">--Выберите страну--</option>
@@ -30,6 +34,12 @@
         <label for="country">Место</label>
         <select id="" class="form-control" ng-model="tour.placeId" ng-options="place.objectId as place.name for place in places" name="">
           <option value="">--Выберите место--</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="country">Отель</label>
+        <select id="" class="form-control" ng-model="tour.hotelId" ng-options="hotel.objectId as hotel.name for hotel in hotels" name="">
+          <option value="">--Выберите отель--</option>
         </select>
       </div>
       <div class="form-group">
@@ -60,27 +70,41 @@
             {{tour.title}}
             <span ng-hide="$index == state.editIndex" class="label label-primary">{{getCountryById(tour.countryId)}}</span>
             <span ng-hide="$index == state.editIndex" class="label label-success">{{getPlaceById(tour.placeId)}}</span>
+            <span ng-hide="$index == state.editIndex" class="label label-info">{{ tour.duration + ' ночей' }}</span>
           </span>
           <input ng-show="$index == state.editIndex" ng-model="tour.title" type="text" class="form-control" placeholder="Title">
         </div>
-        <div class='title col-md-3 nopadding'>
+        <div class='title col-md-2 nopadding'>
           <select ng-show="$index == state.editIndex" id="" class="form-control" ng-model="tour.countryId" 
             ng-options="country.objectId as country.name for country in countries" name="">
             <option value="">--Выберите страну--</option>
           </select>
         </div>
-        <div class='title col-md-3 nopadding'>
+        <div class='title col-md-2 nopadding'>
           <select ng-show="$index == state.editIndex" id="" class="form-control" ng-model="tour.placeId" 
             ng-options="place.objectId as place.name for place in places" name="">
             <option value="">--Выберите место--</option>
           </select>
-          </div>
-        <div class='price pull-right col-md-2 col-md-offset-4'>
+        </div>
+        <div class='title col-md-2 nopadding'>
+          <input ng-show="$index == state.editIndex" ng-model="tour.duration" type="number" min="1" class="form-control" placeholder="Duration">
+        </div>
+        <div class='price pull-right col-md-2'>
           <span ng-hide="$index == state.editIndex">
             {{tour.price | currency: "&#8381; " : 0}}
           </span>
           <input ng-show="$index == state.editIndex" ng-model="tour.price" class="form-control" type="number" placeholder="Price">
         </div>
+      </div>
+      <div class="row hotel">
+        <span ng-hide="$index == state.editIndex">
+          {{ getHotelById(tour.hotelId).stars }}*
+          {{ getHotelById(tour.hotelId).name }}
+        </span>
+        <select ng-show="$index == state.editIndex" id="" class="form-control" ng-model="tour.hotelId" 
+          ng-options="hotel.objectId as hotel.name for hotel in hotels" name="">
+          <option value="">--Выберите отель--</option>
+        </select>
       </div>
       <div class="row description">
         <span ng-hide="$index == state.editIndex">

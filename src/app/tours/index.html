@@ -31,9 +31,16 @@
           </a>
           <div class="label label-primary">{{getCountryById(tour.countryId)}}</div>
           <span class="label label-success">{{getPlaceById(tour.placeId)}}</span>
+          <span class="label label-info">{{ tour.duration + ' ночей' }}</span>
         </div>
         <span class='price pull-right col-md-3'>
           {{tour.price | currency: "&#8381; " : 0}}
+        </span>
+      </div>
+      <div class="row hotel">
+        <span ng-hide="$index == state.editIndex">
+          {{ getHotelById(tour.hotelId).stars }}*
+          {{ getHotelById(tour.hotelId).name }}
         </span>
       </div>
       <div class="row description">

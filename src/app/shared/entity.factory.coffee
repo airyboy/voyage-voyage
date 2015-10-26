@@ -8,9 +8,7 @@ angular.module("voyageVoyage").factory "Entity", ->
       _copy = Entity.fromJSON(this)
     @fromJSON: (json) ->
       entity = new Entity
-      for key, val of json
-        if typeof json[key] != 'function' && !(key.charAt(0) == '$')
-          entity[key] = json[key]
+      angular.extend(entity, json)
       entity
     commitChanges: ->
       _copy = null

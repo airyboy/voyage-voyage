@@ -30,7 +30,7 @@ angular.module("voyageVoyage").factory "TourStateFactory", (Entity) ->
   class UserBrowseState extends BaseState
     listShown: -> true
 
-  (state, hotel, idx) ->
+  (state, tour, idx) ->
     theState = switch state
       when 'browse' then new BrowseState
       when 'new' then new NewState

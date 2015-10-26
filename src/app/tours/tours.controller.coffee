@@ -3,15 +3,17 @@ angular.module('voyageVoyage')
 
     loadPlaces = -> PersistenceService.loadResource('place').$promise
     loadCountries = -> PersistenceService.loadResource('country').$promise
+    loadHotels = -> PersistenceService.loadResource('hotel').$promise
     load = -> PersistenceService.loadResource('tour').$promise
     
     allPlaces = []
 
-    promises = { tours: load(), places: loadPlaces(), countries: loadCountries() }
+    promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
     $q.all(promises).then (data) ->
       console.log data
       $scope.tours = data.tours
       $scope.countries = data.countries
+      $scope.hotels = data.hotels
       allPlaces = data.places
       $scope.places = allPlaces
 
@@ -43,3 +45,6 @@ angular.module('voyageVoyage')
     $scope.getPlaceById = (placeId) ->
       found = _.find $scope.places, (place) -> place.objectId == placeId
       found.name || 'n/a'
+      
+    $scope.getHotelById = (hotelId) ->
+      found = _.find $scope.hotels, (hotel) -> hotel.objectId == hotelId

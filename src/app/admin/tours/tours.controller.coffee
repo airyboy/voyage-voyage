@@ -4,18 +4,20 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, P
 
   loadPlaces = -> PersistenceService.loadResource('place').$promise
   loadCountries = -> PersistenceService.loadResource('country').$promise
+  loadHotels = -> PersistenceService.loadResource('hotel').$promise
   load = -> PersistenceService.loadResource('tour').$promise
 
   # для удобства каррируем
   save = (tour) -> PersistenceService.saveResource('tour', tour)
   remove = (tour) -> PersistenceService.removeResource('tour', tour)
 
-  promises = { tours: load(), places: loadPlaces(), countries: loadCountries() }
+  promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
   $q.all(promises)
     .then (data) ->
       $scope.tours = Entity.fromArray(data.tours)
       $scope.countries = data.countries
       $scope.places = data.places
+      $scope.hotels = data.hotels
     .catch (error) ->
       alert(error)
 
@@ -47,8 +49,11 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, P
 
   $scope.getCountryById = (countryId) ->
     found = _.find $scope.countries, (country) -> country.objectId == countryId
-    found.name || 'n/a'
+    _.result(found, 'name', 'n/a')
     
   $scope.getPlaceById = (placeId) ->
     found = _.find $scope.places, (place) -> place.objectId == placeId
-    found.name || 'n/a'
+    _.result(found, 'name', 'n/a')
+    
+  $scope.getHotelById = (hotelId) ->
+    found = _.find $scope.hotels, (hotel) -> hotel.objectId == hotelId
