@@ -11,6 +11,6 @@ angular.module('voyageVoyage') .controller 'TourController', ($scope, $routePara
         $scope.hotel = hotel
 
   PersistenceService.loadResourceById('tour', $routeParams.slug).$promise
-    .then (tour) =>
+    .then (tour) ->
       $scope.tour = tour
       loadDependencies()

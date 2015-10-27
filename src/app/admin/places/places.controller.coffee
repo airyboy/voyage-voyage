@@ -34,7 +34,6 @@ angular.module('voyageVoyage').controller 'PlacesController',
     $scope.remove = (idx) ->
       if confirm("Удалить?")
         place = $scope.places[idx]
-        console.log place
         remove(place)
         $scope.places.splice(idx, 1)
       

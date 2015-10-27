@@ -1,5 +1,5 @@
 angular.module("voyageVoyage").factory "SimpleStateFactory", (Entity) ->
-  # здесь используем name в конструкторе, чтобы удобно обращаться из представления к текущему 
+  # здесь используем name в конструкторе, чтобы удобно обращаться из представления к текущему
   # редактируемому объекту: state.hotel, state.place...
   class BaseState
     constructor: (name) ->
@@ -31,7 +31,6 @@ angular.module("voyageVoyage").factory "SimpleStateFactory", (Entity) ->
   #entity - редактируемый объект
   #idx - индекс объекта  в массиве
   (name, state, entity, idx) ->
-    console.log state
     theState = switch state
       when 'browse' then new BrowseState(name)
       when 'add' then new NewState(name)

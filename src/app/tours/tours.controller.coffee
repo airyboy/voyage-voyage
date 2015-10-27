@@ -10,7 +10,6 @@ angular.module('voyageVoyage')
 
     promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
     $q.all(promises).then (data) ->
-      console.log data
       $scope.tours = data.tours
       $scope.countries = data.countries
       $scope.hotels = data.hotels
@@ -30,13 +29,13 @@ angular.module('voyageVoyage')
         true
         
     $scope.shortenText = (text) ->
-      "#{text.substring(0, 350)}..."
+      "#{text.substring(0, 350)}... "
 
     $scope.updatePlaceList = ->
-      if $scope.selectedCountry
-        $scope.places = _.where allPlaces, { countryId: $scope.selectedCountry.objectId }
+      $scope.places = if $scope.selectedCountry
+         _.where allPlaces, { countryId: $scope.selectedCountry.objectId }
       else
-        $scope.places = allPlaces
+        allPlaces
 
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId
