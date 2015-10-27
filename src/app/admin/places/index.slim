@@ -1,0 +1,28 @@
+.row.top-row
+  span.logo
+    | VoyageVoyage
+.col-md-6
+  .row.action
+    a.btn.btn-primary href="" ng-click="setState('add')" ng-disabled="state.newButDisabled()" ng-show="state.newButShown()"  Создать
+    input ng-model="state.place.name" ng-show="state.newFormShown()" placeholder="наименование" type="text" /
+    select.form-control ng-model="state.place.countryId" ng-options=("country.objectId as country.name for country in countries") ng-show="state.newFormShown()" 
+    a.btn.btn-default.pull-right href="" ng-click="setState('browse')" ng-show="state.newFormShown()"  Отмена
+    a.btn.btn-primary.pull-right href="" ng-click="add()" ng-show="state.newFormShown()"  Сохранить
+  table.table.table-condensed
+    tbody
+      tr ng-repeat=("place in places") 
+        td
+          span ng-show=("$index != state.editIndex") 
+            | {{place.name}}
+          input ng-model="state.place.name" ng-show=("$index == state.editIndex") placeholder="наименование" type="text" /
+        td
+          span ng-show=("$index != state.editIndex") 
+            | {{ getCountryById(place.countryId) }}
+          select.form-control ng-model="state.place.countryId" ng-options=("country.objectId as country.name for country in countries") ng-show=("$index == state.editIndex") 
+        td
+          a.action.pull-right href="" ng-click="remove($index)" ng-show="state.editRemoveShown()" 
+            | Удалить
+          a.action.pull-right href="" ng-click="setState('edit', $index, place)" ng-show="state.editRemoveShown()" 
+            | Редактировать
+          a.btn.btn-default.pull-right href="" ng-click="setState('browse')" ng-show=("$index == state.editIndex")  Отмена
+          a.btn.btn-primary.pull-right href="" ng-click="update()" ng-show=("$index == state.editIndex")  Сохранить

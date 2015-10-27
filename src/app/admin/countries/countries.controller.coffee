@@ -1,17 +1,16 @@
-#angular.module('voyageVoyage').controller 'CountriesController', ($scope, PersistenceService, $resource) ->
-angular.module('voyageVoyage').controller 'CountriesController', ['$scope', '$resource', 'PersistenceService',
-  ($scope, $resource, PersistenceService) ->
-    #=require country.coffee
-    #=require countries.states.coffee
-
+angular.module('voyageVoyage').controller 'CountriesController',
+  ($scope, PersistenceService, Entity, SimpleStateFactory) ->
     # для удобства каррируем
     load = -> PersistenceService.loadResource('country')
     save = (country) -> PersistenceService.saveResource('country', country)
     remove = (country) -> PersistenceService.removeResource('country', country)
+   
+    $scope.setState = (state, idx, country) ->
+      $scope.state = new SimpleStateFactory('country', state, country, idx)
     
     load().$promise.then (data) ->
-      $scope.countries = ((new Country).fromJSON(e) for e in data)
-      $scope.state = new BrowseState
+      $scope.countries = Entity.fromArray(data)
+      $scope.setState('browse')
 
     $scope.add = ->
       save($scope.state.country)
@@ -31,10 +30,3 @@ angular.module('voyageVoyage').controller 'CountriesController', ['$scope', '$re
         country = $scope.countries[idx]
         remove(country)
         $scope.countries.splice(idx, 1)
-      
-    $scope.setState = (state, idx, country) ->
-      $scope.state = switch state
-        when 'browse' then new BrowseState
-        when 'add' then new NewState
-        when 'edit' then new EditState(country, idx)
-   ]
