@@ -32,7 +32,7 @@ describe 'Tour controller', ->
 
   it 'sets $scope correctly', ->
     @$timeout.flush()
-    expect(@$scope.tour.title).toBe('t')
+    expect(@$scope.tour).toBe(tour)
     expect(@$scope.country).toEqual(country)
     expect(@$scope.hotel).toBe(hotel)
     expect(@$scope.place).toBe(place)

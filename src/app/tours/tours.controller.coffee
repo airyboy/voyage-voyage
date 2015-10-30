@@ -8,12 +8,6 @@ angular.module('voyageVoyage')
     
     allPlaces = []
 
-    a = Entity.fromJSON({ a: 'aaa', b: 1, c: null })
-    b = Entity.fromJSON({ a: 'aba', b: 1, c: null })
-    c = Entity.fromJSON({ a: 'aaa', b: 1, c: null })
-    console.log a.isEqual(b)
-    console.log a.isEqual(c)
-
     promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
     $q.all(promises).then (data) ->
       $scope.tours = data.tours
