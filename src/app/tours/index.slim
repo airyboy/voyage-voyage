@@ -1,34 +1,33 @@
 .row.top-row
-  .col-md-3.nopadding
-    span.logo
-      | VoyageVoyage
-  .col-md-2.nopadding
+  ng-include src="'app/shared/logo.html'"
+  .col-md-2
     select.form-control id="" ng-change="updatePlaceList()" ng-model="selectedCountry" ng-options=("country.name for country in countries") 
       option value=""  --Выберите страну--
-  .col-md-2.nopadding
+  .col-md-2
     select.form-control id="" name="" ng-model="selectedPlace" ng-options=("place.name for place in places") 
       option value=""  --Выберите место--
 /! Tours list
 .entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter") 
-  .row
+  .row.item.user
     /! Image
-    .col-md-3.nopadding
-      img alt="" height="100" src="" width="200" /
+    .col-md-3
+      .image
+        img alt="" height="130" src="" width="230" /
     /! Tour item
     .col-md-9
       .row
-        .title.col-md-6.nopadding
+        .title.col-md-7.nopadding
           a ng-href=("/#/tour/{{ tour.objectId }}") 
             | {{tour.title}}
           .label.label-primary  {{ getCountryById(tour.countryId)}} 
           span.label.label-success  {{ getPlaceById(tour.placeId)}} 
           span.label.label-info  {{ tour.duration + ' ночей' }} 
-        span.price.pull-right.col-md-3
+        span.price.pull-right.col-md-2
           | {{tour.price | currency: "₽ " : 0}}
-      .row.hotel
+      .row.hotel.nopadding
         span ng-hide=("$index == state.editIndex") 
+          | {{ getHotelById(tour.hotelId).name }} &nbsp;
           | {{ getHotelById(tour.hotelId).stars }}*
-          | {{ getHotelById(tour.hotelId).name }}
       .row.description
         | {{shortenText(tour.text)}}
         a ng-href=("/#/tour/{{ tour.objectId }}")  далее

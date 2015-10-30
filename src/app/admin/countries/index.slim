@@ -1,6 +1,5 @@
 .row.top-row
-  span.logo
-    | VoyageVoyage
+  ng-include src="'app/shared/logo.html'"
 .col-md-6
   .row.action
     a.btn.btn-primary href="" ng-click="setState('add')" ng-disabled="state.newButDisabled()" ng-show="state.newButShown()"  Создать

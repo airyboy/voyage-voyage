@@ -1,5 +1,5 @@
 angular.module('voyageVoyage')
-  .controller 'ToursController', ($scope, $q, PersistenceService, _) ->
+  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _) ->
 
     loadPlaces = -> PersistenceService.loadResource('place').$promise
     loadCountries = -> PersistenceService.loadResource('country').$promise
@@ -7,6 +7,12 @@ angular.module('voyageVoyage')
     load = -> PersistenceService.loadResource('tour').$promise
     
     allPlaces = []
+
+    a = Entity.fromJSON({ a: 'aaa', b: 1, c: null })
+    b = Entity.fromJSON({ a: 'aba', b: 1, c: null })
+    c = Entity.fromJSON({ a: 'aaa', b: 1, c: null })
+    console.log a.isEqual(b)
+    console.log a.isEqual(c)
 
     promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
     $q.all(promises).then (data) ->
@@ -33,7 +39,7 @@ angular.module('voyageVoyage')
 
     $scope.updatePlaceList = ->
       $scope.places = if $scope.selectedCountry
-         _.where allPlaces, { countryId: $scope.selectedCountry.objectId }
+        _.where allPlaces, { countryId: $scope.selectedCountry.objectId }
       else
         allPlaces
 

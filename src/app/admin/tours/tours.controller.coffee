@@ -2,16 +2,16 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, P
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
 
-  loadPlaces = -> PersistenceService.loadResource('place').$promise
-  loadCountries = -> PersistenceService.loadResource('country').$promise
-  loadHotels = -> PersistenceService.loadResource('hotel').$promise
-  load = -> PersistenceService.loadResource('tour').$promise
-
   # для удобства каррируем
   save = (tour) -> PersistenceService.saveResource('tour', tour)
   remove = (tour) -> PersistenceService.removeResource('tour', tour)
 
-  promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
+  promises = {
+    tours: PersistenceService.loadResource('tour').$promise
+    places: PersistenceService.loadResource('place').$promise
+    countries: PersistenceService.loadResource('country').$promise
+    hotels: PersistenceService.loadResource('hotel').$promise }
+
   $q.all(promises)
     .then (data) ->
       $scope.tours = Entity.fromArray(data.tours)

@@ -1,10 +1,9 @@
 /! New tour button
 .row.top-row
-  span.logo
-    | VoyageVoyage
-    | {{ title }}
-  span ng-show="state.newButShown()" 
-    a.btn.btn-default.pull-right href="" ng-click="setState('new')"  Add new
+  ng-include src="'app/shared/logo.html'"
+  .col-md-3.col-md-offset-6
+    span ng-show="state.newButShown()" 
+      a.btn.btn-default.pull-right href="" ng-click="setState('new')"  Add new
 
 /! New tour form
 .row ng-show="state.newFormShown()" 
@@ -41,7 +40,7 @@
 
 /! Tours list
 .entry ng-repeat="tour in tours track by $index" ng-show="state.listShown()" 
-  .row
+  .row.item
     /! Image
     .col-md-3
       img alt="" height="100" src="" width="200" /

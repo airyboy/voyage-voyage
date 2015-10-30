@@ -15,8 +15,11 @@ function listFiles() {
   return wiredep(wiredepOptions).js
     .concat([
       path.join(conf.paths.tmp, '/serve/app/**/*.module.js'),
-      path.join(conf.paths.tmp, '/serve/app/**/*.js'),
-      path.join(conf.paths.src, '/**/*.spec.js'),
+      //path.join(conf.paths.tmp, '/serve/app/**/*.js'),
+      //path.join(conf.paths.src, '/**/*.spec.js'),
+      //path.join(conf.paths.src, '/**/*.spec.coffee'),
+      path.join(conf.paths.src, '/**/*.coffee'),
+      path.join(conf.paths.test, '/**/*.coffee'),
       path.join(conf.paths.src, '/**/*.mock.js'),
       path.join(conf.paths.src, '/**/*.html')
     ]);
@@ -31,7 +34,7 @@ module.exports = function(config) {
 
     autoWatch: false,
 
-    frameworks: ['jasmine', 'angular-filesort'],
+    frameworks: ['jasmine'],
 
     angularFilesort: {
       whitelist: [path.join(conf.paths.tmp, '/**/!(*.html|*.spec|*.mock).js')]
@@ -42,17 +45,32 @@ module.exports = function(config) {
       moduleName: 'voyageVoyage'
     },
 
-    browsers : ['PhantomJS'],
+    coffeePreprocessor: {
+      // options passed to the coffee compiler
+      options: {
+        bare: true,
+        sourceMap: true
+      },
+      // transforming the filenames
+      transformPath: function(path) {
+        return path.replace(/\.coffee$/, '.js')
+      }
+    },
+
+    browsers : ['Chrome'],
 
     plugins : [
-      'karma-phantomjs-launcher',
-      'karma-angular-filesort',
+      'karma-chrome-launcher',
+      //'karma-angular-filesort',
       'karma-jasmine',
-      'karma-ng-html2js-preprocessor'
+      'karma-ng-html2js-preprocessor',
+      'karma-coffee-preprocessor'
     ],
 
     preprocessors: {
-      'src/**/*.html': ['ng-html2js']
+      'src/**/*.html': ['ng-html2js'],
+      'src/**/*.coffee': ['coffee'],
+      'test/**/*.coffee': ['coffee']
     }
   };
 

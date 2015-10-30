@@ -1,9 +1,5 @@
 angular.module('voyageVoyage').controller 'PlacesController',
   ($scope, $q, PersistenceService, SimpleStateFactory, Entity) ->
-
-    loadCountries = -> PersistenceService.loadResource('country').$promise
-    load = -> PersistenceService.loadResource('place').$promise
-
     # для удобства каррируем
     save = (place) -> PersistenceService.saveResource('place', place)
     remove = (place) -> PersistenceService.removeResource('place', place)
@@ -11,7 +7,10 @@ angular.module('voyageVoyage').controller 'PlacesController',
     $scope.setState = (state, idx, place) ->
       $scope.state = new SimpleStateFactory('place', state, place, idx)
       
-    promises = { places: load(), countries: loadCountries() }
+    promises = {
+      places: PersistenceService.loadResource('place').$promise,
+      countries: PersistenceService.loadResource('country').$promise }
+
     $q.all(promises).then (data) ->
       $scope.places = Entity.fromArray(data.places)
       $scope.countries = data.countries
@@ -39,4 +38,4 @@ angular.module('voyageVoyage').controller 'PlacesController',
       
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId
-      found.name || 'n/a'
+      found.name
