@@ -1,9 +1,7 @@
 angular.module("voyageVoyage").controller "HotelsController",
 ($scope, PersistenceService, Entity, SimpleStateFactory, CRUDService) ->
-  # для удобства каррируем
-  load = -> PersistenceService.loadResource('hotel').$promise
-  
-  load().then (response) ->
+
+  PersistenceService.loadResource('hotel').$promise.then (response) ->
     $scope.hotels = Entity.fromArray(response)
 
   $scope.setState = (state, idx, hotel) ->

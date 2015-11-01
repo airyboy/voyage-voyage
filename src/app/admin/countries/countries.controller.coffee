@@ -1,12 +1,10 @@
 angular.module('voyageVoyage').controller 'CountriesController',
   ($scope, PersistenceService, Entity, SimpleStateFactory, CRUDService) ->
-    # для удобства каррируем
-    load = -> PersistenceService.loadResource('country')
    
     $scope.setState = (state, idx, country) ->
       $scope.state = new SimpleStateFactory('country', state, country, idx)
     
-    load().$promise.then (data) ->
+    PersistenceService.loadResource('country').$promise.then (data) ->
       $scope.countries = Entity.fromArray(data)
       $scope.setState('browse')
 
