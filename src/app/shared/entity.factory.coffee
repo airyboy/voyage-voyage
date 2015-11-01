@@ -19,9 +19,6 @@ angular.module("voyageVoyage").factory "Entity", ->
     hasChanges: =>
       !@isEqual(_copy)
     isEmpty: ->
-      #Object.keys(this).reduce (result, key) ->
-        #if typeof this[key] != 'function'
-          #result & !this[key]
       _.chain(_.keys(this))
       .filter(((key) -> typeof this[key] != 'function'), this) # удаляем ключи с функциями
       .reduce(((result, key) -> result & !this[key]), true, this) # сворачиваем

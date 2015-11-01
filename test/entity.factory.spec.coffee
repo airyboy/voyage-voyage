@@ -1,33 +1,33 @@
 describe 'Entity', ->
-  setup = {}
+  t = {}
   
   beforeEach -> module('voyageVoyage')
   
   beforeEach(inject (_Entity_) ->
-    setup.Entity = _Entity_
-    setup.theEntity = new setup.Entity
-    setup.emptyEntity = setup.Entity.fromJSON({ a: null, b: 0, c: '', d: undefined, f: -> true })
-    setup.nonEmptyEntity = setup.Entity.fromJSON({ a: null, b: 1, c: '', d: undefined, f: -> true })
+    t.Entity = _Entity_
+    t.theEntity = new t.Entity
+    t.emptyEntity = t.Entity.fromJSON({ a: null, b: 0, c: '', d: undefined, f: -> true })
+    t.nonEmptyEntity = t.Entity.fromJSON({ a: null, b: 1, c: '', d: undefined, f: -> true })
   )
 
   it 'should be defined', ->
-    expect(typeof setup.Entity).toBeDefined()
+    expect(typeof t.Entity).toBeDefined()
 
   it 'isEmpty() correct', ->
-    expect(setup.emptyEntity.isEmpty()).toBeTruthy()
-    expect(setup.nonEmptyEntity.isEmpty()).toBeFalsy()
+    expect(t.emptyEntity.isEmpty()).toBeTruthy()
+    expect(t.nonEmptyEntity.isEmpty()).toBeFalsy()
 
   it 'should be initialized empty', ->
-    expect(setup.theEntity.isEmpty()).toBe 1
+    expect(t.theEntity.isEmpty()).toBeTruthy()
 
   describe 'isEqual()', ->
     beforeEach ->
-      setup.someEntity = setup.Entity.fromJSON { a: 'aaa', b: 1, c: null }
-      setup.equalEntity = setup.Entity.fromJSON { a: 'aaa', b: 1, c: null }
-      setup.nonEqualEntity = setup.Entity.fromJSON { a: 'aba', b: 2, c: null }
+      t.someEntity = t.Entity.fromJSON { a: 'aaa', b: 1, c: null }
+      t.equalEntity = t.Entity.fromJSON { a: 'aaa', b: 1, c: null }
+      t.nonEqualEntity = t.Entity.fromJSON { a: 'aba', b: 2, c: null }
 
     it 'should be equal', ->
-      expect(setup.someEntity.isEqual(setup.equalEntity)).toBeTruthy()
+      expect(t.someEntity.isEqual(t.equalEntity)).toBeTruthy()
 
     it 'should not be equal', ->
-      expect(setup.someEntity.isEqual(setup.nonEqualEntity)).toBeFalsy()
+      expect(t.someEntity.isEqual(t.nonEqualEntity)).toBeFalsy()

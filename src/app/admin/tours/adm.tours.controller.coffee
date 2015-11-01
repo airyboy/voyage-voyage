@@ -30,17 +30,17 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, P
   $scope.add = ->
     $scope.tours.push(@tour)
     save(@tour)
-    $scope.setState("browse")
+    $scope.setState('browse')
     
   $scope.update = ->
     $scope.tour.commitChanges()
     save(@tour)
-    $scope.setState("browse")
+    $scope.setState('browse')
 
   $scope.cancel = ->
     if $scope.state.canCancel() or confirm(UNSAVED_CHANGES_WARNING)
       $scope.tour.rejectChanges()
-      $scope.setState("browse")
+      $scope.setState('browse')
 
   $scope.remove = (idx) ->
     if confirm(REMOVE_WARNING)

@@ -19,6 +19,7 @@ function listFiles() {
       //path.join(conf.paths.src, '/**/*.spec.js'),
       //path.join(conf.paths.src, '/**/*.spec.coffee'),
       path.join(conf.paths.src, '/**/*.coffee'),
+      path.join(conf.paths.src, 'app/admin/**/*.coffee'),
       path.join(conf.paths.test, '/**/*.coffee'),
       path.join(conf.paths.src, '/**/*.mock.js'),
       path.join(conf.paths.src, '/**/*.html')
