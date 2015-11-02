@@ -1,5 +1,5 @@
 angular.module('voyageVoyage')
-  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _) ->
+  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _, ToursFilterService) ->
 
     loadPlaces = -> PersistenceService.loadResource('place').$promise
     loadCountries = -> PersistenceService.loadResource('country').$promise
@@ -15,27 +15,14 @@ angular.module('voyageVoyage')
       $scope.hotels = data.hotels
       allPlaces = data.places
       $scope.places = allPlaces
-
-    $scope.countryFilter = (tour) ->
-      if $scope.selectedCountry
-        tour.countryId == $scope.selectedCountry.objectId
-      else
-        true
-
-    $scope.placeFilter = (tour) ->
-      if $scope.selectedPlace
-        tour.placeId == $scope.selectedPlace.objectId
-      else
-        true
+      
+    $scope.countryFilter = (tour) -> ToursFilterService.countryFilter(tour, $scope.selectedCountry)
+    $scope.placeFilter = (tour) -> ToursFilterService.placeFilter(tour, $scope.selectedPlace)
+    $scope.updatePlaceList = ->
+      $scope.places = ToursFilterService.placesFilteredByCountry(allPlaces, $scope.selectedCountry)
         
     $scope.shortenText = (text) ->
       "#{text.substring(0, 350)}... "
-
-    $scope.updatePlaceList = ->
-      $scope.places = if $scope.selectedCountry
-        _.where allPlaces, { countryId: $scope.selectedCountry.objectId }
-      else
-        allPlaces
 
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId
