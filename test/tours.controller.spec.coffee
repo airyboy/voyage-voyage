@@ -57,6 +57,7 @@ describe 'Tours controller', ->
       ['tour', 'country', 'hotel'].forEach (res) ->
         url = "https://api.parse.com/1/classes/#{res}"
         t.$httpBackend.whenGET(url).respond('[]')
+      # allPlaces in the controller is a private member, so I can't set it in the test. I init it in the line below with GET
       t.$httpBackend.whenGET("https://api.parse.com/1/classes/place").respond(JSON.stringify({ results: places }))
       toursController = $controller 'ToursController', { $scope: t.$scope, PersistenceService: t.PersistenceService, $q: $q }
       t.$httpBackend.flush()

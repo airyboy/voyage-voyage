@@ -4,7 +4,7 @@ angular.module('voyageVoyage').service 'CRUDService', (PersistenceService, $log)
       PersistenceService.saveResource(resourceName, obj)
       collection.push obj
       setState 'browse'
-    remove:(resourceName, idx, collection) ->
+    remove: (resourceName, idx, collection) ->
       obj = collection[idx]
       PersistenceService.removeResource(resourceName, obj)
       collection.splice(idx, 1)

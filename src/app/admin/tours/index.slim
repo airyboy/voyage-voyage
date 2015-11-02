@@ -35,6 +35,9 @@
           label for="price"  Цена
           input.form-control ng-model="tour.price" placeholder="Price" type="number" /
       .form-group
+        .col-sm-3.nopadding
+          button ngf-select='upload($file)' ng-show="state.newFormShown()" Set image
+      .form-group
         button.btn.btn-primary ng-click="add()"  Создать
         button.btn.btn-default ng-click="cancel()"  Отменить
 
@@ -43,7 +46,9 @@
   .row.item
     /! Image
     .col-md-3
-      img alt="" height="100" src="" width="200" /
+      .img
+        img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
+        button ngf-select='upload($file)' ng-show="$index == state.editIndex" Set image
     /! Tour item
     .col-md-9
       .row

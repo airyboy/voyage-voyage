@@ -4,15 +4,19 @@
   .row.action
     a.btn.btn-primary href="" ng-click="setState('add')" ng-disabled="state.newButDisabled()" ng-show="state.newButShown()"  Создать
     input ng-model="state.country.name" ng-show="state.newFormShown()" placeholder="наименование" type="text" /
+    button ngf-select='upload($file)' ng-show="state.newFormShown()" Set image
     a.btn.btn-default.pull-right href="" ng-click="setState('browse')" ng-show="state.newFormShown()"  Отмена
     a.btn.btn-primary.pull-right href="" ng-click="add()" ng-show="state.newFormShown()"  Сохранить
   table.table.table-condensed
     tbody
       tr ng-repeat=("country in countries") 
         td
+          img ng-src='{{ country.image.url }}' height='20'
+        td
           span ng-show=("$index != state.editIndex") 
             | {{country.name}}
-          input ng-model="state.country.name" ng-show=("$index == state.editIndex") placeholder="наименование" type="text" /
+          input ng-model="state.country.name" ng-show="$index == state.editIndex" placeholder="наименование" type="text" /
+          button ngf-select='upload($file)' ng-show="$index == state.editIndex" Set image
         td
           a.action.pull-right href="" ng-click="remove($index)" ng-show="state.editRemoveShown()" 
             | Удалить

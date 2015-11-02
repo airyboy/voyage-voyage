@@ -1,4 +1,5 @@
-angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, PersistenceService, TourStateFactory, Entity, _) ->
+angular.module("voyageVoyage").controller "AdminToursController",
+($scope, $q, ImageUploadService, PersistenceService, TourStateFactory, Entity, _) ->
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
 
@@ -46,6 +47,8 @@ angular.module("voyageVoyage").controller "AdminToursController", ($scope, $q, P
     if confirm(REMOVE_WARNING)
       $scope.tours.splice(idx, 1)
       remove(@tour)
+      
+  $scope.upload = (file) -> ImageUploadService.uploadImage(file, $scope.tour)
 
   $scope.getCountryById = (countryId) ->
     found = _.find $scope.countries, (country) -> country.objectId == countryId
