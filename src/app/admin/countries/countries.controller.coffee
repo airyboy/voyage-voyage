@@ -8,7 +8,6 @@ angular.module('voyageVoyage').controller 'CountriesController',
     PersistenceService.loadResource('country').$promise.then (data) ->
       $scope.countries = Entity.fromArray(data)
       $scope.setState('browse')
-      console.log $scope.countries
 
     $scope.add = -> CRUDService.add('country', $scope.state.country, $scope.countries, $scope.setState)
     $scope.update = -> CRUDService.update('country', $scope.state.country, $scope.setState)

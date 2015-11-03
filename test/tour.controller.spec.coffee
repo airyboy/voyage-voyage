@@ -1,4 +1,5 @@
 describe 'Tour controller', ->
+  t = {}
   tour = { objectId: 1, title: 't', text: 'text', countryId: 1, hotelId: 1, placeId: 1 }
   hotel = { objectId: 1, name: 'hotel' }
   country = { objectId: 1, name: 'country' }
@@ -6,9 +7,9 @@ describe 'Tour controller', ->
   
   beforeEach -> module('voyageVoyage')
   
-  beforeEach(inject ($controller, _PersistenceService_, _$q_, _$timeout_) ->
+  beforeEach(inject ($controller, _PersistenceService_, _$q_, _$timeout_, $rootScope) ->
     $q = _$q_
-    @$scope = {}
+    t.$scope = $rootScope.$new()
     routeParams: { slug: 1 }
     @PersistenceService = _PersistenceService_
     @$timeout = _$timeout_
@@ -25,17 +26,18 @@ describe 'Tour controller', ->
       result
       
     tourController = $controller 'TourController', {
-      $scope: @$scope,
+      $scope: t.$scope,
       $routeParams: { slug: 1 },
       PersistenceService: @PersistenceService}
   )
 
   it 'sets $scope correctly', ->
-    @$timeout.flush()
-    expect(@$scope.tour).toBe(tour)
-    expect(@$scope.country).toEqual(country)
-    expect(@$scope.hotel).toBe(hotel)
-    expect(@$scope.place).toBe(place)
+    t.$scope.$apply()
+    expect(t.$scope.tour).toBe(tour)
+    expect(t.$scope.country).toEqual(country)
+    expect(t.$scope.hotel).toBe(hotel)
+    expect(t.$scope.place).toBe(place)
+    @$timeout.verifyNoPendingTasks()
 
 
   it 'calls PersistenceService', ->
