@@ -19,10 +19,14 @@ angular.module("voyageVoyage").factory "Entity", ->
     hasChanges: =>
       !@isEqual(_copy)
     isEmpty: ->
-      keysWithoutFunctions = _.filter(_.keys(this), ((key) -> typeof this[key] != 'function'), this)
-      _.reduce(keysWithoutFunctions, ((result, key) -> result & !this[key]), true, this)
+      _.chain(_.keys(this))
+      .filter(((key) -> typeof this[key] != 'function'), this) # удаляем ключи с функциями
+      .reduce(((result, key) -> result & !this[key]), true, this) # сворачиваем
+      .value()
     isEqual: (other) ->
-      keysWithoutFunctions = _.filter(_.keys(this), ((key) -> typeof this[key] != 'function'), this)
-      _.reduce(keysWithoutFunctions, ((result, key) -> result & (this[key] == other[key])), true, this)
+      _.chain(_.keys(this))
+      .filter(((key) -> typeof this[key] != 'function'), this) # удаляем ключи с функциями
+      .reduce(((result, key) -> result & (this[key] == other[key])), true, this) # сворачиваем
+      .value()
     @fromArray: (jsonArray) ->
       result = (Entity.fromJSON(e) for e in jsonArray)

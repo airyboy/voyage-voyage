@@ -12,7 +12,30 @@ $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bo
 // bower:scss
 // endbower
 .container {
-  margin-top: 30px;
+  margin-top: 4px;
+  /*margin: 0 10px;*/
+  /*.row {*/
+    /*box-shadow: 0 0 15px #b1b1b1;*/
+    /*padding-left: 10;*/
+    /*padding-right: 10;*/
+    /*background-color: #fff;*/
+  /*}*/
+}
+
+.entry > .row, .box {
+  box-shadow: 0 0 15px #b1b1b1;
+  padding-left: 10;
+  padding-right: 10;
+  background-color: #fff;
+  padding-top: 10px;
+}
+
+.entry > .row.user {
+  height: 150px;
+}
+
+body {
+  background-color: #e5e5e5;
 }
 
 .logo {
@@ -20,8 +43,32 @@ $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bo
   margin: 2 2 20;
 }
 
+.temp-nav {
+  background-color: #000000;
+  color: #fff;
+  font-size: 0.8em;
+  a {
+    color: #bbb;
+    margin: 3 9;
+    text-transform: uppercase;
+  }
+}
+
 .top-row {
-  padding-bottom: 40px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  /*border-bottom: 2px solid;*/
+  background-color: #fff;
+}
+
+.item {
+  border-bottom: 1px dotted #151515;
+}
+
+.image {
+  vertical-align: middle;
+  float: none;
 }
 
 .nopadding {
@@ -39,12 +86,15 @@ $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bo
 }
 
 .hotel {
-  font-size: 1.2em;
-  margin-left: 10px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  font-family: Arial sans-serif;
+  font-weight: 900;
+  color: #00619e;
 }
 
 .entry {
-  padding-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .pull-right {

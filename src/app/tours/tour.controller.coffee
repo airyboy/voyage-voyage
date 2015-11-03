@@ -1,16 +1,17 @@
-angular.module('voyageVoyage') .controller 'TourController', ($scope, $routeParams,  PersistenceService, _) ->
-  loadDependencies = ->
-    PersistenceService.loadResourceById('country', $scope.tour.countryId).$promise
-      .then (country) ->
-        $scope.country = country
-    PersistenceService.loadResourceById('place', $scope.tour.placeId).$promise
-      .then (place) ->
-        $scope.place = place
-    PersistenceService.loadResourceById('hotel', $scope.tour.hotelId).$promise
-      .then (hotel) ->
-        $scope.hotel = hotel
+angular.module('voyageVoyage') .controller 'TourController', ($scope, $routeParams, $q,  PersistenceService, _) ->
+  loadDependencies = (countryId, hotelId, placeId) ->
+    $q.all({
+      country: PersistenceService.loadResourceById('country', countryId).$promise,
+      place: PersistenceService.loadResourceById('place', placeId).$promise,
+      hotel: PersistenceService.loadResourceById('hotel', hotelId).$promise })
 
   PersistenceService.loadResourceById('tour', $routeParams.slug).$promise
     .then (tour) ->
-      $scope.tour = tour
-      loadDependencies()
+      loadDependencies(tour.countryId, tour.hotelId, tour.placeId)
+        .then (result) ->
+          $scope.country = result.country
+          $scope.hotel = result.hotel
+          $scope.place = result.place
+          $scope.tour = tour
+    .catch (err) ->
+      console.log err
