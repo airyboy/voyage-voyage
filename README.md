@@ -1,5 +1,5 @@
 # voyage-voyage
-angularjs learning project
+AngularJS learning project
 
 Have a look at DEMO:
 http://airyboy.github.io/vv/
