@@ -1,10 +1,12 @@
 angular.module('voyageVoyage')
-  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _, ToursFilterService) ->
+  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _, ToursFilterService, FakerFactory) ->
 
     loadPlaces = -> PersistenceService.loadResource('place').$promise
     loadCountries = -> PersistenceService.loadResource('country').$promise
     loadHotels = -> PersistenceService.loadResource('hotel').$promise
     load = -> PersistenceService.loadResource('tour').$promise
+    
+
     
     allPlaces = []
 

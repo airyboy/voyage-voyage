@@ -51,13 +51,14 @@
         button ngf-select='upload($file)' ng-show="$index == state.editIndex" Set image
     /! Tour item
     .col-md-9
+      .row.title
+        span ng-hide="$index == state.editIndex" 
+          | {{tour.title}}
       .row
         .title.col-md-6.nopadding ng-class="$index == state.editIndex ? 'col-md-3' : 'col-md-6'" 
-          span ng-hide="$index == state.editIndex" 
-            | {{tour.title}}
-            span.label.label-primary ng-hide="$index == state.editIndex" {{ getCountryById(tour.countryId) }} 
-            span.label.label-success ng-hide="$index == state.editIndex" {{ getPlaceById(tour.placeId) }} 
-            span.label.label-info ng-hide="$index == state.editIndex" {{ tour.duration + ' ночей' }}
+          span.label.label-primary ng-hide="$index == state.editIndex" {{ getCountryById(tour.countryId) }} 
+          span.label.label-success ng-hide="$index == state.editIndex" {{ getPlaceById(tour.placeId) }} 
+          span.label.label-info ng-hide="$index == state.editIndex" {{ tour.duration + ' ночей' }}
           input.form-control ng-model="tour.title" ng-show="$index == state.editIndex" placeholder="Title" type="text" /
         .title.col-md-2.nopadding
           select.form-control[id="" name="" ng-model="tour.countryId" 
@@ -93,3 +94,5 @@
           | Сохранить
         button.btn.btn-default ng-click="cancel()" ng-show="$index == state.editIndex"
           | Отменить
+.row
+  a.btn.btn-default href="" ng-click="seedDb()" style='display: none'  Seed DB
