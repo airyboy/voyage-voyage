@@ -6,7 +6,8 @@
   .col-md-2
     select.form-control id="" name="" ng-model="selectedPlace" ng-options=("place.name for place in places") 
       option value=""  --Выберите место--
-vv-pager total-pages='8'
+.nopadding
+  vv-pager total-items="{{ toursCount }}" page-size='4' current-page='1' page-changed="setPage(page)"
 /! Tours list
 .entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter") 
   .row.item.user
