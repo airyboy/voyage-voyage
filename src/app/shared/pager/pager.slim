@@ -6,7 +6,7 @@ nav ng-class='{hidden: totalPages < 2}'
     li ng-class="{disabled: currentPage == 1}"
       a href='#' ng-click='pageBackward()'
         span &larr; Prev
-    li ng-repeat='page in pages' ng-class="{active: page == currentPage}"
+    li ng-repeat='page in pages track by $index' ng-class="{active: page == currentPage}"
       a ng-click='setPage(page)' href='#' {{ page }}
     li ng-class="{disabled: currentPage == pages.length}"
       a href='#' ng-click='pageForward()'
