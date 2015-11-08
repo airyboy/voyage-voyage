@@ -37,7 +37,6 @@ describe 'Tour controller', ->
     expect(t.$scope.country).toEqual(country)
     expect(t.$scope.hotel).toBe(hotel)
     expect(t.$scope.place).toBe(place)
-    @$timeout.verifyNoPendingTasks()
 
 
   it 'calls PersistenceService', ->

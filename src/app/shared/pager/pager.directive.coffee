@@ -9,7 +9,6 @@ angular.module('voyageVoyage').directive 'vvPager', ->
   link: (scope, iElement, iAttr) ->
     scope.$watch 'totalItems', ->
       scope.totalPages = Math.ceil(scope.totalItems/scope.pageSize)
-      console.log scope.totalPages
       scope.pages = [1..scope.totalPages]
 
     scope.setPage = (page) ->

@@ -1,8 +1,7 @@
 angular.module('voyageVoyage')
-  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _, ToursFilterService, FakerFactory) ->
+  .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _, ToursFilterService) ->
 
     allPlaces = []
-    allTours = []
     $scope.itemsOnPage = 4
 
     promises =
@@ -14,31 +13,27 @@ angular.module('voyageVoyage')
     $q.all(promises).then (data) ->
       $scope.countries = data.countries
       $scope.hotels = data.hotels
-      allPlaces = data.places
-      allTours = data.tours
-      $scope.tours = allTours
-      $scope.places = allPlaces
-      $scope.toursCount = allTours.length
+      $scope.tours = data.tours
+      $scope.places = data.places
       $scope.setPage(1)
       
     $scope.countryFilter = (tour) -> ToursFilterService.countryFilter(tour, $scope.selectedCountry)
     $scope.placeFilter = (tour) -> ToursFilterService.placeFilter(tour, $scope.selectedPlace)
-    $scope.updatePlaceList = ->
-      $scope.places = ToursFilterService.placesFilteredByCountry(allPlaces, $scope.selectedCountry)
         
     $scope.setPage = (page) ->
       $scope.currentPage = page
       $scope.pageBeginIndex = $scope.itemsOnPage * (page - 1)
 
-    $scope.filterChanged = ->
-      console.log $scope.selectedCountry
+    $scope.filterChanged = (country, place) ->
+      $scope.selectedCountry = country
+      $scope.selectedPlace = place
 
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId
       _.result(found, 'name', 'n/a')
       
     $scope.getPlaceById = (placeId) ->
-      found = _.find allPlaces, (place) -> place.objectId == placeId
+      found = _.find $scope.places, (place) -> place.objectId == placeId
       _.result(found, 'name', 'n/a')
       
     $scope.getHotelById = (hotelId) ->

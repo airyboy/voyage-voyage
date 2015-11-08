@@ -84,16 +84,5 @@ describe 'Tours controller', ->
       expect(t.$scope.placeFilter(tours[1])).toBeTruthy()
       expect(t.$scope.placeFilter(tours[0])).toBeTruthy()
 
-    it 'filters places with selected country set', ->
-      t.$scope.selectedCountry = countries[0]
-      t.$scope.updatePlaceList()
-      expect(t.$scope.places.length).toEqual(1)
-
-    it 'doesnt filter places with selected country empty', ->
-      t.$scope.selectedCountry = null
-      t.$scope.updatePlaceList()
-      expect(t.$scope.places.length).toEqual(2)
-
     afterEach ->
       t.$httpBackend.verifyNoOutstandingRequest()
-      t.$timeout.verifyNoPendingTasks()
