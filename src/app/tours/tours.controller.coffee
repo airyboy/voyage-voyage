@@ -1,16 +1,16 @@
 angular.module('voyageVoyage')
   .controller 'ToursController', ($scope, $q, PersistenceService, Entity, _, ToursFilterService, FakerFactory) ->
 
-    loadPlaces = -> PersistenceService.loadResource('place').$promise
-    loadCountries = -> PersistenceService.loadResource('country').$promise
-    loadHotels = -> PersistenceService.loadResource('hotel').$promise
-    load = -> PersistenceService.loadResource('tour').$promise
-    
-    
     allPlaces = []
     allTours = []
+    $scope.itemsOnPage = 4
 
-    promises = { tours: load(), places: loadPlaces(), countries: loadCountries(), hotels: loadHotels() }
+    promises =
+      tours: PersistenceService.loadResource('tour').$promise
+      places: PersistenceService.loadResource('place').$promise
+      countries: PersistenceService.loadResource('country').$promise
+      hotels: PersistenceService.loadResource('hotel').$promise
+
     $q.all(promises).then (data) ->
       $scope.countries = data.countries
       $scope.hotels = data.hotels
@@ -27,11 +27,11 @@ angular.module('voyageVoyage')
       $scope.places = ToursFilterService.placesFilteredByCountry(allPlaces, $scope.selectedCountry)
         
     $scope.setPage = (page) ->
-      $scope.tours = allTours.slice((page - 1)*4, (page - 1)*4 + 4)
-      console.log page
+      $scope.currentPage = page
+      $scope.pageBeginIndex = $scope.itemsOnPage * (page - 1)
 
-    $scope.shortenText = (text) ->
-      "#{text.substring(0, 350)}... "
+    $scope.filterChanged = ->
+      console.log $scope.selectedCountry
 
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId

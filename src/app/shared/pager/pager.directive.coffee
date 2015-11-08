@@ -8,13 +8,12 @@ angular.module('voyageVoyage').directive 'vvPager', ->
     pageChangedCallback: '&pageChanged'
   link: (scope, iElement, iAttr) ->
     scope.$watch 'totalItems', ->
-      totalPages = Math.ceil(scope.totalItems/scope.pageSize)
-      scope.pages = [1..totalPages]
+      scope.totalPages = Math.ceil(scope.totalItems/scope.pageSize)
+      console.log scope.totalPages
+      scope.pages = [1..scope.totalPages]
 
     scope.setPage = (page) ->
       scope.currentPage = page
-      console.log scope.currentPage
-      console.log scope.totalItems
       scope.pageChangedCallback({ page: page })
 
     scope.pageForward = ->

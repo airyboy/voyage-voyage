@@ -1,15 +1,19 @@
 .row.top-row
   ng-include src="'app/shared/logo.html'"
-  .col-md-2
-    select.form-control id="" ng-change="updatePlaceList()" ng-model="selectedCountry" ng-options=("country.name for country in countries") 
-      option value=""  --Выберите страну--
-  .col-md-2
-    select.form-control id="" name="" ng-model="selectedPlace" ng-options=("place.name for place in places") 
-      option value=""  --Выберите место--
+  vv-tours-filter
+  /[ng-if='countries && places' places='places' countries='countries' 
+  /selectedPlace='selectedPlace' selectedCountry='selectedCountry' filter-changed='filterChanged()']
+  /.col-md-2
+    /select.form-control id="" ng-change="updatePlaceList()" ng-model="selectedCountry" ng-options=("country.name for country in countries") 
+      /option value=""  --Выберите страну--
+  /.col-md-2
+    /select.form-control id="" name="" ng-model="selectedPlace" ng-options=("place.name for place in places") 
+      /option value=""  --Выберите место--
 .nopadding
-  vv-pager total-items="{{ toursCount }}" page-size='4' current-page='1' page-changed="setPage(page)"
+  vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter).length }}" 
+  page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]
 /! Tours list
-.entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter") 
+.entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | limitTo: itemsOnPage: pageBeginIndex") 
   .row.item.user
     /! Image
     .col-md-3
@@ -31,5 +35,5 @@
           | {{ getHotelById(tour.hotelId).name }} &nbsp;
           | {{ getHotelById(tour.hotelId).stars }}*
       .row.description
-        | {{shortenText(tour.text)}}
+        | {{tour.text | limitTo:350}}...
         a ng-href=("/#/tour/{{ tour.objectId }}")  далее
