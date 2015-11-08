@@ -1,12 +1,11 @@
 .row.top-row
   ng-include src="'app/shared/logo.html'"
-  vv-tours-filter [places='places' countries='countries' 
-  selectedPlace='selectedPlace' selectedCountry='selectedCountry' filter-changed='filterChanged(country, place)']
+  vv-tours-filter [places='places' countries='countries' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged(country, place)']
 .nopadding
   vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter).length }}" 
   page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]
 /! Tours list
-.entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | limitTo: itemsOnPage: pageBeginIndex") 
+.entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | limitTo: itemsOnPage: pageBeginIndex track by tour.objectId") 
   .row.item.user
     /! Image
     .col-md-3

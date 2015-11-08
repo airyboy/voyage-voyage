@@ -25,8 +25,9 @@ angular.module('voyageVoyage')
       $scope.pageBeginIndex = $scope.itemsOnPage * (page - 1)
 
     $scope.filterChanged = (country, place) ->
-      $scope.selectedCountry = country
-      $scope.selectedPlace = place
+      console.log $scope.selectedCountry
+      #$scope.selectedCountry = country
+      #$scope.selectedPlace = place
 
     $scope.getCountryById = (countryId) ->
       found = _.find $scope.countries, (country) -> country.objectId == countryId

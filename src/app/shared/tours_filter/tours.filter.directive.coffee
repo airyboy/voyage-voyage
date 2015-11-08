@@ -6,7 +6,3 @@ angular.module('voyageVoyage').directive 'vvToursFilter', ->
     countries: '='
     selectedCountry: '='
     selectedPlace: '='
-    filterChangedCallback: '&filterChanged'
-  link: (scope, iElement, iAttr) ->
-    scope.onChangeFilter = ->
-      scope.filterChangedCallback({ country: scope.selectedCountry, place: scope.selectedPlace })
