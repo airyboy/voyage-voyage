@@ -1,5 +1,5 @@
 angular.module("voyageVoyage").controller "AdminToursController",
-($scope, $q, ImageUploadService, PersistenceService, TourStateFactory, Entity, _) ->
+($scope, $q, ImageUploadService, PersistenceService, TourStateFactory, FakerFactory, Entity, _) ->
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
 
@@ -49,6 +49,25 @@ angular.module("voyageVoyage").controller "AdminToursController",
       remove(@tour)
       
   $scope.upload = (file) -> ImageUploadService.uploadImage(file, $scope.tour)
+
+  $scope.seedDb = ->
+    countries = Entity.fromArray FakerFactory.countries
+    angular.forEach countries, (country) ->
+      PersistenceService.saveResource('country', country)
+
+    places = Entity.fromArray FakerFactory.places($scope.countries)
+    angular.forEach places, (place) ->
+      PersistenceService.saveResource('place', place)
+      
+    hotels = Entity.fromArray FakerFactory.hotels
+    angular.forEach hotels, (hotel) ->
+      PersistenceService.saveResource('hotel', hotel)
+
+    tours = Entity.fromArray FakerFactory.tours(20, { countries: $scope.countries, places: $scope.places, hotels: $scope.hotels })
+    angular.forEach tours, (tour) ->
+      console.log tour
+      PersistenceService.saveResource('tour', tour)
+    alert 'Seed finished'
 
   $scope.getCountryById = (countryId) ->
     found = _.find $scope.countries, (country) -> country.objectId == countryId

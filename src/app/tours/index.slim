@@ -1,13 +1,11 @@
 .row.top-row
   ng-include src="'app/shared/logo.html'"
-  .col-md-2
-    select.form-control id="" ng-change="updatePlaceList()" ng-model="selectedCountry" ng-options=("country.name for country in countries") 
-      option value=""  --Выберите страну--
-  .col-md-2
-    select.form-control id="" name="" ng-model="selectedPlace" ng-options=("place.name for place in places") 
-      option value=""  --Выберите место--
+  vv-tours-filter [places='places' countries='countries' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged(country, place)']
+.nopadding
+  vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter).length }}" 
+  page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]
 /! Tours list
-.entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter") 
+.entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | limitTo: itemsOnPage: pageBeginIndex track by tour.objectId") 
   .row.item.user
     /! Image
     .col-md-3
@@ -29,5 +27,5 @@
           | {{ getHotelById(tour.hotelId).name }} &nbsp;
           | {{ getHotelById(tour.hotelId).stars }}*
       .row.description
-        | {{shortenText(tour.text)}}
+        | {{tour.text | limitTo:350}}...
         a ng-href=("/#/tour/{{ tour.objectId }}")  далее
