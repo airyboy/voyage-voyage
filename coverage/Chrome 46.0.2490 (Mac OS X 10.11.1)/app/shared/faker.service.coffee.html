@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/shared/faker.service.coffee</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">app/shared/</a> faker.service.coffee
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">63.46% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>33/52</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.23% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">64.86% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>24/37</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">angular.module("voyageVoyage").factory "FakerFactory", -&gt;
+  Seeds = -&gt;
+    @country = 'Аргентина,Бразилия,Франция,Чехия,Корея,Япония,Швейцария,Колумбия,Ботсвана,Германия'
+    @adjective = 'Чарующая,Невероятная,Пугающая,Искрящаяся,Обычная,Скучная,Веселая,Зимняя,Летняя'
+    @place = 'beach,mountains,trekking,city'
+    @duration = '3,5,7,10,14,21'
+    @hotel = 'Four Seasons,Hyatt,Radisson,Kempinski,Marriot,Mandarin Oriental,Hilton'
+    @star = '2,3,4,5'
+    @text = ["The LORD is my shepherd; I shall not want.He makes me lie down in green pastures.  He leads me beside still waters.  He restores my soul.  He leads me in paths of righteousness for his name’s sake. Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me; your rod and your staff, they comfort me. You prepare a table before me in the presence of my enemies; you anoint my head with oil; my cup overflows.  Surelyd goodness and mercye shall follow me all the days of my life, and I shall dwellf in the house of the LORD forever.",
+      'Каледонская складчатость просветляет холодный рельеф. Нижнее течение непосредственно применяет бамбук. Очаг многовекового орошаемого земледелия оформляет памятник Средневековья, а также необходима справка о прививке против бешенства и результаты анализа на бешенство через 120 дней и за 30 дней до отъезда. В турецких банях не принято купаться раздетыми, поэтому из полотенца сооружают юбочку, а макрель вразнобой вызывает бальнеоклиматический курорт. Пейзажный парк берёт туристический коралловый риф. Здесь работали Карл Маркс и Владимир Ленин, но Тасмания вызывает официальный язык.',
+      'Тюлень теоретически возможен. Восточно-Африканское плоскогорье, несмотря на то, что есть много бунгало для проживания, мгновенно. Субэкваториальный климат, несмотря на внешние воздействия, изменяем.',
+      'Кампос-серрадос, несмотря на то, что есть много бунгало для проживания, жизненно поднимает попугай. Рекомендуется совершить прогулку на лодке по каналам города и Озеру Любви, однако не надо забывать, что материк применяет черный эль, здесь есть много ценных пород деревьев, таких как железное, красное, коричневое (лим), черное (гу), сандаловое деревья, бамбуки и другие виды. Волна пространственно связывает туристический ледостав.',
+      'Акцентируется не красота садовой дорожки, а Южное полушарие входит городской пейзажный парк. Бельгия, в первом приближении, представляет собой утконос, для этого необходим заграничный паспорт, действительный в течение трех месяцев с момента завершения поездки со свободной страницей для визы. Альбатрос просветляет языковой Бахрейн. Портер применяет рельеф. Восточно-Африканское плоскогорье, как бы это ни казалось парадоксальным, берёт экскурсионный полярный круг. Бурное развитие внутреннего туризма привело Томаса Кука к необходимости организовать поездки за границу, при этом мохово-лишайниковая растительность применяет двухпалатный парламент.',
+      'Провоз кошек и собак прекрасно иллюстрирует гидроузел. Селитра поднимает глубокий утконос. Наводнение погранично. Большое Медвежье озеро начинает Карибский бассейн. Для пользования телефоном-автоматом необходимы разменные монеты, однако оазисное земледелие вызывает парк Варошлигет. Санитарный и ветеринарный контроль входит растительный покров, в этот день в меню - щи из морепродуктов в кокосовой скорлупе.',
+      'Великобритания, несмотря на внешние воздействия, параллельна. Здесь работали Карл Маркс и Владимир Ленин, но озеро Ньяса связывает крестьянский ураган, например, "вентилятор" обозначает "веер-ветер", "спичка" - "палочка-чирк-огонь". Винный фестиваль проходит в приусадебном музее Георгикон, там же черный эль сложен. Гвианский щит, несмотря на внешние воздействия, жизненно выбирает различный пингвин, но особой популярностью пользуются заведения подобного рода, сосредоточенные в районе Центральной площади и железнодорожного вокзала.']
+    return
+  randomItem = (arr) -&gt;
+    idx = Math.floor(Math.random() * arr.length)
+    arr[idx]
+      
+  countriesList = -&gt;
+    gen = new Seeds
+    gen.country.split(',').map (obj) -&gt;
+      name: obj
+    
+  placesList = <span class="fstat-no" title="function not covered" >(</span>countries) -&gt;
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    g</span></span>en = new Seeds
+<span class="cstat-no" title="statement not covered" >    places = []</span>
+<span class="cstat-no" title="statement not covered" >    angular.forEach countries, <span class="fstat-no" title="function not covered" >(</span>country) -&gt;</span>
+      gen.place.split(',').forEach <span class="fstat-no" title="function not covered" >(</span>place) -&gt;
+        places.push
+          name: place
+          countryId: country.objectId
+          countryName: country.name
+    places
+  hotelsList = -&gt;
+    gen = new Seeds
+    gen.hotel.split(',').map (obj) -&gt;
+      stars: +(randomItem(gen.star.split(',')))
+      name: obj
+&nbsp;
+  tourFaker = <span class="fstat-no" title="function not covered" >(</span>number, refs) -&gt;
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    g</span></span>en = new Seeds
+<span class="cstat-no" title="statement not covered" >    tours = []</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for num in [0..number - 1]</span>
+<span class="cstat-no" title="statement not covered" >      c</span>ountry = randomItem(refs.countries)
+<span class="cstat-no" title="statement not covered" >      place = randomItem(refs.places)</span>
+<span class="cstat-no" title="statement not covered" >      hotel = randomItem(refs.hotels)</span>
+<span class="cstat-no" title="statement not covered" >      adj = randomItem(gen.adjective.split ',')</span>
+<span class="cstat-no" title="statement not covered" >      title = "#{adj} #{country.name}"</span>
+<span class="cstat-no" title="statement not covered" >      price = 10000 * (Math.floor(Math.random() * 15) + 5) - 100</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      tours.push</span>
+        title: title
+        text: randomItem gen.text
+        placeId: place.objectId
+        countryId: country.objectId
+        hotelId: hotel.objectId
+        duration: +(randomItem gen.duration.split(','))
+        price: price
+    tours
+  faker = -&gt;
+    @countries = new countriesList
+    @hotels = new hotelsList
+    @places = placesList
+    @tours = tourFaker
+    return
+&nbsp;
+  return new faker
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 09 2015 17:25:58 GMT+0300 (MSK)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

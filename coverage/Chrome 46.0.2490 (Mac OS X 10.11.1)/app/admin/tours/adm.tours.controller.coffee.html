@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/admin/tours/adm.tours.controller.coffee</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">app/admin/tours/</a> adm.tours.controller.coffee
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.82% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>40/68</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">66.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.48% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>10/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">71.43% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>30/42</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">angular.module("voyageVoyage").controller "AdminToursController",
+($scope, $q, ImageUploadService, PersistenceService, TourStateFactory, FakerFactory, Entity, _) -&gt;
+  UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
+  REMOVE_WARNING = "Удалить тур?"
+&nbsp;
+  # для удобства каррируем
+  save = (tour) -&gt; PersistenceService.saveResource('tour', tour)
+  remove = (tour) -&gt; PersistenceService.removeResource('tour', tour)
+&nbsp;
+  promises = {
+    tours: PersistenceService.loadResource('tour').$promise
+    places: PersistenceService.loadResource('place').$promise
+    countries: PersistenceService.loadResource('country').$promise
+    hotels: PersistenceService.loadResource('hotel').$promise }
+&nbsp;
+  $q.all(promises)
+    .then (data) -&gt;
+      $scope.tours = Entity.fromArray(data.tours)
+      $scope.countries = data.countries
+      $scope.places = data.places
+      $scope.hotels = data.hotels
+    .catch <span class="fstat-no" title="function not covered" >(</span>error) -&gt;
+      alert(error)
+&nbsp;
+  $scope.setState = (state, tour, idx) -&gt;
+    $scope.state = new TourStateFactory(state, tour, idx)
+    $scope.tour = $scope.state.tour
+&nbsp;
+  $scope.setState('browse')
+&nbsp;
+  $scope.add = -&gt;
+    $scope.tours.push(@tour)
+    save(@tour)
+    $scope.setState('browse')
+    
+  $scope.update = -&gt;
+    $scope.tour.commitChanges()
+    save(@tour)
+    $scope.setState('browse')
+&nbsp;
+  $scope.cancel = -&gt;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if $scope.state.canCancel() or confirm(UNSAVED_CHANGES_WARNING)
+      $scope.tour.rejectChanges()
+      $scope.setState('browse')
+&nbsp;
+  $scope.remove = (idx) -&gt;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if confirm(REMOVE_WARNING)
+      $scope.tours.splice(idx, 1)
+      remove(@tour)
+      
+  $scope.upload = <span class="fstat-no" title="function not covered" >(</span>file) -&gt; ImageUploadService.uploadImage(file, $scope.tour)
+&nbsp;
+  $scope.seedDb = <span class="fstat-no" title="function not covered" >-</span>&gt;
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    c</span></span>ountries = Entity.fromArray FakerFactory.countries
+<span class="cstat-no" title="statement not covered" >    angular.forEach countries, <span class="fstat-no" title="function not covered" >(</span>country) -&gt;</span>
+      PersistenceService.saveResource('country', country)
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    places = Entity.fromArray FakerFactory.places($scope.countries)</span>
+<span class="cstat-no" title="statement not covered" >    angular.forEach places, <span class="fstat-no" title="function not covered" >(</span>place) -&gt;</span>
+      PersistenceService.saveResource('place', place)
+      
+<span class="cstat-no" title="statement not covered" >    hotels = Entity.fromArray FakerFactory.hotels</span>
+<span class="cstat-no" title="statement not covered" >    angular.forEach hotels, <span class="fstat-no" title="function not covered" >(</span>hotel) -&gt;</span>
+      PersistenceService.saveResource('hotel', hotel)
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    tours = Entity.fromArray FakerFactory.tours(20, { countries: $scope.countries, places: $scope.places, hotels: $scope.hotels })</span>
+<span class="cstat-no" title="statement not covered" >    angular.forEach tours, <span class="fstat-no" title="function not covered" >(</span>tour) -&gt;</span>
+<span class="cstat-no" title="statement not covered" >      c</span>onsole.log tour
+      PersistenceService.saveResource('tour', tour)
+    alert 'Seed finished'
+&nbsp;
+  $scope.getCountryById = <span class="fstat-no" title="function not covered" >(</span>countryId) -&gt;
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    f</span></span>ound = _.find $scope.countries, <span class="fstat-no" title="function not covered" >(</span>country) -&gt; country.objectId == countryId
+    _.result(found, 'name', 'n/a')
+    
+  $scope.getPlaceById = <span class="fstat-no" title="function not covered" >(</span>placeId) -&gt;
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    f</span></span>ound = _.find $scope.places, <span class="fstat-no" title="function not covered" >(</span>place) -&gt; place.objectId == placeId
+    _.result(found, 'name', 'n/a')
+    
+  $scope.getHotelById = <span class="fstat-no" title="function not covered" >(</span>hotelId) -&gt;
+<span class="cstat-no" title="statement not covered" >    f</span>ound = _.find $scope.hotels, <span class="fstat-no" title="function not covered" >(</span>hotel) -&gt; hotel.objectId == hotelId
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 09 2015 17:25:58 GMT+0300 (MSK)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

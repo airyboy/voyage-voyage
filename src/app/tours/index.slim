@@ -1,6 +1,6 @@
 .row.top-row
   ng-include src="'app/shared/logo.html'"
-  vv-tours-filter [places='places' countries='countries' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged(country, place)']
+  vv-tours-filter [places='places' countries='countries' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged()']
 .nopadding
   vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter).length }}" 
   page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]

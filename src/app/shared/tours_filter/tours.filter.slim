@@ -1,7 +1,7 @@
 .col-md-2
-  select.form-control id="" ng-model="selectedCountry" ng-options="country.name for country in countries track by country.objectId" 
+  select.form-control id="" ng-change='onFilterChanged()' ng-model="selectedCountry" ng-options="country.name for country in countries track by country.objectId" 
     option value=""  --Выберите страну--
 .col-md-2
-  select.form-control[id="" name="" ng-model="selectedPlace" 
+  select.form-control[id="" ng-change='onFilterChanged()' name="" ng-model="selectedPlace" 
   ng-options="place.name for place in places | filter: {countryId: selectedCountry.objectId} track by place.objectId"]
     option value=""  --Выберите место--

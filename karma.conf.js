@@ -14,14 +14,17 @@ function listFiles() {
 
   return wiredep(wiredepOptions).js
     .concat([
-      path.join(conf.paths.tmp, '/serve/app/**/*.module.js'),
+      //path.join(conf.paths.tmp, '/serve/app/**/*.module.js'),
       //path.join(conf.paths.tmp, '/serve/app/**/*.js'),
+      //path.join(conf.paths.tmp, '/partials/**/*.js'),
+      path.join(conf.paths.tmp, '/serve/app/**/*.html'),
       //path.join(conf.paths.src, '/**/*.spec.js'),
       //path.join(conf.paths.src, '/**/*.spec.coffee'),
+      path.join(conf.paths.src, '/**/*.module.coffee'),
       path.join(conf.paths.src, '/**/*.coffee'),
       path.join(conf.paths.src, 'app/admin/**/*.coffee'),
       path.join(conf.paths.test, '/**/*.coffee'),
-      path.join(conf.paths.src, '/**/*.mock.js'),
+      //path.join(conf.paths.src, '/**/*.mock.js'),
       path.join(conf.paths.src, '/**/*.html')
     ]);
 }
@@ -42,8 +45,8 @@ module.exports = function(config) {
     },
 
     ngHtml2JsPreprocessor: {
-      stripPrefix: 'src/',
-      moduleName: 'voyageVoyage'
+      stripPrefix: '.tmp/serve/',
+      moduleName: 'vvDirectives'
     },
 
     coffeePreprocessor: {
@@ -62,17 +65,27 @@ module.exports = function(config) {
 
     plugins : [
       'karma-chrome-launcher',
-      //'karma-angular-filesort',
+      'karma-angular-filesort',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor',
-      'karma-coffee-preprocessor'
+      'karma-coffee-preprocessor',
+      'karma-coverage'
     ],
 
     preprocessors: {
-      'src/**/*.html': ['ng-html2js'],
+      '.tmp/serve/app/**/*.html': ['ng-html2js'],
       'src/**/*.coffee': ['coffee'],
+      'src/**/*.coffee': ['coverage'],
       'test/**/*.coffee': ['coffee']
-    }
+    },
+
+    reporters: ['dots', 'progress', 'coverage'],
+
+    coverageReporter: {
+      type: 'html',
+      instrumenters: { ibrik: require('ibrik') },
+      instrumenter: { '**/*.coffee': 'ibrik' },
+      dir: 'coverage/' }
   };
 
   // This block is needed to execute Chrome on Travis
