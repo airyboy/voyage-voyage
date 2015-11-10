@@ -34,7 +34,7 @@ module.exports = function(config) {
   var configuration = {
     files: listFiles(),
 
-    singleRun: true,
+    singleRun: false,
 
     autoWatch: false,
 
@@ -68,24 +68,24 @@ module.exports = function(config) {
       'karma-angular-filesort',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor',
-      'karma-coffee-preprocessor',
-      'karma-coverage'
+      'karma-coffee-preprocessor'
+      //'karma-coverage'
     ],
 
     preprocessors: {
       '.tmp/serve/app/**/*.html': ['ng-html2js'],
       'src/**/*.coffee': ['coffee'],
-      'src/**/*.coffee': ['coverage'],
+      //'src/**/*.coffee': ['coverage'],
       'test/**/*.coffee': ['coffee']
-    },
+    }
 
-    reporters: ['dots', 'progress', 'coverage'],
+    //reporters: ['progress', 'coverage'],
 
-    coverageReporter: {
-      type: 'html',
-      instrumenters: { ibrik: require('ibrik') },
-      instrumenter: { '**/*.coffee': 'ibrik' },
-      dir: 'coverage/' }
+    //coverageReporter: {
+      //type: 'html',
+      //instrumenters: { ibrik: require('ibrik') },
+      //instrumenter: { '**/*.coffee': 'ibrik' },
+      //dir: 'coverage/' }
   };
 
   // This block is needed to execute Chrome on Travis
