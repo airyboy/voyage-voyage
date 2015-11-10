@@ -2,7 +2,9 @@ describe 'Tours filter directive', ->
   t = {}
 
   directiveElement = ->
-    html = "<vv-tours-filter places='places' countries='countries' selected-country='selectedCountry' selected-place='selectedPlace' filter-changed='onFilterChanged()'></vv-tours-filter>"
+    html = "<vv-tours-filter places='places' countries='countries' selected-stars='selectedStars' \
+    selected-country='selectedCountry' selected-place='selectedPlace' \
+    filter-changed='onFilterChanged()'></vv-tours-filter>"
     el = angular.element(html)
     compiledElement = t.$compile(el)(t.$scope)
     t.$scope.$digest()
@@ -24,6 +26,13 @@ describe 'Tours filter directive', ->
     it 'should contain a repeater', ->
       repeater = t.dirEl.find '[ng-repeat]'
       expect(repeater).toBeDefined()
+
+  describe 'init', ->
+    it 'inits stars', ->
+      expect(t.isolateScope.stars).toBeDefined()
+
+    it 'stars is an array', ->
+      expect(Array.isArray(t.isolateScope.stars)).toBeTruthy()
 
   describe 'isolate scope', ->
     beforeEach ->
@@ -61,6 +70,20 @@ describe 'Tours filter directive', ->
         t.$scope.$digest()
         expect(t.isolateScope.selectedCountry).toEqual(t.$scope.selectedCountry)
 
+    describe 'selectedStars two-way binded', ->
+      it 'sets selectedStars', ->
+        expect(t.isolateScope.selectedStars).toBe(t.$scope.selectedStars)
+
+      it 'changes affect parent scope', ->
+        t.isolateScope.selectedStars = {val: 4}
+        t.$scope.$digest()
+        expect(t.$scope.selectedStars.val).toEqual(t.isolateScope.selectedStars.val)
+
+      it 'changes affect isolate scope', ->
+        t.$scope.selectedStars = {val: 3}
+        t.$scope.$digest()
+        expect(t.isolateScope.selectedStars.val).toEqual(t.$scope.selectedStars.val)
+
     describe 'places two-way binded', ->
       beforeEach ->
         t.$scope.places = [{ objectId: 1 }, { objectId: 2 }]
@@ -83,7 +106,6 @@ describe 'Tours filter directive', ->
     describe 'countries two-way binded', ->
       beforeEach ->
         t.$scope.countries = [{ objectId: 1 }, { objectId: 2 }]
-        t.$scope.countries = []
         t.$scope.$digest()
 
       it 'sets countries', ->
@@ -109,3 +131,25 @@ describe 'Tours filter directive', ->
     it 'calls a function in a parent scope', ->
       t.isolateScope.filterChangedCallback()
       expect(t.$scope.onFilterChanged).toHaveBeenCalled()
+
+  describe 'reset filter', ->
+    beforeEach ->
+      t.isolateScope.selectedPlace = { objectId: 1 }
+      t.isolateScope.selectedCountry = { objectId: 2 }
+      t.isolateScope.selectedStars = { val: 5 }
+      t.$scope.$digest()
+
+    it 'resets country', ->
+      expect(t.isolateScope.selectedCountry).toBeDefined()
+      t.isolateScope.reset()
+      expect(t.isolateScope.selectedCountry).toBeNull()
+
+    it 'resets place', ->
+      expect(t.isolateScope.selectedPlace).toBeDefined()
+      t.isolateScope.reset()
+      expect(t.isolateScope.selectedPlace).toBeNull()
+
+    it 'resets stars', ->
+      expect(t.isolateScope.selectedStars).toBeDefined()
+      t.isolateScope.reset()
+      expect(t.isolateScope.selectedStars).toBeNull()
