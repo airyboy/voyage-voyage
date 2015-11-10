@@ -32,7 +32,7 @@ describe 'Pager directive', ->
       t.$scope.totalItems = '10'
       t.$scope.$digest()
 
-    describe 'current page', ->
+    describe 'current page two-way binded', ->
       it 'sets current page', ->
         t.$scope.$digest()
         expect(t.isolateScope.currentPage).toBe(t.$scope.currentPage)
@@ -47,7 +47,7 @@ describe 'Pager directive', ->
         t.$scope.$digest()
         expect(t.isolateScope.currentPage).toEqual(t.$scope.currentPage)
 
-    describe 'page size', ->
+    describe 'page size one-way binded', ->
       it 'sets page size', ->
         t.$scope.$digest()
         expect(t.isolateScope.pageSize).toEqual(t.$scope.pageSize)
@@ -62,7 +62,7 @@ describe 'Pager directive', ->
         t.$scope.$digest()
         expect(t.isolateScope.pageSize).toEqual(t.$scope.pageSize)
 
-    describe 'totalItems', ->
+    describe 'totalItems one-way binded', ->
       it 'sets totalItems', ->
         t.$scope.$digest()
         expect(t.isolateScope.totalItems).toEqual(t.$scope.totalItems)
