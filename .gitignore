@@ -5,3 +5,5 @@ bower_components/
 .tmp/
 dist/
 *.log
+coverage/
+.DS_Store

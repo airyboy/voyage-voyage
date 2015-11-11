@@ -1,5 +1,5 @@
 angular.module('voyageVoyage').directive 'vvPager', ->
-  restrict: 'AE'
+  restrict: 'E'
   templateUrl: 'app/shared/pager/pager.html'
   scope:
     currentPage: '='
