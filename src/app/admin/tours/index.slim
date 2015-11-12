@@ -8,32 +8,32 @@
 /! New tour form
 .row.box ng-show="state.newFormShown()" 
   .col-md-8
-    form.form-horizontal
+    form.form-horizontal name='form'
       .form-group
         label for="title"  Заголовок
-        input.form-control ng-model="tour.title" placeholder="Title" type="text" /
+        input.form-control ng-model="tour.title" placeholder="Title" type="text" required='true' /
       .form-group
         label for="text"  Описание
-        textarea.form-control ng-model="tour.text" placeholder="Description" rows="3" 
+        textarea.form-control ng-model="tour.text" placeholder="Description" rows="3"  required='true'
       .form-group
         label for="country"  Продолжительность
-        input.form-control min="1" ng-model="tour.duration" placeholder="Duration" type="number" /
+        input.form-control min="1" ng-model="tour.duration" placeholder="Duration" type="number" required='true' /
       .form-group
         label for="country"  Страна
-        select.form-control id="" name="" ng-model="tour.countryId" ng-options="country.objectId as country.name for country in countries"
+        select.form-control id="" name="" ng-model="tour.countryId" required='true' ng-options="country.objectId as country.name for country in countries"
           option value=""  --Выберите страну--
       .form-group
         label for="country"  Место
-        select.form-control id="" name="" ng-model="tour.placeId" ng-options="place.objectId as place.name for place in places"
+        select.form-control id="" name="" ng-model="tour.placeId" required='true' ng-options="place.objectId as place.name for place in places"
           option value=""  --Выберите место--
       .form-group
         label for="country"  Отель
-        select.form-control id="" name="" ng-model="tour.hotelId" ng-options="hotel.objectId as hotel.name for hotel in hotels" 
+        select.form-control id="" name="" ng-model="tour.hotelId" required='true' ng-options="hotel.objectId as hotel.name for hotel in hotels" 
           option value=""  --Выберите отель--
       .form-group
         .col-sm-3.nopadding
           label for="price"  Цена
-          input.form-control ng-model="tour.price" placeholder="Price" type="number" /
+          input.form-control ng-model="tour.price" placeholder="Price" type="number" required='true' /
       .form-group
         .col-sm-3.nopadding
           button ngf-select='upload($file)' ng-show="state.newFormShown()" Set image

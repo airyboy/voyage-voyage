@@ -1,5 +1,6 @@
 .row.top-row
   ng-include src="'app/shared/logo.html'"
+  
   vv-tours-filter [places='places' countries='countries' selected-stars='selectedStars' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged()']
 .nopadding
   vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter | filter: starsFilter).length }}" 
@@ -25,7 +26,7 @@
       .row.hotel.nopadding
         span ng-hide=("$index == state.editIndex") 
           | {{ getHotelById(tour.hotelId).name }} &nbsp;
-          | {{ getHotelById(tour.hotelId).stars }}*
+          vv-stars stars='{{ getHotelById(tour.hotelId).stars }}'
       .row.description
-        | {{tour.text | limitTo:350}}...
+        | {{tour.text | cutWords:50}}
         a ng-href=("/#/tour/{{ tour.objectId }}")  далее
