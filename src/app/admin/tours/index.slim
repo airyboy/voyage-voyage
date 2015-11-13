@@ -1,3 +1,4 @@
+ng-include src="'app/shared/error.messages.html'"
 /! New tour button
 .row.top-row
   ng-include src="'app/shared/logo.html'"
@@ -11,88 +12,117 @@
     form.form-horizontal name='form'
       .form-group
         label for="title"  Заголовок
-        input.form-control ng-model="tour.title" placeholder="Title" type="text" required='true' /
+        input.form-control name='title' ng-model="tour.title" placeholder="Title" type="text" required='true' ng-minlength='3' ng-maxlength='40' /
+        div ng-messages='form.title.$error' ng-if='form.title.$touched && form.title.$error'
+          .error-message ng-message='minlength' Длина должна составлять не менее 3 символов
+          .error-message ng-message='maxlength' Длина должна составлять не более 40 символов
+          .error-message ng-messages-include='vvErrorMessages'
       .form-group
         label for="text"  Описание
-        textarea.form-control ng-model="tour.text" placeholder="Description" rows="3"  required='true'
+        textarea.form-control name='text' ng-model="tour.text" placeholder="Description" rows="3" ng-minlength='10' ng-maxlength='400' required='true'
+        div ng-messages='form.text.$error' ng-if='form.text.$touched && form.text.$error'
+          .error-message ng-message='minlength' Длина должна составлять не менее 10 символов
+          .error-message ng-message='maxlength' Длина должна составлять не более 400 символов
+          .error-message ng-messages-include='vvErrorMessages'
       .form-group
         label for="country"  Продолжительность
-        input.form-control min="1" ng-model="tour.duration" placeholder="Duration" type="number" required='true' /
+        input.form-control name='duration' min="1" max='30' ng-model="tour.duration" placeholder="Duration" type="number" required='true' /
+        div ng-messages='form.duration.$error' ng-if='form.duration.$touched && form.duration.$error'
+          .error-message ng-message='min' Не менее 1 дня
+          .error-message ng-message='max' Не более 30 дней
+          .error-message ng-messages-include='vvErrorMessages'
       .form-group
         label for="country"  Страна
-        select.form-control id="" name="" ng-model="tour.countryId" required='true' ng-options="country.objectId as country.name for country in countries"
+        select.form-control id="" name="country" ng-model="tour.countryId" required='true' ng-options="country.objectId as country.name for country in countries"
           option value=""  --Выберите страну--
+        div ng-messages='form.country.$error' ng-if='form.country.$touched && form.country.$error'
+          .error-message ng-messages-include='vvErrorMessages'
       .form-group
         label for="country"  Место
-        select.form-control id="" name="" ng-model="tour.placeId" required='true' ng-options="place.objectId as place.name for place in places"
+        select.form-control id="" name="place" ng-model="tour.placeId" required='true' ng-options="place.objectId as place.name for place in places"
           option value=""  --Выберите место--
+        div ng-messages='form.place.$error' ng-if='form.place.$touched && form.place.$error'
+          .error-message ng-messages-include='vvErrorMessages'
       .form-group
         label for="country"  Отель
-        select.form-control id="" name="" ng-model="tour.hotelId" required='true' ng-options="hotel.objectId as hotel.name for hotel in hotels" 
+        select.form-control id="" name="hotel" ng-model="tour.hotelId" required='true' ng-options="hotel.objectId as hotel.name for hotel in hotels" 
           option value=""  --Выберите отель--
+        div ng-messages='form.hotel.$error' ng-if='form.hotel.$touched && form.hotel.$error'
+          .error-message ng-messages-include='vvErrorMessages'
       .form-group
         .col-sm-3.nopadding
           label for="price"  Цена
-          input.form-control ng-model="tour.price" placeholder="Price" type="number" required='true' /
+          input.form-control name='price' ng-model="tour.price" placeholder="Price" type="number" min='1000' required='true' /
+          div ng-messages='form.price.$error' ng-if='form.price.$touched && form.price.$error'
+            .error-message ng-message='min' Не менее 1000
+            .error-message ng-messages-include='vvErrorMessages'
       .form-group
         .col-sm-3.nopadding
-          button ngf-select='upload($file)' ng-show="state.newFormShown()" Set image
+          input type='file' ng-model='image' ngf-select=''
+          img ngf-thumbnail="image || 'http://placehold.it/250x250'"
       .form-group
-        button.btn.btn-primary ng-click="add()"  Создать
-        button.btn.btn-default ng-click="cancel()"  Отменить
+        button.btn.btn-primary ng-click="add()" ng-disabled='form.$invalid' Создать
+        button.btn.btn-default ng-click="cancel()" Отменить
 
 /! Tours list
 .entry ng-repeat="tour in tours track by $index" ng-show="state.listShown()" 
-  .row.item
+  .row.item ng-if="$index == state.editIndex"
+    form name='inlineForm'
+      /! Image
+      .col-md-3
+        .img
+          img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
+          button ngf-select='upload($file)' Set image
+      /! Tour item
+      .col-md-9
+        .row
+          .title.col-md-9.nopadding
+            input.form-control ng-model="tour.title" placeholder="Title" type="text" required='true' /
+          .price.pull-right.col-md-3
+            input.form-control ng-model="tour.price" placeholder="Price" type="number" required='true' /
+        .row
+          .title.col-md-2.nopadding
+            select.form-control[id="" name="" ng-model="tour.countryId" required='true' ng-options="country.objectId as country.name for country in countries"]
+              option value=""  --Выберите страну--
+          .title.col-md-2.nopadding
+            select.form-control[ng-model="tour.placeId" required='true' ng-options="place.objectId as place.name for place in places"]
+              option value=""  --Выберите место--
+          .title.col-md-2.nopadding
+            input.form-control min="1" ng-model="tour.duration" placeholder="Duration" type="number" required='true' /
+        .row.hotel
+          select.form-control[ng-model="tour.hotelId" ng-options="hotel.objectId as hotel.name for hotel in hotels" required='true']
+            option value="" Выберите отель
+        .row.description
+          textarea.form-control ng-model="tour.text" placeholder="Description" rows="3" required='true'
+        .row
+          /! Inline edit actions
+          button.btn.btn-primary ng-click="update()" Сохранить
+          button.btn.btn-default ng-click="cancel()" Отменить
+  
+  .row.item ng-hide="$index == state.editIndex"
     /! Image
     .col-md-3
       .img
-        img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
-        button ngf-select='upload($file)' ng-show="$index == state.editIndex" Set image
+        img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url || 'http://placehold.it/230x130?text=No+image' }}" /
     /! Tour item
     .col-md-9
       .row.title
-        span ng-hide="$index == state.editIndex" 
-          | {{tour.title}}
+        span {{tour.title}}
       .row
         .title.col-md-6.nopadding ng-class="$index == state.editIndex ? 'col-md-3' : 'col-md-6'" 
-          span.label.label-primary ng-hide="$index == state.editIndex" {{ getCountryById(tour.countryId) }} 
-          span.label.label-success ng-hide="$index == state.editIndex" {{ getPlaceById(tour.placeId) }} 
-          span.label.label-info ng-hide="$index == state.editIndex" {{ tour.duration + ' ночей' }}
-          input.form-control ng-model="tour.title" ng-show="$index == state.editIndex" placeholder="Title" type="text" /
-        .title.col-md-2.nopadding
-          select.form-control[id="" name="" ng-model="tour.countryId" 
-          ng-options="country.objectId as country.name for country in countries" ng-show="$index == state.editIndex"]
-            option value=""  --Выберите страну--
-        .title.col-md-2.nopadding
-          select.form-control[ng-model="tour.placeId" ng-options="place.objectId as place.name for place in places"
-          ng-show="$index == state.editIndex"]
-            option value=""  --Выберите место--
-        .title.col-md-2.nopadding
-          input.form-control min="1" ng-model="tour.duration" ng-show="$index == state.editIndex" placeholder="Duration" type="number" /
+          span.label.label-primary {{ getCountryById(tour.countryId) }} 
+          span.label.label-success  {{ getPlaceById(tour.placeId) }} 
+          span.label.label-info {{ tour.duration + ' ночей' }}
         .price.pull-right.col-md-2
-          span ng-hide="$index == state.editIndex"
-            | {{tour.price | currency: "₽ " : 0}}
-          input.form-control ng-model="tour.price" ng-show="$index == state.editIndex" placeholder="Price" type="number" /
+          span {{tour.price | currency: "₽ " : 0}}
       .row.hotel
-        span ng-hide="$index == state.editIndex" 
-          | {{ getHotelById(tour.hotelId).stars }}*
-          | {{ getHotelById(tour.hotelId).name }}
-        select.form-control[ng-model="tour.hotelId" ng-options="hotel.objectId as hotel.name for hotel in hotels" 
-        ng-show="$index == state.editIndex"]
-          option value="" Выберите отель
+        span {{ getHotelById(tour.hotelId).name }} &nbsp;
+        vv-stars stars='{{ getHotelById(tour.hotelId).stars }}'
       .row.description
-        span ng-hide="$index == state.editIndex"
-          | {{tour.text}}
-        textarea.form-control ng-model="tour.text" ng-show="$index == state.editIndex" placeholder="Description" rows="3" 
+        span {{tour.text}}
       .row
         /! List actions
-        a.action.pull-right href="" ng-click="setState('inlineEdit', tour, $index)" ng-hide="$index == state.editIndex"  Edit
-        a.action.pull-right href="" ng-click="remove($index)" ng-hide="$index == state.editIndex"  Remove
-        /! Inline edit actions
-        button.btn.btn-primary ng-click="update()" ng-show="$index == state.editIndex"
-          | Сохранить
-        button.btn.btn-default ng-click="cancel()" ng-show="$index == state.editIndex"
-          | Отменить
+        a.action.pull-right href="" ng-click="setState('inlineEdit', tour, $index)" Edit
+        a.action.pull-right href="" ng-click="remove($index)" Remove
 .row
   a.btn.btn-default href="" ng-click="seedDb()" style='display: none'  Seed DB

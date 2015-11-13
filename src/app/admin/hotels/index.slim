@@ -4,10 +4,15 @@
   .col-md-6
     .row.action
       a.btn.btn-primary href="" ng-click="setState('add')" ng-disabled="state.newButDisabled()" ng-show="state.newButShown()"  Создать
-      input type="text" ng-model="state.hotel.name" ng-show="state.newFormShown()" placeholder="наименование"  /
-      input type="number" max="5" min="0" ng-model="state.hotel.stars" ng-show="state.newFormShown()"  /
-      a.btn.btn-default.pull-right href="" ng-click="setState('browse')" ng-show="state.newFormShown()"  Отмена
-      a.btn.btn-primary.pull-right href="" ng-click="add()" ng-show="state.newFormShown()"  Сохранить
+    .row ng-if='state.newFormShown()'
+      form name='form'
+        .col-md-3
+          input type="text" name='name' ng-model="state.hotel.name" ng-show="state.newFormShown()" placeholder="наименование" required='true'  /
+        .col-md-3
+          input type="number" name='stars' max="5" min="1" ng-model="state.hotel.stars" ng-show="state.newFormShown()" required='true'  /
+        .col-md-6
+          a.btn.btn-default.pull-right href="" ng-click="setState('browse')" ng-show="state.newFormShown()"  Отмена
+          a.btn.btn-primary.pull-right href="" ng-click="add()" ng-show="state.newFormShown()"  Сохранить
     table.table.table-condensed
       tbody
         tr ng-repeat=("hotel in hotels") 
@@ -16,13 +21,11 @@
               | {{hotel.name}}
             input ng-model="state.hotel.name" ng-show=("$index == state.editIndex") placeholder="наименование" type="text" /
           td
-            span ng-show=("$index != state.editIndex") 
-              | {{hotel.stars}}*
+            span ng-show="$index != state.editIndex" 
+            vv-stars stars='{{hotel.stars}}' ng-show="$index != state.editIndex"
             input max="5" min="0" ng-model="state.hotel.stars" ng-show=("$index == state.editIndex") type="number" /
           td
-            a.action.pull-right href="" ng-click="remove($index)" ng-show="state.editRemoveShown()" 
-              | Удалить
-            a.action.pull-right href="" ng-click="setState('edit', $index, hotel)" ng-show="state.editRemoveShown()" 
-              | Редактировать
+            a.action.pull-right href="" ng-click="remove($index)" ng-show="state.editRemoveShown()" Удалить
+            a.action.pull-right href="" ng-click="setState('edit', $index, hotel)" ng-show="state.editRemoveShown()" Редактировать
             a.btn.btn-default.pull-right href="" ng-click="setState('browse')" ng-show=("$index == state.editIndex")  Отмена
             a.btn.btn-primary.pull-right href="" ng-click="update()" ng-show=("$index == state.editIndex")  Сохранить

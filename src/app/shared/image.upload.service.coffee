@@ -10,4 +10,5 @@ angular.module('voyageVoyage').service 'ImageUploadService', (Upload) -> {
       .catch (err) ->
         alert "Error!"
         console.log err
+    fileUpload
 }

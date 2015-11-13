@@ -1,1 +1,1 @@
-angular.module "voyageVoyage", ['ngRoute', 'ngResource', 'underscore', 'ngFileUpload']
+angular.module "voyageVoyage", ['ngRoute', 'ngResource', 'underscore', 'ngFileUpload', 'ngMessages']

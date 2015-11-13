@@ -29,9 +29,10 @@ angular.module("voyageVoyage").controller "AdminToursController",
   $scope.setState('browse')
 
   $scope.add = ->
-    $scope.tours.push(@tour)
-    save(@tour)
-    $scope.setState('browse')
+    ImageUploadService.uploadImage($scope.image, $scope.tour).then (response) ->
+      $scope.tours.push($scope.tour)
+      save($scope.tour)
+      $scope.setState('browse')
     
   $scope.update = ->
     $scope.tour.commitChanges()
