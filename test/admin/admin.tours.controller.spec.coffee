@@ -11,7 +11,7 @@ describe 'Admin tours controller', ->
     t = {}
 
     beforeEach(inject ($controller, _PersistenceService_, _$q_, _$timeout_, _Entity_, _TourStateFactory_) ->
-      $q = _$q_
+      t.$q = _$q_
       t.$scope = {}
       t.PersistenceService = _PersistenceService_
       t.$timeout = _$timeout_
@@ -20,7 +20,7 @@ describe 'Admin tours controller', ->
 
       # мокаем PersistenceService 
       spyOn(t.PersistenceService, 'loadResource').and.callFake (resName) ->
-        deferred = $q.defer()
+        deferred = t.$q.defer()
         result = {}
         switch resName
           when 'tour' then deferred.resolve(tours)
@@ -34,7 +34,7 @@ describe 'Admin tours controller', ->
         $scope: t.$scope,
         TourStateFactory: t.TourStateFactory,
         Entity: _Entity_,
-        $q: $q,
+        $q: t.$q,
         PersistenceService: t.PersistenceService }
     )
 
@@ -54,13 +54,14 @@ describe 'Admin tours controller', ->
   describe 'CRUD', ->
     t = {}
    
-    beforeEach(inject ($controller, _PersistenceService_, _$timeout_, _$httpBackend_, _Entity_, _$window_) ->
-      t.$scope = {}
+    beforeEach(inject (_$q_, $controller, _PersistenceService_, _$timeout_, _$httpBackend_, _Entity_, _$window_, $rootScope) ->
+      t.$scope = $rootScope.$new()
       t.PersistenceService = _PersistenceService_
       t.$timeout = _$timeout_
       t.$httpBackend = _$httpBackend_
       t.Entity = _Entity_
       t.window = _$window_
+      t.$q = _$q_
 
       tourController = $controller 'AdminToursController', {
         $scope: t.$scope,
@@ -73,19 +74,56 @@ describe 'Admin tours controller', ->
       t.$httpBackend.flush()
     )
 
-    it '$scope.add saves resource, pushes to array and set browse state', ->
-      # init
-      t.$scope.state.tour = t.Entity.fromJSON(tours[0])
-      # check 
-      spyOn(t.$scope.tours, 'push').and.callThrough()
-      spyOn(t.PersistenceService, 'saveResource')
-      spyOn(t.$scope, 'setState')
-      t.$scope.add()
-      expect(t.PersistenceService.saveResource).toHaveBeenCalled()
-      expect(t.$scope.setState).toHaveBeenCalledWith('browse')
-      expect(t.$scope.tours.push).toHaveBeenCalled()
-      expect(t.$scope.tours.length).toBe(1)
-     
+    describe '$scope.add', ->
+      beforeEach ->
+        t.$scope.state.tour = t.Entity.fromJSON(tours[0])
+        spyOn(t.$scope.tours, 'push').and.callThrough()
+        spyOn(t.PersistenceService, 'saveResource').and.callFake ->
+          deferred = t.$q.defer()
+          deferred.resolve({ objectId: 1 })
+          deferred.promise
+        spyOn(t.$scope, 'setState')
+
+      it 'calls PersistenceService.saveResource', ->
+        t.$scope.add()
+        t.$scope.$digest()
+        expect(t.PersistenceService.saveResource).toHaveBeenCalled()
+
+      it 'adds new tour to $scope.tours', ->
+        t.$scope.add()
+        t.$scope.$digest()
+        expect(t.$scope.tours.push).toHaveBeenCalled()
+        expect(t.$scope.tours.length).toBe(1)
+
+      it 'sets browse state', ->
+        t.$scope.add()
+        t.$scope.$digest()
+        expect(t.PersistenceService.saveResource).toHaveBeenCalled()
+        expect(t.$scope.setState).toHaveBeenCalledWith('browse')
+
+      describe 'image upload', ->
+        beforeEach ->
+          t.$scope.image = 'some'
+          spyOn(t.$scope, 'upload').and.callFake ->
+            deferred = t.$q.defer()
+            deferred.resolve({ objectId: 1 })
+            deferred.promise
+
+        it 'in case image is specified it uploads it', ->
+          t.$scope.add()
+          t.$scope.$digest()
+          expect(t.$scope.upload).toHaveBeenCalledWith(t.$scope.image, t.$scope.tour)
+
+        it 'it saves tour again with image link', ->
+          t.$scope.add()
+          t.$scope.$digest()
+          expect(t.PersistenceService.saveResource.calls.count()).toEqual(2)
+
+        it 'sets browse state', ->
+          t.$scope.add()
+          t.$scope.$digest()
+          expect(t.$scope.setState).toHaveBeenCalledWith('browse')
+        
     it '$scope.update', ->
       # init
       tour = t.Entity.fromJSON(tours[0])

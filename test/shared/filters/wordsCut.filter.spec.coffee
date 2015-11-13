@@ -13,7 +13,3 @@ describe 'cutWords filter', ->
   it 'cuts punctuation from the end', ->
     cut = cutWordsFilter('One two three four. Five six seven', 4)
     expect(cut).toBe('One two three four')
-
-  it 'retuns the whole string if total words less than specified', ->
-    cut = cutWordsFilter('One two three four. Five six seven', 16)
-    expect(cut).toBe('One two three four. Five six seven')

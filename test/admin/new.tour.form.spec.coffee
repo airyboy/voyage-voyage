@@ -11,10 +11,10 @@ describe 'Admin tours controller', ->
     t.$scope.$digest()
     t.form = t.$scope.form
 
-  fit 'should be invalid when all fields are empty', ->
+  it 'should be invalid when all fields are empty', ->
     expect(t.form.$valid).toBeFalsy()
 
-  fit 'should be valid when all fields are valid', ->
+  it 'should be valid when all fields are valid', ->
     t.form.title.$setViewValue('some title')
     t.form.text.$setViewValue('some longer text')
     t.form.duration.$setViewValue('10')
