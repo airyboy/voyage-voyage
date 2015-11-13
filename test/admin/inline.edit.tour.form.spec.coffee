@@ -9,7 +9,7 @@ describe 'New tour form', ->
     template = angular.element($templateCache.get('app/admin/tours/index.html'))
     $compile(template)(t.$scope)
     t.$scope.$digest()
-    t.form = t.$scope.form
+    t.form = t.$scope.inlineForm
 
   it 'should be invalid when all fields are empty', ->
     expect(t.form.$valid).toBeFalsy()
@@ -23,3 +23,4 @@ describe 'New tour form', ->
     t.form.country.$setViewValue('1')
     t.form.place.$setViewValue('1')
     expect(t.form.$valid).toBeTruthy()
+
