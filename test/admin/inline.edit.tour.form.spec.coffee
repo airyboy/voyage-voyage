@@ -1,4 +1,4 @@
-describe 'New tour form', ->
+describe 'Inline edit tour form', ->
   t = {}
 
   beforeEach -> module('voyageVoyage')
@@ -6,8 +6,9 @@ describe 'New tour form', ->
 
   beforeEach inject ($compile, $rootScope, $templateCache) ->
     t.$scope = $rootScope.$new()
-    template = angular.element($templateCache.get('app/admin/tours/index.html'))
+    template = angular.element($templateCache.get('app/admin/tours/inline.edit.form.html'))
     $compile(template)(t.$scope)
+    t.$scope.$digest()
     t.$scope.$digest()
     t.form = t.$scope.inlineForm
 
@@ -23,4 +24,3 @@ describe 'New tour form', ->
     t.form.country.$setViewValue('1')
     t.form.place.$setViewValue('1')
     expect(t.form.$valid).toBeTruthy()
-

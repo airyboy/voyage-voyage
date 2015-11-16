@@ -6,7 +6,7 @@ describe 'New tour form', ->
 
   beforeEach inject ($compile, $rootScope, $templateCache) ->
     t.$scope = $rootScope.$new()
-    template = angular.element($templateCache.get('app/admin/tours/index.html'))
+    template = angular.element($templateCache.get('app/admin/tours/new.tour.form.html'))
     $compile(template)(t.$scope)
     t.$scope.$digest()
     t.form = t.$scope.form

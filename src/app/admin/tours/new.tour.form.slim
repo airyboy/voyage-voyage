@@ -1,0 +1,57 @@
+/! New tour form
+.row.box ng-show="state.newFormShown()" 
+  .col-md-8
+    form.form-horizontal name='form'
+      .form-group
+        label for="title"  Заголовок
+        input.form-control name='title' ng-model="tour.title" placeholder="Title" type="text" required='true' ng-minlength='3' ng-maxlength='40' /
+        div ng-messages='form.title.$error' ng-if='form.title.$touched && form.title.$error'
+          .error-message ng-message='minlength' Длина должна составлять не менее 3 символов
+          .error-message ng-message='maxlength' Длина должна составлять не более 40 символов
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for="text"  Описание
+        textarea.form-control name='text' ng-model="tour.text" placeholder="Description" rows="3" ng-minlength='10' ng-maxlength='400' required='true'
+        div ng-messages='form.text.$error' ng-if='form.text.$touched && form.text.$error'
+          .error-message ng-message='minlength' Длина должна составлять не менее 10 символов
+          .error-message ng-message='maxlength' Длина должна составлять не более 400 символов
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for="country"  Продолжительность
+        input.form-control name='duration' min="1" max='30' ng-model="tour.duration" placeholder="Duration" type="number" required='true' /
+        div ng-messages='form.duration.$error' ng-if='form.duration.$touched && form.duration.$error'
+          .error-message ng-message='min' Не менее 1 дня
+          .error-message ng-message='max' Не более 30 дней
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for="country"  Страна
+        select.form-control id="" name="country" ng-model="tour.countryId" required='true' ng-options="country.objectId as country.name for country in countries"
+          option value=""  --Выберите страну--
+        div ng-messages='form.country.$error' ng-if='form.country.$touched && form.country.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for="country"  Место
+        select.form-control id="" name="place" ng-model="tour.placeId" required='true' ng-options="place.objectId as place.name for place in places"
+          option value=""  --Выберите место--
+        div ng-messages='form.place.$error' ng-if='form.place.$touched && form.place.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for="country"  Отель
+        select.form-control id="" name="hotel" ng-model="tour.hotelId" required='true' ng-options="hotel.objectId as hotel.name for hotel in hotels" 
+          option value=""  --Выберите отель--
+        div ng-messages='form.hotel.$error' ng-if='form.hotel.$touched && form.hotel.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        .col-sm-3.nopadding
+          label for="price"  Цена
+          input.form-control name='price' ng-model="tour.price" placeholder="Price" type="number" min='1000' required='true' /
+          div ng-messages='form.price.$error' ng-if='form.price.$touched && form.price.$error'
+            .error-message ng-message='min' Не менее 1000
+            .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        .col-sm-3.nopadding
+          input type='file' ng-model='image' ngf-select=''
+          img ngf-thumbnail="image || 'http://placehold.it/250x250'"
+      .form-group
+        button.btn.btn-primary ng-click="add()" ng-disabled='form.$invalid' Создать
+        button.btn.btn-default ng-click="cancel()" Отменить

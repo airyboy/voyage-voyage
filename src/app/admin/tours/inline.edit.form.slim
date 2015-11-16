@@ -1,0 +1,46 @@
+form name='inlineForm'
+  /! Image
+  .col-md-3
+    .img
+      img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
+      button ngf-select='upload($file)' Set image
+  /! Tour item
+  .col-md-9
+    .row
+      .title.col-md-9.nopadding
+        input.form-control ng-model="tour.title" placeholder="Title" name='title' type="text" required='true' ng-minlength='3' ng-maxlength='40' /
+        div ng-messages='inlineForm.title.$error' ng-if='inlineForm.title.$touched && inlineForm.title.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .price.pull-right.col-md-3
+        input.form-control ng-model="tour.price" placeholder="Price" name='price' type="number" min='1000' required='true' /
+        div ng-messages='inlineForm.price.$error' ng-if='inlineForm.price.$touched && inlineForm.price.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+    .row
+      .title.col-md-2.nopadding
+        select.form-control[id="" name="country" ng-model="tour.countryId" required='true' ng-options="country.objectId as country.name for country in countries"]
+          option value=""  --Выберите страну--
+        div ng-messages='inlineForm.country.$error' ng-if='inlineForm.country.$touched && inlineForm.country.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .title.col-md-2.nopadding
+        select.form-control[ng-model="tour.placeId" name='place' required='true' ng-options="place.objectId as place.name for place in places"]
+          option value=""  --Выберите место--
+        div ng-messages='inlineForm.place.$error' ng-if='inlineForm.place.$touched && inlineForm.place.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .title.col-md-2.nopadding
+        input.form-control min="1" max='30' name='duration' ng-model="tour.duration" placeholder="Duration" type="number" required='true' /
+        div ng-messages='inlineForm.duration.$error' ng-if='inlineForm.duration.$touched && inlineForm.duration.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+    .row.hotel
+      select.form-control[ng-model="tour.hotelId" name='hotel' ng-options="hotel.objectId as hotel.name for hotel in hotels" required='true']
+        option value="" Выберите отель
+      div ng-messages='inlineForm.hotel.$error' ng-if='inlineForm.hotel.$touched && inlineForm.hotel.$error'
+        .error-message ng-messages-include='vvErrorMessages'
+    .row.description
+      textarea.form-control ng-model="tour.text" name='text' placeholder="Description" rows="3" required='true' ng-minlength='10' ng-maxlength='400'
+      div ng-messages='inlineForm.text.$error' ng-if='inlineForm.text.$touched && inlineForm.text.$error'
+        .error-message ng-messages-include='vvErrorMessages'
+    .row
+      /! Inline edit actions
+      button.btn.btn-primary ng-click="update()" ng-disabled='inlineForm.$invalid' Сохранить
+      button.btn.btn-default ng-click="cancel()" Отменить
+
