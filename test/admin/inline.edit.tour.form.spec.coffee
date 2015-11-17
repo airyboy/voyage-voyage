@@ -9,7 +9,6 @@ describe 'Inline edit tour form', ->
     template = angular.element($templateCache.get('app/admin/tours/inline.edit.form.html'))
     $compile(template)(t.$scope)
     t.$scope.$digest()
-    t.$scope.$digest()
     t.form = t.$scope.inlineForm
 
   it 'should be invalid when all fields are empty', ->

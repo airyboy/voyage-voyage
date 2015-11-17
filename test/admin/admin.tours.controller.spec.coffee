@@ -86,7 +86,7 @@ describe 'Admin tours controller', ->
 
       it 'calls PersistenceService.saveResource', ->
         t.$scope.add()
-        t.$scope.$digest()
+        #t.$scope.$digest()
         expect(t.PersistenceService.saveResource).toHaveBeenCalled()
 
       it 'adds new tour to $scope.tours', ->
