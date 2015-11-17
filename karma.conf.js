@@ -61,10 +61,10 @@ module.exports = function(config) {
       }
     },
 
-    browsers : ['Chrome'],
+    browsers : ['Safari'],
 
     plugins : [
-      'karma-chrome-launcher',
+      'karma-safari-launcher',
       'karma-angular-filesort',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor',

@@ -15,6 +15,7 @@ angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q',
         db.$save()
           .then (response) ->
             obj.objectId = response.objectId
+            response
           .catch (error) ->
             $log.error error
             alert "Error!"
@@ -22,6 +23,7 @@ angular.module('voyageVoyage').service 'PersistenceService', ['$resource', '$q',
         db.$update()
           .then (response) ->
             obj.commitChanges()
+            response
           .catch (error) ->
             $log.error error
             alert "Error!"

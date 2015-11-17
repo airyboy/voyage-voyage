@@ -112,7 +112,15 @@ body {
   display: none;
 }
 
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  font-weight: 900;
+}
 
+.ng-touched.ng-invalid {
+  border-color: red;
+}
 /**
  *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
