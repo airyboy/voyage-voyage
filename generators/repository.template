@@ -1,0 +1,68 @@
+angular.module('voyageVoyage').service '<%= nameSingular[0].toUpperCase() + nameSingular.slice(1) %>Repository', 
+($http, $log, $q, Entity, _) ->
+  self = {}
+
+  self.<%= namePlural %> = []
+  self.baseUrl = 'https://api.parse.com/1/classes/'
+
+  self.count = ->
+    promise = $http.get(self.baseUrl + '<%= nameSingular %>' + '?count=1&limit=0')
+
+  self.all = (refresh) ->
+    if self.<%= namePlural %>.length == 0 || refresh
+      promise = $http.get(self.baseUrl + '<%= nameSingular %>')
+        .then (response) ->
+          #clear array
+          while (self.<%= namePlural %>.length > 0)
+            self.<%= namePlural %>.pop()
+          response.data.results.forEach (<%= nameSingular %>) ->
+            self.<%= namePlural %>.push(Entity.fromJSON(<%= nameSingular %>))
+          self.<%= namePlural %>
+        .catch (error) -> $log.error(error)
+      self.<%= namePlural %>['$promise'] = promise
+    else
+      deferred = $q.defer()
+      deferred.resolve(self.<%= namePlural %>)
+      self.<%= namePlural %>['$promise'] = deferred.promise
+    self.<%= namePlural %>
+
+  self.getById = (id, refresh) ->
+    index = null
+    # from server
+    if self.<%= namePlural %>.length == 0 || !_.find(self.<%= namePlural %>, (<%= nameSingular %>) -> <%= nameSingular %>.objectId == id) || refresh
+      index = _.findIndex(self.<%= namePlural %>, (<%= nameSingular %>) -> <%= nameSingular %>.objectId == id) if refresh # look up index for refreshing
+      # if the id wasn't found in cache, we insert the empty object and keep the last index
+      index = self.<%= namePlural %>.push({}) - 1 if index == -1
+      promise = $http.get(self.baseUrl + '<%= nameSingular %>/' + id)
+        .then (response) ->
+          angular.extend(self.<%= namePlural %>[index], Entity.fromJSON(response.data))
+          self.<%= namePlural %>[index]
+        .catch (error) -> $log.error(error)
+      self.<%= namePlural %>[index]['$promise'] = promise
+    # cache hit
+    else
+      deferred = $q.defer()
+      index = _.findIndex(self.<%= namePlural %>, (<%= nameSingular %>) -> <%= nameSingular %>.objectId == id)
+      deferred.resolve(self.<%= namePlural %>[index])
+      self.<%= namePlural %>[index]['$promise'] = deferred.promise
+    self.<%= namePlural %>[index]
+
+  self.save = (<%= nameSingular %>) ->
+    promise = null
+    if !<%= nameSingular %>.objectId  # the object is a new one
+      promise = $http.post(self.baseUrl + '<%= nameSingular %>', <%= nameSingular %>)
+        .then (response) ->
+          <%= nameSingular %>.objectId = response.objectId
+          self.<%= namePlural %>.push(<%= nameSingular %>)
+        .catch (error) -> $log.error(error)
+    else # updating the object
+      promise = $http.put(self.baseUrl + '<%= nameSingular %>/' + <%= nameSingular %>.objectId, <%= nameSingular %>)
+    promise
+
+  self.remove = (<%= nameSingular %>) ->
+    index = _.findIndex(self.<%= namePlural %>, (t) -> <%= nameSingular %>.objectId == t.objectId)
+    $http.delete(self.baseUrl + '<%= nameSingular %>/' + <%= nameSingular %>.objectId).then (response) ->
+      self.<%= namePlural %>.splice(index, 1)
+
+  self
+

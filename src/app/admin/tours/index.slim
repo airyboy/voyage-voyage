@@ -35,6 +35,6 @@ ng-include src="'app/admin/tours/new.tour.form.html'"
       .row
         /! List actions
         a.action.pull-right href="" ng-click="setState('inlineEdit', tour, $index)" Edit
-        a.action.pull-right href="" ng-click="remove($index)" Remove
+        a.action.pull-right href="" ng-click="remove(tour)" Remove
 .row
   a.btn.btn-default href="" ng-click="seedDb()" style='display: none'  Seed DB

@@ -1,0 +1,69 @@
+angular.module('voyageVoyage').service '<%= nameSingular[0].toUpperCase() + nameSingular.slice(1) %>Repository',
+($http, $log, $q, Entity, _) ->
+  self = {}
+
+  self.<%= namePlural %> = {}
+  self.baseUrl = 'https://api.parse.com/1/classes/'
+
+  self.count = ->
+    promise = $http.get(self.baseUrl + '<%= nameSingular %>' + '?count=1&limit=0')
+
+  self.all = (refresh) ->
+    if Object.keys(self.all).length == 0 || refresh
+      promise = $http.get(self.baseUrl + '<%= nameSingular %>')
+        .then (response) ->
+          response.data.results.forEach (<%= nameSingular %>) ->
+            self.<%= namePlural %>[<%= nameSingular %>.objectId] = Entity.fromJSON(<%= nameSingular %>)
+          self.<%= namePlural %>
+        .catch (error) -> $log.error(error)
+      self.<%= namePlural %>['$promise'] = promise
+    else
+      deferred = $q.defer()
+      deferred.resolve(self.<%= namePlural %>)
+      self.<%= namePlural %>['$promise'] = deferred.promise
+    self.<%= namePlural %>
+
+  self.getById = (id, refresh) ->
+    if !self.<%= namePlural %>.hasOwnProperty(id) || refresh
+      #from server
+      self.<%= namePlural %>[id] = {}
+      promise = $http.get(self.baseUrl + "<%= nameSingular %>/#{id}")
+        .then (response) ->
+          angular.extend(self.<%= namePlural %>[id], Entity.fromJSON(response.data))
+          self.<%= namePlural %>[id]
+        .catch (error) -> $log.error(error)
+      self.<%= namePlural %>[id]['$promise'] = promise
+    else
+      #cache hit
+      deferred = $q.defer()
+      deferred.resolve(self.<%= namePlural %>[id])
+      self.<%= namePlural %>[id]['$promise'] = deferred.promise
+    self.<%= namePlural %>[id]
+
+  self.save = (<%= nameSingular %>) ->
+    promise = null
+    if !<%= nameSingular %>.objectId
+      # inserting the new object at the temporary key
+      uniqueId = _.uniqueId()
+      self.<%= namePlural %>[uniqueId] = <%= nameSingular %>
+      promise = $http.post(self.baseUrl + '<%= nameSingular %>', <%= nameSingular %>)
+        .then (response) ->
+          <%= nameSingular %>.objectId = response.objectId
+          self.<%= namePlural %>[<%= nameSingular %>.objectId] = <%= nameSingular %>
+          # removing the temporary object
+          delete self.<%= namePlural %>[uniqueId]
+          self.<%= namePlural %>[<%= nameSingular %>.objectId]
+        .catch (error) -> $log.error(error)
+    else
+      self.<%= namePlural %>[<%= nameSingular %>.objectId] = <%= nameSingular %>
+      promise = $http.put(self.baseUrl + "<%= nameSingular %>/#{<%= nameSingular %>.objectId}", <%= nameSingular %>)
+    promise
+
+  self.remove = (<%= nameSingular %>) ->
+    promise = $http.delete(self.baseUrl + "<%= nameSingular %>/#{<%= nameSingular %>.objectId}")
+      .then (response) ->
+        delete self.<%= namePlural %>[<%= nameSingular %>.objectId] if self.<%= namePlural %>[<%= nameSingular %>.objectId]
+      .catch (error) -> $log.error(error)
+    promise
+
+  self

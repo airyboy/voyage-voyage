@@ -1,5 +1,5 @@
 angular.module("voyageVoyage").controller "AdminToursController",
-($scope, $q, ImageUploadService, PersistenceService, TourStateFactory, FakerFactory, Entity, _) ->
+($scope, $q, ImageUploadService, PersistenceService, TourRepository, TourStateFactory, FakerFactory, Entity, toastr, _) ->
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
 
@@ -8,14 +8,14 @@ angular.module("voyageVoyage").controller "AdminToursController",
   remove = (tour) -> PersistenceService.removeResource('tour', tour)
 
   promises = {
-    tours: PersistenceService.loadResource('tour').$promise
+    tours: TourRepository.all().$promise
     places: PersistenceService.loadResource('place').$promise
     countries: PersistenceService.loadResource('country').$promise
     hotels: PersistenceService.loadResource('hotel').$promise }
 
   $q.all(promises)
     .then (data) ->
-      $scope.tours = Entity.fromArray(data.tours)
+      $scope.tours = data.tours
       $scope.countries = data.countries
       $scope.places = data.places
       $scope.hotels = data.hotels
@@ -29,18 +29,19 @@ angular.module("voyageVoyage").controller "AdminToursController",
   $scope.setState('browse')
 
   $scope.add = ->
-    save($scope.tour).then ->
-      $scope.tours.push($scope.tour)
-    if $scope.image
-      $scope.upload($scope.image, $scope.tour).then (response) ->
-        save($scope.tour)
+    TourRepository.save($scope.tour).then ->
+      toastr.success('Tour saved')
+      if $scope.image
+        $scope.upload($scope.image, $scope.tour).then (response) ->
+          TourRepository.save($scope.tour)
+          $scope.setState('browse')
+      else
         $scope.setState('browse')
-    else
-      $scope.setState('browse')
     
   $scope.update = ->
     $scope.tour.commitChanges()
-    save(@tour)
+    TourRepository.save($scope.tour).then ->
+      toastr.success('Saved successfully')
     $scope.setState('browse')
 
   $scope.cancel = ->
@@ -48,10 +49,10 @@ angular.module("voyageVoyage").controller "AdminToursController",
       $scope.tour.rejectChanges()
       $scope.setState('browse')
 
-  $scope.remove = (idx) ->
+  $scope.remove = (tour) ->
     if confirm(REMOVE_WARNING)
-      $scope.tours.splice(idx, 1)
-      remove(@tour)
+      TourRepository.remove(tour).then ->
+        toastr.success('Removed successfully')
       
   $scope.upload = (file) -> ImageUploadService.uploadImage(file, $scope.tour)
 
