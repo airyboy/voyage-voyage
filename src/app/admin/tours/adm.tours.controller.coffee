@@ -1,17 +1,14 @@
 angular.module("voyageVoyage").controller "AdminToursController",
-($scope, $q, ImageUploadService, PersistenceService, TourRepository, TourStateFactory, FakerFactory, Entity, toastr, _) ->
+($scope, $q, ImageUploadService, TourStateFactory, FakerFactory, Entity,
+TourRepository, HotelRepository, CountryRepository, PlaceRepository, toastr, _) ->
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
 
-  # для удобства каррируем
-  save = (tour) -> PersistenceService.saveResource('tour', tour)
-  remove = (tour) -> PersistenceService.removeResource('tour', tour)
-
   promises = {
     tours: TourRepository.all().$promise
-    places: PersistenceService.loadResource('place').$promise
-    countries: PersistenceService.loadResource('country').$promise
-    hotels: PersistenceService.loadResource('hotel').$promise }
+    places: PlaceRepository.all().$promise
+    countries: CountryRepository.all().$promise
+    hotels: HotelRepository.all().$promise }
 
   $q.all(promises)
     .then (data) ->
@@ -34,6 +31,7 @@ angular.module("voyageVoyage").controller "AdminToursController",
       if $scope.image
         $scope.upload($scope.image, $scope.tour).then (response) ->
           TourRepository.save($scope.tour)
+          toastr.success('Image attached')
           $scope.setState('browse')
       else
         $scope.setState('browse')

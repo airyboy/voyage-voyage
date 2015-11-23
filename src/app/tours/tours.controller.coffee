@@ -1,32 +1,19 @@
 angular.module('voyageVoyage')
-  .controller 'ToursController', ($scope, $q, TourRepository, PlaceRepository, CountryRepository, HotelRepository,
-  PersistenceService, Entity, _, ToursFilterService) ->
+  .controller 'ToursController', ($scope, TourRepository, PlaceRepository, CountryRepository, HotelRepository,
+  Entity, _, ToursFilterService) ->
 
-    allPlaces = []
-    $scope.itemsOnPage = 4
+    $scope.itemsOnPage = 5
 
     $scope.setPage = (page) ->
       $scope.currentPage = page
       $scope.pageBeginIndex = $scope.itemsOnPage * (page - 1)
-    promises =
-      #tours: PersistenceService.loadResource('tour').$promise
-      tours: TourRepository.all().$promise
-      places: PersistenceService.loadResource('place').$promise
-      countries: PersistenceService.loadResource('country').$promise
-      hotels: PersistenceService.loadResource('hotel').$promise
-
-    $q.all(promises).then (data) ->
-      $scope.countries = data.countries
-      $scope.hotels = data.hotels
-      $scope.tours = data.tours
-      $scope.places = data.places
-      $scope.setPage(1)
       
-    #$scope.countries = CountryRepository.all()
-    #$scope.hotels = HotelRepository.all()
-    #$scope.tours = TourRepository.all()
-    #$scope.places = PlaceRepository.all()
-    #$scope.setPage(1)
+    TourRepository.all().$promise.then ->
+      $scope.tours = TourRepository.tours
+      $scope.countries = CountryRepository.all()
+      $scope.hotels = HotelRepository.all()
+      $scope.places = PlaceRepository.all()
+      $scope.setPage(1)
 
     $scope.countryFilter = (tour) -> ToursFilterService.countryFilter(tour, $scope.selectedCountry)
     $scope.placeFilter = (tour) -> ToursFilterService.placeFilter(tour, $scope.selectedPlace)

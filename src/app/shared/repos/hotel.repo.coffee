@@ -1,19 +1,22 @@
-angular.module('voyageVoyage').service 'HotelRepository',
+angular.module('voyageVoyage').service 'HotelRepository', 
 ($http, $log, $q, Entity, _) ->
   self = {}
 
-  self.hotels = {}
+  self.hotels = []
   self.baseUrl = 'https://api.parse.com/1/classes/'
 
   self.count = ->
     promise = $http.get(self.baseUrl + 'hotel' + '?count=1&limit=0')
 
   self.all = (refresh) ->
-    if Object.keys(self.all).length == 0 || refresh
+    if self.hotels.length == 0 || refresh
       promise = $http.get(self.baseUrl + 'hotel')
         .then (response) ->
+          #clear array
+          while (self.hotels.length > 0)
+            self.hotels.pop()
           response.data.results.forEach (hotel) ->
-            self.hotels[hotel.objectId] = Entity.fromJSON(hotel)
+            self.hotels.push(Entity.fromJSON(hotel))
           self.hotels
         .catch (error) -> $log.error(error)
       self.hotels['$promise'] = promise
@@ -24,44 +27,42 @@ angular.module('voyageVoyage').service 'HotelRepository',
     self.hotels
 
   self.getById = (id, refresh) ->
-    if !self.hotels.hasOwnProperty(id) || refresh
-      #from server
-      self.hotels[id] = {}
-      promise = $http.get(self.baseUrl + "hotel/#{id}")
+    index = null
+    # from server
+    if self.hotels.length == 0 || !_.find(self.hotels, (hotel) -> hotel.objectId == id) || refresh
+      index = _.findIndex(self.hotels, (hotel) -> hotel.objectId == id) if refresh # look up index for refreshing
+      # if the id wasn't found in cache, we insert the empty object and keep the last index
+      index = self.hotels.push({}) - 1 if index == -1
+      promise = $http.get(self.baseUrl + 'hotel/' + id)
         .then (response) ->
-          angular.extend(self.hotels[id], Entity.fromJSON(response.data))
-          self.hotels[id]
+          angular.extend(self.hotels[index], Entity.fromJSON(response.data))
+          self.hotels[index]
         .catch (error) -> $log.error(error)
-      self.hotels[id]['$promise'] = promise
+      self.hotels[index]['$promise'] = promise
+    # cache hit
     else
-      #cache hit
       deferred = $q.defer()
-      deferred.resolve(self.hotels[id])
-      self.hotels[id]['$promise'] = deferred.promise
-    self.hotels[id]
+      index = _.findIndex(self.hotels, (hotel) -> hotel.objectId == id)
+      deferred.resolve(self.hotels[index])
+      self.hotels[index]['$promise'] = deferred.promise
+    self.hotels[index]
 
   self.save = (hotel) ->
     promise = null
-    if !hotel.objectId
-      uniqueId = _.uniqueId()
-      self.hotels[uniqueId] = hotel
+    if !hotel.objectId  # the object is a new one
       promise = $http.post(self.baseUrl + 'hotel', hotel)
         .then (response) ->
           hotel.objectId = response.objectId
-          self.hotels[hotel.objectId] = hotel
-          delete self.hotels[uniqueId]
-          self.hotels[hotel.objectId]
+          self.hotels.push(hotel)
         .catch (error) -> $log.error(error)
-    else
-      self.hotels[hotel.objectId] = hotel
-      promise = $http.put(self.baseUrl + "hotel/#{hotel.objectId}", hotel)
+    else # updating the object
+      promise = $http.put(self.baseUrl + 'hotel/' + hotel.objectId, hotel)
     promise
 
   self.remove = (hotel) ->
-    promise = $http.delete(self.baseUrl + "hotel/#{hotel.objectId}")
-      .then (response) ->
-        delete self.hotels[hotel.objectId] if self.hotels[hotel.objectId]
-      .catch (error) -> $log.error(error)
-    promise
+    index = _.findIndex(self.hotels, (t) -> hotel.objectId == t.objectId)
+    $http.delete(self.baseUrl + 'hotel/' + hotel.objectId).then (response) ->
+      self.hotels.splice(index, 1)
 
   self
+
