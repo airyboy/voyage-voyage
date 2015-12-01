@@ -31,7 +31,7 @@ angular.module('voyageVoyage').service 'TourRepository', ($http, $log, $q, Entit
     if self.tours.length == 0 || !_.find(self.tours, (tour) -> tour.objectId == id) || refresh
       index = _.findIndex(self.tours, (tour) -> tour.objectId == id) if refresh # look up index for refreshing
       # if the id wasn't found in cache, we insert the empty object and keep the last index
-      index = self.tours.push({}) - 1 if index == -1
+      index = self.tours.push({}) - 1 if index == -1 || index == null
       promise = $http.get(self.baseUrl + 'tour/' + id)
         .then (response) ->
           angular.extend(self.tours[index], Entity.fromJSON(response.data))
@@ -51,7 +51,7 @@ angular.module('voyageVoyage').service 'TourRepository', ($http, $log, $q, Entit
     if !tour.objectId  # the object is a new one
       promise = $http.post(self.baseUrl + 'tour', tour)
         .then (response) ->
-          tour.objectId = response.objectId
+          tour.objectId = response.data.objectId
           self.tours.push(tour)
         .catch (error) -> $log.error(error)
     else # updating the object

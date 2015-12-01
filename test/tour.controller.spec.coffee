@@ -7,28 +7,32 @@ describe 'Tour controller', ->
   
   beforeEach -> module('voyageVoyage')
   
-  beforeEach(inject ($controller, _PersistenceService_, _$q_, _$timeout_, $rootScope) ->
-    $q = _$q_
+  beforeEach(inject ($controller, $q, $rootScope, CountryRepository, HotelRepository, PlaceRepository, TourRepository) ->
     t.$scope = $rootScope.$new()
     routeParams: { slug: 1 }
-    @PersistenceService = _PersistenceService_
-    @$timeout = _$timeout_
-
-    spyOn(@PersistenceService, 'loadResourceById').and.callFake (resName, id) ->
+    t.TourRepository = TourRepository
+    t.HotelRepository = HotelRepository
+    t.PlaceRepository = PlaceRepository
+    t.CountryRepository = CountryRepository
+    
+    spyOn(t.TourRepository, 'getById').and.callFake (id) ->
       deferred = $q.defer()
+      deferred.resolve(tour)
       result = {}
-      switch resName
-        when 'tour' then deferred.resolve(tour)
-        when 'country' then deferred.resolve(country)
-        when 'hotel' then deferred.resolve(hotel)
-        when 'place' then deferred.resolve(place)
-      result.$promise = deferred.promise
+      result['$promise'] = deferred.promise
       result
+
+    spyOn(t.HotelRepository, 'getById').and.returnValue(hotel)
+    spyOn(t.CountryRepository, 'getById').and.returnValue(country)
+    spyOn(t.PlaceRepository, 'getById').and.returnValue(place)
       
     tourController = $controller 'TourController', {
       $scope: t.$scope,
       $routeParams: { slug: 1 },
-      PersistenceService: @PersistenceService}
+      TourRepository: t.TourRepository,
+      PlaceRepository: t.PlaceRepository,
+      HotelRepository: t.HotelRepository,
+      CountryRepository: t.CountryRepository }
   )
 
   it 'sets $scope correctly', ->
@@ -37,11 +41,3 @@ describe 'Tour controller', ->
     expect(t.$scope.country).toEqual(country)
     expect(t.$scope.hotel).toBe(hotel)
     expect(t.$scope.place).toBe(place)
-
-
-  it 'calls PersistenceService', ->
-    @$timeout.flush()
-    expect(@PersistenceService.loadResourceById).toHaveBeenCalledWith('tour', 1)
-    expect(@PersistenceService.loadResourceById).toHaveBeenCalledWith('country', 1)
-    expect(@PersistenceService.loadResourceById).toHaveBeenCalledWith('hotel', 1)
-    expect(@PersistenceService.loadResourceById).toHaveBeenCalledWith('place', 1)

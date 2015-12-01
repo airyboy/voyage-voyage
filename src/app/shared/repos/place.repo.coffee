@@ -1,4 +1,4 @@
-angular.module('voyageVoyage').service 'PlaceRepository',
+angular.module('voyageVoyage').service 'PlaceRepository', 
 ($http, $log, $q, Entity, _) ->
   self = {}
 
@@ -32,7 +32,7 @@ angular.module('voyageVoyage').service 'PlaceRepository',
     if self.places.length == 0 || !_.find(self.places, (place) -> place.objectId == id) || refresh
       index = _.findIndex(self.places, (place) -> place.objectId == id) if refresh # look up index for refreshing
       # if the id wasn't found in cache, we insert the empty object and keep the last index
-      index = self.places.push({}) - 1 if index == -1
+      index = self.places.push({}) - 1 if index == -1 || index == null
       promise = $http.get(self.baseUrl + 'place/' + id)
         .then (response) ->
           angular.extend(self.places[index], Entity.fromJSON(response.data))
@@ -52,7 +52,7 @@ angular.module('voyageVoyage').service 'PlaceRepository',
     if !place.objectId  # the object is a new one
       promise = $http.post(self.baseUrl + 'place', place)
         .then (response) ->
-          place.objectId = response.objectId
+          place.objectId = response.data.objectId
           self.places.push(place)
         .catch (error) -> $log.error(error)
     else # updating the object
@@ -65,3 +65,4 @@ angular.module('voyageVoyage').service 'PlaceRepository',
       self.places.splice(index, 1)
 
   self
+

@@ -32,7 +32,7 @@ angular.module('voyageVoyage').service 'HotelRepository',
     if self.hotels.length == 0 || !_.find(self.hotels, (hotel) -> hotel.objectId == id) || refresh
       index = _.findIndex(self.hotels, (hotel) -> hotel.objectId == id) if refresh # look up index for refreshing
       # if the id wasn't found in cache, we insert the empty object and keep the last index
-      index = self.hotels.push({}) - 1 if index == -1
+      index = self.hotels.push({}) - 1 if index == -1 || index == null
       promise = $http.get(self.baseUrl + 'hotel/' + id)
         .then (response) ->
           angular.extend(self.hotels[index], Entity.fromJSON(response.data))
@@ -52,7 +52,7 @@ angular.module('voyageVoyage').service 'HotelRepository',
     if !hotel.objectId  # the object is a new one
       promise = $http.post(self.baseUrl + 'hotel', hotel)
         .then (response) ->
-          hotel.objectId = response.objectId
+          hotel.objectId = response.data.objectId
           self.hotels.push(hotel)
         .catch (error) -> $log.error(error)
     else # updating the object

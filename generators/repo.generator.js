@@ -15,12 +15,27 @@ var cli = commandLineArgs([
 var options = cli.parse();
 var nameSingular = options.class;
 var namePlural = options.plural || nameSingular + 's';
+var nameCapitalized = nameSingular[0].toUpperCase() + nameSingular.slice(1);
 
-var templ = fs.readFileSync('repository.template', 'utf8');
-var compiled = _.template(templ);
-var js = compiled({ nameSingular: nameSingular, namePlural: namePlural });
+var repoTemplate = fs.readFileSync('repository.template', 'utf8');
+var specTemplate = fs.readFileSync('repository.spec.template', 'utf8');
+var compiledRepo = _.template(repoTemplate);
+var compiledSpec = _.template(specTemplate);
 
-var fileName = nameSingular + '.repo.coffee'; 
-fs.writeFile(fileName, js); 
+var repo = compiledRepo({ 
+  nameSingular: nameSingular,
+  namePlural: namePlural,
+  nameCapitalized: nameCapitalized });
 
-console.log("Generated file: %s", fileName);
+var spec = compiledSpec({ 
+  nameSingular: nameSingular,
+  namePlural: namePlural,
+  nameCapitalized: nameCapitalized });
+
+var repoFileName = nameSingular + '.repo.coffee'; 
+var specFileName = nameSingular + '.repo.spec.coffee'; 
+fs.writeFile(repoFileName, repo); 
+fs.writeFile(specFileName, spec); 
+
+console.log("Generated file: %s", repoFileName);
+console.log("Generated file: %s", specFileName);

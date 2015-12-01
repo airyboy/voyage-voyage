@@ -32,7 +32,7 @@ angular.module('voyageVoyage').service '<%= nameSingular[0].toUpperCase() + name
     if self.<%= namePlural %>.length == 0 || !_.find(self.<%= namePlural %>, (<%= nameSingular %>) -> <%= nameSingular %>.objectId == id) || refresh
       index = _.findIndex(self.<%= namePlural %>, (<%= nameSingular %>) -> <%= nameSingular %>.objectId == id) if refresh # look up index for refreshing
       # if the id wasn't found in cache, we insert the empty object and keep the last index
-      index = self.<%= namePlural %>.push({}) - 1 if index == -1
+      index = self.<%= namePlural %>.push({}) - 1 if index == -1 || index == null
       promise = $http.get(self.baseUrl + '<%= nameSingular %>/' + id)
         .then (response) ->
           angular.extend(self.<%= namePlural %>[index], Entity.fromJSON(response.data))
@@ -52,7 +52,7 @@ angular.module('voyageVoyage').service '<%= nameSingular[0].toUpperCase() + name
     if !<%= nameSingular %>.objectId  # the object is a new one
       promise = $http.post(self.baseUrl + '<%= nameSingular %>', <%= nameSingular %>)
         .then (response) ->
-          <%= nameSingular %>.objectId = response.objectId
+          <%= nameSingular %>.objectId = response.data.objectId
           self.<%= namePlural %>.push(<%= nameSingular %>)
         .catch (error) -> $log.error(error)
     else # updating the object
