@@ -7,6 +7,7 @@ angular.module('voyageVoyage').service 'ImageUploadService', (Upload) -> {
     fileUpload
       .then (resp) ->
         obj.image = { __type: 'File', name: resp.data.name, url: resp.data.url }
+        {name: resp.data.url, url: resp.data.url}
       .catch (err) ->
         alert "Error!"
         console.log err

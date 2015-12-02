@@ -52,7 +52,11 @@ TourRepository, HotelRepository, CountryRepository, PlaceRepository, toastr, _) 
       TourRepository.remove(tour).then ->
         toastr.success('Removed successfully')
       
-  $scope.upload = (file) -> ImageUploadService.uploadImage(file, $scope.tour)
+  $scope.upload = (file) ->
+    ImageUploadService.uploadImage(file, $scope.tour).then (response) ->
+      console.log response
+      TourRepository.addImage($scope.tour, response.data.name, response.data.url).then ->
+        toastr.success 'Ok'
 
   $scope.seedDb = ->
     countries = Entity.fromArray FakerFactory.countries

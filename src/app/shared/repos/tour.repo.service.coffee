@@ -58,6 +58,20 @@ angular.module('voyageVoyage').service 'TourRepository', ($http, $log, $q, Entit
       promise = $http.put(self.baseUrl + 'tour/' + tour.objectId, tour)
     promise
 
+  self.addImage = (tour, imageName, imageUrl) ->
+    tourImage = {fileName: {__type: 'File', name: imageName, url: imageUrl}}
+    $http.post(self.baseUrl + 'tour_image', tourImage).then (response) ->
+      console.log response
+      objId = response.data.objectId
+      imageAddObj =
+        images:
+          __op: 'AddRelation',
+          objects: [
+            __type: 'Pointer'
+            className: 'tour_image'
+            objectId: objId]
+      $http.put(self.baseUrl + 'tour/' + tour.objectId, imageAddObj)
+
   self.remove = (tour) ->
     index = _.findIndex(self.tours, (t) -> tour.objectId == t.objectId)
     $http.delete(self.baseUrl + 'tour/' + tour.objectId).then (response) ->
