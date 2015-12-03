@@ -9,7 +9,7 @@ angular.module('voyageVoyage').service 'TourRepository', ($http, $log, $q, Entit
 
   self.all = (refresh) ->
     if self.tours.length == 0 || refresh
-      promise = $http.get(self.baseUrl + 'tour')
+      promise = $http.get(self.baseUrl + 'tour' + '?include=pics')
         .then (response) ->
           #clear array
           while (self.tours.length > 0)
@@ -61,16 +61,13 @@ angular.module('voyageVoyage').service 'TourRepository', ($http, $log, $q, Entit
   self.addImage = (tour, imageName, imageUrl) ->
     tourImage = {fileName: {__type: 'File', name: imageName, url: imageUrl}}
     $http.post(self.baseUrl + 'tour_image', tourImage).then (response) ->
-      console.log response
       objId = response.data.objectId
       imageAddObj =
-        images:
-          __op: 'AddRelation',
-          objects: [
-            __type: 'Pointer'
-            className: 'tour_image'
-            objectId: objId]
-      $http.put(self.baseUrl + 'tour/' + tour.objectId, imageAddObj)
+        pics:
+          __op: 'Add'
+          objects: [imageUrl]
+      $http.put(self.baseUrl + 'tour/' + tour.objectId, imageAddObj).then (response) ->
+        tour.pics = response.data.pics
 
   self.remove = (tour) ->
     index = _.findIndex(self.tours, (t) -> tour.objectId == t.objectId)

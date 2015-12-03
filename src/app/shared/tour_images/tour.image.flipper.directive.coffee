@@ -6,9 +6,8 @@ angular.module('voyageVoyage').directive 'vvTourImageFlipper', ->
   controller: ['$scope', '_', ($scope, _) ->
     $scope.images = []
     @addImage = (image) ->
-      image['current'] = true if $scope.images.length == 0
+      image.current = true if $scope.images.length == 0
       $scope.images.push(image)
-      console.log image
     @next = ->
       $scope.next()
     return
@@ -21,5 +20,3 @@ angular.module('voyageVoyage').directive 'vvTourImageFlipper', ->
         scope.images[0].current = true
       else
         scope.images[index + 1].current = true
-    
-
