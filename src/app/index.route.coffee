@@ -25,6 +25,10 @@ angular.module "voyageVoyage"
         templateUrl: 'app/admin/hotels/index.html'
         controller: 'HotelsController'
       }
+      .when '/companies', {
+        templateUrl: 'app/experiments/index.html'
+        controller: 'CompanyController'
+      }
       .otherwise {
         redirectTo: '/'
       }

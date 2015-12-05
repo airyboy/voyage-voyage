@@ -2,7 +2,9 @@
   ng-include src="'app/shared/logo.html'"
 .row
   .col-md-3
-    img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
+    vv-tour-image-flipper
+      vv-tour-image image-url='{{ img }}' ng-repeat='img in tour.pics'
+      vv-tour-image image-url='{{ tour.image.url }}' ng-if='tour.image'
   .col-md-9
     h1  {{ tour.title }} 
     h3  {{ hotel.stars + '*' }} {{ hotel.name }} 

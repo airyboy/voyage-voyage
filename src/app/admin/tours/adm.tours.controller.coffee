@@ -1,21 +1,18 @@
 angular.module("voyageVoyage").controller "AdminToursController",
-($scope, $q, ImageUploadService, PersistenceService, TourStateFactory, FakerFactory, Entity, _) ->
+($scope, $q, ImageUploadService, TourStateFactory, FakerFactory, Entity,
+TourRepository, HotelRepository, CountryRepository, PlaceRepository, toastr, _) ->
   UNSAVED_CHANGES_WARNING = "Есть несохраненные изменения. Продолжить?"
   REMOVE_WARNING = "Удалить тур?"
 
-  # для удобства каррируем
-  save = (tour) -> PersistenceService.saveResource('tour', tour)
-  remove = (tour) -> PersistenceService.removeResource('tour', tour)
-
   promises = {
-    tours: PersistenceService.loadResource('tour').$promise
-    places: PersistenceService.loadResource('place').$promise
-    countries: PersistenceService.loadResource('country').$promise
-    hotels: PersistenceService.loadResource('hotel').$promise }
+    tours: TourRepository.all().$promise
+    places: PlaceRepository.all().$promise
+    countries: CountryRepository.all().$promise
+    hotels: HotelRepository.all().$promise }
 
   $q.all(promises)
     .then (data) ->
-      $scope.tours = Entity.fromArray(data.tours)
+      $scope.tours = data.tours
       $scope.countries = data.countries
       $scope.places = data.places
       $scope.hotels = data.hotels
@@ -29,18 +26,20 @@ angular.module("voyageVoyage").controller "AdminToursController",
   $scope.setState('browse')
 
   $scope.add = ->
-    save($scope.tour).then ->
-      $scope.tours.push($scope.tour)
-    if $scope.image
-      $scope.upload($scope.image, $scope.tour).then (response) ->
-        save($scope.tour)
+    TourRepository.save($scope.tour).then ->
+      toastr.success('Tour saved')
+      if $scope.image
+        $scope.upload($scope.image, $scope.tour).then (response) ->
+          TourRepository.save($scope.tour)
+          toastr.success('Image attached')
+          $scope.setState('browse')
+      else
         $scope.setState('browse')
-    else
-      $scope.setState('browse')
     
   $scope.update = ->
     $scope.tour.commitChanges()
-    save(@tour)
+    TourRepository.save($scope.tour).then ->
+      toastr.success('Saved successfully')
     $scope.setState('browse')
 
   $scope.cancel = ->
@@ -48,12 +47,16 @@ angular.module("voyageVoyage").controller "AdminToursController",
       $scope.tour.rejectChanges()
       $scope.setState('browse')
 
-  $scope.remove = (idx) ->
+  $scope.remove = (tour) ->
     if confirm(REMOVE_WARNING)
-      $scope.tours.splice(idx, 1)
-      remove(@tour)
+      TourRepository.remove(tour).then ->
+        toastr.success('Removed successfully')
       
-  $scope.upload = (file) -> ImageUploadService.uploadImage(file, $scope.tour)
+  $scope.upload = (file) ->
+    ImageUploadService.uploadImage(file, $scope.tour).then (response) ->
+      console.log response
+      TourRepository.addImage($scope.tour, response.data.name, response.data.url).then ->
+        toastr.success 'Ok'
 
   $scope.seedDb = ->
     countries = Entity.fromArray FakerFactory.countries

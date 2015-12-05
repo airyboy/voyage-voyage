@@ -2,6 +2,7 @@
   ng-include src="'app/shared/logo.html'"
   
   vv-tours-filter [places='places' countries='countries' selected-stars='selectedStars' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged()']
+    a.btn.btn-danger vv-filter-reset='' Reset 
 .nopadding
   vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter | filter: starsFilter).length }}" 
   page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]
@@ -11,7 +12,10 @@
     /! Image
     .col-md-3
       .image
-        img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
+        vv-tour-image-flipper
+          vv-tour-image image-url='{{ img }}' ng-repeat='img in tour.pics'
+          vv-tour-image image-url='{{ tour.image.url }}' ng-if='tour.image'
+        /img alt="" height="130" src="" width="230" ng-src="{{ tour.image.url }}" /
     /! Tour item
     .col-md-9
       .row
