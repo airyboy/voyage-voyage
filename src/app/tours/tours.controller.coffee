@@ -19,7 +19,7 @@ angular.module('voyageVoyage')
     $scope.placeFilter = (tour) -> ToursFilterService.placeFilter(tour, $scope.selectedPlace)
     $scope.starsFilter = (tour) -> ToursFilterService.starsFilter(tour, $scope.hotels, $scope.selectedStars)
 
-    # reset paging when filter changes
+    # reset the pager when the filter changes
     $scope.filterChanged = ->
       $scope.pageBeginIndex = 0
       $scope.currentPage = 1

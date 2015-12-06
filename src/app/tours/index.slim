@@ -22,8 +22,10 @@
         .title.col-md-7.nopadding
           a ng-href=("/#/tour/{{ tour.objectId }}") 
             | {{tour.title}}
-          .label.label-primary  {{ getCountryById(tour.countryId)}} 
-          span.label.label-success  {{ getPlaceById(tour.placeId)}} 
+          vv-tour-link-filter type='country' text='{{ getCountryById(tour.countryId) }}' id='{{ tour.countryId }}'
+          vv-tour-link-filter type='place' text='{{ getPlaceById(tour.placeId) }}' id='{{ tour.placeId }}'
+          /.label.label-primary  {{ getCountryById(tour.countryId)}} 
+          /span.label.label-success  {{ getPlaceById(tour.placeId)}} 
           span.label.label-info  {{ tour.duration + ' ночей' }} 
         span.price.pull-right.col-md-2
           | {{tour.price | currency: "₽ " : 0}}
