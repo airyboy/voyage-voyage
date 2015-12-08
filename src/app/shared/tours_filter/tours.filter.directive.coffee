@@ -39,7 +39,6 @@ angular.module('voyageVoyage').directive 'vvFilterReset', ->
   restrict: 'A'
   require: '^vvToursFilter'
   link: (scope, element, attrs, controller) ->
-    console.log controller
     element.on 'click', ->
       scope.$apply -> controller.reset()
 

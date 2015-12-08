@@ -1,6 +1,6 @@
 angular.module('voyageVoyage')
   .controller 'ToursController', ($scope, TourRepository, PlaceRepository, CountryRepository, HotelRepository,
-  Entity, _, ToursFilterService) ->
+  Entity, _, ToursFilterService, toastr) ->
 
     $scope.itemsOnPage = 5
 
@@ -18,6 +18,12 @@ angular.module('voyageVoyage')
     $scope.countryFilter = (tour) -> ToursFilterService.countryFilter(tour, $scope.selectedCountry)
     $scope.placeFilter = (tour) -> ToursFilterService.placeFilter(tour, $scope.selectedPlace)
     $scope.starsFilter = (tour) -> ToursFilterService.starsFilter(tour, $scope.hotels, $scope.selectedStars)
+
+    $scope.$on 'tour.new', (e, args) ->
+      $scope.$apply ->
+        console.log moment()
+        console.log args.url
+        toastr.info "<a href='#{args.url}'>#{args.title}</a>", 'Новый тур!', { allowHtml: true }
 
     # reset the pager when the filter changes
     $scope.filterChanged = ->
