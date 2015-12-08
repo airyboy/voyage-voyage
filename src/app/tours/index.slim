@@ -6,6 +6,7 @@
 .nopadding
   vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter | filter: starsFilter).length }}" 
   page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]
+vv-tour-teaser
 /! Tours list
 .entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | filter: starsFilter | limitTo: itemsOnPage: pageBeginIndex track by tour.objectId") 
   .row.item.user

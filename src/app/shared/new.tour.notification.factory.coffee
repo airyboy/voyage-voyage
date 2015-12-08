@@ -11,7 +11,7 @@ angular.module("voyageVoyage").factory "NewTourNotification", ($rootScope, TourR
             randomIndex = Math.floor(Math.random() * total)
             randomTour = TourRepository.tours[randomIndex]
             $rootScope.$broadcast('tour.new',
-              {title: randomTour.title, url: "/tour/#{randomTour.objectId}" })
+              {title: randomTour.title, url: "/tour/#{randomTour.objectId}", price: randomTour.price })
             ),
         nextTimeout)
     setInterval(func, 10000)
