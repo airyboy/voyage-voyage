@@ -3,9 +3,7 @@
   
   vv-tours-filter [places='places' countries='countries' selected-stars='selectedStars' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged()']
     a.btn.btn-danger vv-filter-reset='' Reset 
-.nopadding
-  vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter | filter: starsFilter).length }}" 
-  page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]
+vv-tour-teaser
 /! Tours list
 .entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | filter: starsFilter | limitTo: itemsOnPage: pageBeginIndex track by tour.objectId") 
   .row.item.user
@@ -22,8 +20,10 @@
         .title.col-md-7.nopadding
           a ng-href=("/#/tour/{{ tour.objectId }}") 
             | {{tour.title}}
-          .label.label-primary  {{ getCountryById(tour.countryId)}} 
-          span.label.label-success  {{ getPlaceById(tour.placeId)}} 
+          vv-tour-link-filter type='country' text='{{ getCountryById(tour.countryId) }}' id='{{ tour.countryId }}'
+          vv-tour-link-filter type='place' text='{{ getPlaceById(tour.placeId) }}' id='{{ tour.placeId }}'
+          /.label.label-primary  {{ getCountryById(tour.countryId)}} 
+          /span.label.label-success  {{ getPlaceById(tour.placeId)}} 
           span.label.label-info  {{ tour.duration + ' ночей' }} 
         span.price.pull-right.col-md-2
           | {{tour.price | currency: "₽ " : 0}}
@@ -34,3 +34,6 @@
       .row.description
         | {{tour.text | cutWords:50}}
         a ng-href=("/#/tour/{{ tour.objectId }}")  далее
+.nopadding
+  vv-pager[total-items="{{ (tours | filter: countryFilter | filter: placeFilter | filter: starsFilter).length }}" 
+  page-size='{{ itemsOnPage }}' current-page='currentPage' page-changed="setPage(page)"]

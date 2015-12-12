@@ -9,7 +9,7 @@ angular.module('voyageVoyage').service 'TourRepository', ($http, $log, $q, Entit
 
   self.all = (refresh) ->
     if self.tours.length == 0 || refresh
-      promise = $http.get(self.baseUrl + 'tour' + '?include=pics')
+      promise = $http.get(self.baseUrl + 'tour')
         .then (response) ->
           #clear array
           while (self.tours.length > 0)

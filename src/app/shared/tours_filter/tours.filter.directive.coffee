@@ -25,10 +25,32 @@ angular.module('voyageVoyage').directive 'vvToursFilter', ->
       scope.selectedCountry = null
       scope.selectedPlace = null
 
+    scope.$on 'filter.country', (e, args) ->
+      scope.filterChangedCallback()
+      # Not very good. I create an object that pretends to be of Entity type by exposing only an id field
+      # but I do this in attempt to avoid excessive usage of two way binding
+      scope.selectedCountry = {objectId: args.id}
+
+    scope.$on 'filter.place', (e, args) ->
+      scope.filterChangedCallback()
+      scope.selectedPlace = {objectId: args.id}
+
 angular.module('voyageVoyage').directive 'vvFilterReset', ->
   restrict: 'A'
   require: '^vvToursFilter'
   link: (scope, element, attrs, controller) ->
-    console.log controller
     element.on 'click', ->
       scope.$apply -> controller.reset()
+
+
+angular.module('voyageVoyage').directive 'vvTourLinkFilter', ['$rootScope', ($rootScope) ->
+  restrict: 'E'
+  template: "<span class='label label-success' style='cursor: pointer;'>{{ text }}</span>"
+  scope:
+    id: '@'
+    text: '@'
+    type: '@'
+  link: (scope, iElement, iAttr) ->
+    iElement.on 'click', ->
+      scope.$apply ->
+        $rootScope.$broadcast "filter.#{scope.type}", { id: scope.id } ]
