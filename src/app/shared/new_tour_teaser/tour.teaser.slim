@@ -1,7 +1,7 @@
-.row.teaser ng-show='title'
+.row.teaser ng-show='tour'
   .col-md-2
     span.new новый тур!
   .col-md-8.tour
-    a href='{{ url }}' {{ title }} за {{ price }} руб
+    a href='{{ tour.url }}' {{ tour.title }} за {{ tour.price }} руб
   .col-md-2
     span.new.pull-right новый тур!

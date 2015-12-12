@@ -5,6 +5,4 @@ angular.module('voyageVoyage').directive 'vvTourTeaser', ->
   link: (scope, iElement, iAttr) ->
     scope.$on 'tour.new', (e, args) ->
       scope.$apply ->
-        scope.url = args.url
-        scope.title = args.title
-        scope.price = args.price
+        scope.tour = args.tour
