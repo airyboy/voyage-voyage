@@ -11,8 +11,9 @@ angular.module('voyageVoyage').directive 'vvStarRating', ['_', (_) ->
     scope.$watch 'model', (newValue) ->
       scope.stars = if newValue then newValue.val else 0
 
-    modelController.$parsers.push (viewValue) ->
-      if viewValue > 0 { val: viewValue } else null
+    modelController.$parsers.push((viewValue) ->
+      if viewValue > 0 then { val: viewValue } else null
+    )
 
     scope.reset = ->
       modelController.$setViewValue(0)

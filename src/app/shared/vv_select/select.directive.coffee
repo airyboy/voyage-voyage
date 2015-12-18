@@ -45,7 +45,5 @@ angular.module('voyageVoyage').directive 'vvSelect', ['_', (_) ->
       scope.$evalAsync ->
         viewVal = if valueFieldSet then item[scope.valueField] else index
         modelController.$setViewValue(viewVal)
-        console.log item
         scope.current = item[scope.displayField]
-        console.log modelController.$modelValue
 ]
