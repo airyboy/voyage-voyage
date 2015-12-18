@@ -18,7 +18,6 @@ angular.module('voyageVoyage').directive 'vvToursFilter', ->
     scope.stars = [{val: 2}, {val: 3}, {val: 4}, {val: 5}]
 
     scope.$watch 'places.length', (newVal) ->
-      console.log newVal
       scope.placesFiltered = scope.places if newVal > 0
 
     scope.onFilterChanged = ->
@@ -31,13 +30,6 @@ angular.module('voyageVoyage').directive 'vvToursFilter', ->
       scope.selectedCountry = null
       scope.selectedPlace = null
       scope.placesFiltered = scope.places
-
-    #scope.placesFiltered = () ->
-      #if scope.places
-        #scope.places.filter (place) ->
-          #if scope.selectedCountry then place.countryId == selectedCountry.objectId else true
-      #else
-        #null
 
     scope.$on 'filter.country', (e, args) ->
       scope.filterChangedCallback()
