@@ -17,13 +17,27 @@ angular.module('voyageVoyage').directive 'vvToursFilter', ->
   link: (scope, iElement, iAttr) ->
     scope.stars = [{val: 2}, {val: 3}, {val: 4}, {val: 5}]
 
+    scope.$watch 'places.length', (newVal) ->
+      console.log newVal
+      scope.placesFiltered = scope.places if newVal > 0
+
     scope.onFilterChanged = ->
+      scope.placesFiltered = scope.places.filter (place) ->
+        if scope.selectedCountry then place.countryId == scope.selectedCountry.objectId else true
       scope.filterChangedCallback()
 
     scope.reset = ->
       scope.selectedStars = null
       scope.selectedCountry = null
       scope.selectedPlace = null
+      scope.placesFiltered = scope.places
+
+    #scope.placesFiltered = () ->
+      #if scope.places
+        #scope.places.filter (place) ->
+          #if scope.selectedCountry then place.countryId == selectedCountry.objectId else true
+      #else
+        #null
 
     scope.$on 'filter.country', (e, args) ->
       scope.filterChangedCallback()

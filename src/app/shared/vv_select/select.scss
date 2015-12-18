@@ -11,7 +11,7 @@
 .wrapper-dropdown {
   /* Size and position */
   position: relative;
-  width: 200px;
+  width: 180px;
   margin: 0 auto;
   padding: 10px;
   /* Styles */
@@ -53,6 +53,7 @@
   font-weight: normal;
   transition: all 0.3s ease-in;
   list-style: none;
+  z-index: 999;
   /* Hiding */
   opacity: 0;
   pointer-events: none;

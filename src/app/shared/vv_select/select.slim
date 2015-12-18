@@ -4,4 +4,4 @@
     li ng-show='emptyText' 
       a href='#' ng-click='reset()' {{ emptyText }}
     li ng-repeat='item in items' 
-      a ng-click='change(item)' href='#' {{ item[displayField] }}
+      a ng-click='change(item, $index)' href='#' {{ item[displayField] }}
