@@ -35,7 +35,12 @@ angular.module('voyageVoyage').directive 'vvSelect', ['_', (_) ->
         found = _.find(scope.items, (item) -> item[scope.valueField] == val)
         scope.current = found[scope.displayField] if found
       else
-        scope.current = val[scope.displayField]
+        if val.hasOwnProperty(scope.displayField)
+          scope.current = val[scope.displayField]
+        else
+          found = _.find(scope.items, (item) -> item.objectId == val.objectId)
+          scope.current = found[scope.displayField] if found
+          
 
     scope.reset = ->
       modelController.$setViewValue(null)
