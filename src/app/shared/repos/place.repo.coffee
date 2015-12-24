@@ -1,4 +1,4 @@
-angular.module('voyageVoyage').service 'PlaceRepository', 
+angular.module('voyageVoyage').service 'PlaceRepository',
 ($http, $log, $q, Entity, _) ->
   self = {}
 

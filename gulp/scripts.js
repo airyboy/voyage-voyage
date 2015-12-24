@@ -18,6 +18,6 @@ gulp.task('scripts', function () {
     .pipe($.coffee()).on('error', conf.errorHandler('CoffeeScript'))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app')))
-    //.pipe(browserSync.reload({ stream: true }))
+    .pipe(browserSync.reload({ stream: true }))
     .pipe($.size())
 });
