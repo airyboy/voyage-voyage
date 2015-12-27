@@ -53,5 +53,5 @@
           input type='file' ng-model='image' ngf-select=''
           img ngf-thumbnail="image || 'http://placehold.it/250x250'"
       .form-group
-        button.btn.btn-primary ng-click="add()" ng-disabled='form.$invalid' Создать
+        button.btn.btn-primary type="submit" ng-click="add()" ng-disabled='form.$invalid' Создать
         button.btn.btn-default ng-click="cancel()" Отменить
