@@ -79,13 +79,15 @@ describe 'index', ->
     fillFields()
     expect(toursPage.form.submit.isEnabled()).toBeTruthy()
 
-  it 'should show a new tour after the form submitting', ->
-    toursPage.tours().count().then (num) ->
-      toursCountBefore = num
-
-      fillFields()
-      toursPage.form.submit.click()
-
-      toursPage.tours().count().then (num) ->
+  fit 'should show a new tour after the form submitting', ->
+    toursCountBefore = null
+    toursPage.tours().count()
+      .then (num) ->
+        toursCountBefore = num
+        fillFields()
+        toursPage.form.submit.click()
+      .then ->
+        toursPage.tours().count()
+      .then (num) ->
         toursCountAfter = num
         expect(toursCountAfter - toursCountBefore).toEqual(1)

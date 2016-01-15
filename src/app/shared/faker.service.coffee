@@ -33,11 +33,14 @@ angular.module("voyageVoyage").factory "FakerFactory", ->
           countryId: country.objectId
           countryName: country.name
     places
+
   hotelsList = ->
     gen = new Seeds
     gen.hotel.split(',').map (obj) ->
       stars: +(randomItem(gen.star.split(',')))
       name: obj
+
+  nextCountryPlace = ->
 
   tourFaker = (number, refs) ->
     gen = new Seeds
