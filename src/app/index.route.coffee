@@ -5,6 +5,14 @@ angular.module "voyageVoyage"
         templateUrl: 'app/tours/index.html'
         controller: 'ToursController'
       }
+      .when '/signup', {
+        templateUrl: 'app/users/signup.html'
+        controller: 'SignUpController'
+      }
+      .when '/login', {
+        templateUrl: 'app/users/login.html'
+        controller: 'SignInController'
+      }
       .when '/tour/:slug', {
         templateUrl: 'app/tours/show.html'
         controller: 'TourController'
