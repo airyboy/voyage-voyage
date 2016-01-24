@@ -1,3 +1,13 @@
+.temp-nav.nopadding ng-controller="SignInController"
+  span ng-if='current()' {{ userName() }}
+  a ng-hide='current()' href='/login' Login
+  span.pull-right
+    a href='#' ng-show='current()' ng-click='logOut()' Log out
+/.row 
+  /.col-md-3.col-md-offset-9 ng-controller="SignInController"
+    /span ng-if='current()' {{ userName() }}
+    /a ng-hide='current()' href='/login' Login
+    /a.pull-right ng-show='current()' ng-click='logOut()' Log out
 .row.top-row
   ng-include src="'app/shared/logo.html'"
   
