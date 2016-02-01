@@ -1,6 +1,4 @@
 angular.module('voyageVoyage') .controller 'SignInController', ($scope, $routeParams, $location, $window, Parse) ->
-  console.log 'here'
-
   $scope.name = 'some name'
 
   $scope.login = ->

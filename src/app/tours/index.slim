@@ -1,13 +1,3 @@
-.temp-nav.nopadding ng-controller="SignInController"
-  span ng-if='current()' {{ userName() }}
-  a ng-hide='current()' href='/login' Login
-  span.pull-right
-    a href='#' ng-show='current()' ng-click='logOut()' Log out
-/.row 
-  /.col-md-3.col-md-offset-9 ng-controller="SignInController"
-    /span ng-if='current()' {{ userName() }}
-    /a ng-hide='current()' href='/login' Login
-    /a.pull-right ng-show='current()' ng-click='logOut()' Log out
 .row.top-row
   ng-include src="'app/shared/logo.html'"
   
@@ -27,7 +17,7 @@ vv-tour-teaser
     .col-md-9
       .row
         .title.col-md-7.nopadding
-          a ng-href=("/#/tour/{{ tour.objectId }}") 
+          a ui-sref="tour({id: tour.objectId})"
             | {{tour.title}}
           vv-tour-link-filter type='country' text='{{ getCountryById(tour.countryId) }}' id='{{ tour.countryId }}'
           vv-tour-link-filter type='place' text='{{ getPlaceById(tour.placeId) }}' id='{{ tour.placeId }}'

@@ -1,0 +1,24 @@
+<div class='temp-nav'>
+  <a ui-sref="home">Home</a>
+  <span class='pull-right'>
+    <span ng-if='current()'>
+      <span class='glyphicon glyphicon-user'></span>
+      <span ng-if='current()'> {{ userName() }}</span>
+      |
+      <a href='#' ng-click='logOut()'>Log out</a>
+    </span>
+    <a ui-sref="login" href='#' ng-hide='current()'>Login</a>
+  </span>
+  <span>
+    <span ng-if='current()'>
+      |
+      <a ui-sref="admin" href='#'>tours</a>
+      |
+      <a ui-sref="places" href='#'>places</a>
+      |
+      <a ui-sref="countries" href='#'>countries</a>
+      |
+      <a ui-sref="hotels" href='#'>hotels</a>
+    </span>
+  </span>
+</div>
