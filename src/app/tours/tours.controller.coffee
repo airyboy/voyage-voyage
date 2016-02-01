@@ -13,6 +13,8 @@ angular.module('voyageVoyage')
       $scope.countries = CountryRepository.all()
       $scope.hotels = HotelRepository.all()
       $scope.places = PlaceRepository.all()
+      $scope.promos = _.sample(TourRepository.tours, 4)
+      console.log $scope.promos
       $scope.setPage(1)
 
     $scope.countryFilter = (tour) -> ToursFilterService.countryFilter(tour, $scope.selectedCountry)

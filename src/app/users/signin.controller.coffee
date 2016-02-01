@@ -1,4 +1,4 @@
-angular.module('voyageVoyage') .controller 'SignInController', ($scope, $routeParams, $location, $window, Parse) ->
+angular.module('voyageVoyage') .controller 'SignInController', ($scope, $routeParams, $location, $window, Parse, $state) ->
   $scope.name = 'some name'
 
   $scope.login = ->
@@ -20,4 +20,5 @@ angular.module('voyageVoyage') .controller 'SignInController', ($scope, $routePa
 
   $scope.logOut = ->
     Parse.User.logOut()
+    $state.go('home')
     $scope.apply()

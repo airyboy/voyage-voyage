@@ -15,6 +15,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl: 'app/users/login.html'
             controller: 'SignInController'
@@ -23,6 +24,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl: 'app/users/signup.html'
             controller: 'SignUpController'
@@ -31,6 +33,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl:  'app/tours/show.html'
             controller: 'TourController'
@@ -39,6 +42,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl:  'app/admin/tours/index.html'
             controller: 'AdminToursController'
@@ -46,6 +50,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl:  'app/admin/places/index.html'
             controller: 'PlacesController'
@@ -53,6 +58,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl:  'app/admin/countries/index.html'
             controller: 'CountriesController'
@@ -60,6 +66,7 @@ angular.module "voyageVoyage"
         views:
           'nav':
             templateUrl: 'app/shared/nav.html'
+            controller: 'SignInController'
           'main':
             templateUrl:  'app/admin/hotels/index.html'
             controller: 'HotelsController'

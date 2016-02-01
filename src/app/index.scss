@@ -142,6 +142,26 @@ body {
 .ng-touched.ng-invalid {
   border-color: red;
 }
+
+.carousel-inner .item {
+  height: 300px !important;
+  width: auto;
+  background-position: center center;
+  background-size: cover;
+}
+
+.carousel-inner img {
+  width: auto;
+  position: absolute;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.jumbo {
+  margin-bottom: 20px;
+}
 /**
  *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

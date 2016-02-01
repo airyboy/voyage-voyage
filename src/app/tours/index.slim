@@ -2,6 +2,13 @@
   ng-include src="'app/shared/logo.html'"
   
   vv-tours-filter [places='places' countries='countries' selected-stars='selectedStars' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged()']
+.row.jumbo ng-hide='selectedCountry || selectedPlace || selectedStars' 
+  uib-carousel interval='5000'
+    uib-slide ng-repeat='promo in promos'
+      a ui-sref='tour({id: promo.objectId})'
+        img ng-src='{{ promo.image.url }}' height='200' style='margin:auto'
+        .carousel-caption
+          h4 {{ promo.title }}
 vv-tour-teaser
 /! Tours list
 .entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | filter: starsFilter | limitTo: itemsOnPage: pageBeginIndex track by tour.objectId") 
