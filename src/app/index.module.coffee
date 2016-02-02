@@ -4,4 +4,4 @@ angular.module('parse', []).service('Parse', ['$window', ->
 ])
 
 angular.module "voyageVoyage", ['ngRoute', 'ngResource', 'underscore',
-'ngFileUpload', 'ngMessages', 'toastr', 'parse']
+  'ngFileUpload', 'ngMessages', 'toastr', 'parse', 'ui.bootstrap', 'ui.router']

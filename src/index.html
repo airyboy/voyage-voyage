@@ -19,21 +19,9 @@
     <![endif]-->
   </head>
   <body>
-    <div class='temp-nav'>
-      <a ng-href="/">Home</a>
-      <div class="pull-right">
-        <span>Admin: </span>
-        <a ng-href="admin/">tours</a>
-        |
-        <a ng-href="admin/places">places</a>
-        |
-        <a ng-href="admin/countries">countries</a>
-        |
-        <a ng-href="admin/hotels">hotels</a>
-      </div>
-    </div>
-    <div class="container">
-      <ng-view></ng-view>
+    <div ui-view='nav'></div>
+    <div class='container'>
+      <div ui-view='main'></div>
     </div>
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->

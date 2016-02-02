@@ -26,6 +26,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bo
   box-shadow: 0 0 15px #b1b1b1;
   padding-left: 10;
   padding-right: 10;
+  padding-bottom: 10;
   background-color: #fff;
   padding-top: 10px;
 }
@@ -140,6 +141,26 @@ body {
 
 .ng-touched.ng-invalid {
   border-color: red;
+}
+
+.carousel-inner .item {
+  height: 300px !important;
+  width: auto;
+  background-position: center center;
+  background-size: cover;
+}
+
+.carousel-inner img {
+  width: auto;
+  position: absolute;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.jumbo {
+  margin-bottom: 20px;
 }
 /**
  *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject

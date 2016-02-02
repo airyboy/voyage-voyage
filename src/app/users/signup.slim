@@ -1,0 +1,23 @@
+ng-include src="'app/shared/error.messages.html'"
+.row.top-row
+  ng-include src="'app/shared/logo.html'"
+.row
+  .col-md-4.col-md-offset-4.box
+    h2.text-center Sign up
+    form name='form'
+      .form-group
+        label for='username' Name or email
+        input.form-control type='text' name='username' ng-model='username' required='true'
+        div ng-messages='form.username.$error' ng-if='form.username.$touched && form.username.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for='passw' Password
+        input.form-control type='password' name='passw' ng-model='password' required='true'
+        div ng-messages='form.passw.$error' ng-if='form.passw.$touched && form.passw.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      .form-group
+        label for='passwConf' Password confirmation
+        input.form-control type='password' name='passwConf' ng-model='passwordConfirmation' required='true'
+        div ng-messages='form.passwConf.$error' ng-if='form.passwConf.$touched && form.passwConf.$error'
+          .error-message ng-messages-include='vvErrorMessages'
+      button.btn.btn-default type='submit' ng-disabled='form.$invalid' ng-click='signup()' Register
