@@ -1,4 +1,4 @@
-angular.module('voyageVoyage') .controller 'SignUpController', ($scope, $routeParams, Parse) ->
+angular.module('voyageVoyage') .controller 'SignUpController', ($scope, $routeParams, Parse, $state, toastr) ->
   $scope.signup = ->
     user = new Parse.User
     user.set('username', $scope.username)
@@ -6,7 +6,7 @@ angular.module('voyageVoyage') .controller 'SignUpController', ($scope, $routePa
 
     user.signUp null,
       success: (user) ->
-        console.log "Ok"
+        $state.go('home')
       error: (user, error) ->
-        console.log error
+        toastr.error('Please, choose another username. The one you given is already occupied.')
 
