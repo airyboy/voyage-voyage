@@ -21,8 +21,17 @@ angular.module('voyageVoyage').directive 'vvSelect', ['_', (_) ->
         scope.items[index]
 
     el = angular.element(iElement[0].firstChild)
-    el.on 'click', ->
+    el.on 'click', (event) ->
+      event.stopPropagation()
       el.toggleClass('active')
+
+    body = angular.element(document).find('body')
+    bodyClickHandler = -> el.removeClass('active')
+
+    body.on 'click', bodyClickHandler
+
+    scope.$on '$destroy', ->
+      body.off 'click', bodyClickHandler
 
     scope.$watch 'model', (newValue) ->
       if newValue
