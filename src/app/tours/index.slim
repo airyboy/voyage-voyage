@@ -2,7 +2,6 @@
   ng-include src="'app/shared/logo.html'"
   
   vv-tours-filter [places='places' countries='countries' selected-stars='selectedStars' selected-place='selectedPlace' selected-country="selectedCountry" filter-changed='filterChanged()']
-    a.btn.btn-danger vv-filter-reset='' Reset 
 vv-tour-teaser
 /! Tours list
 .entry ng-repeat=("tour in tours | filter: countryFilter | filter: placeFilter | filter: starsFilter | limitTo: itemsOnPage: pageBeginIndex track by tour.objectId") 

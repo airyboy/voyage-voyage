@@ -6,4 +6,3 @@ angular.module('voyageVoyage') .controller 'TourController',
     $scope.country = CountryRepository.getById(tour.countryId)
     $scope.hotel = HotelRepository.getById(tour.hotelId)
     $scope.place = PlaceRepository.getById(tour.placeId)
-    console.log tour

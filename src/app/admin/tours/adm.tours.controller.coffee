@@ -54,7 +54,6 @@ TourRepository, HotelRepository, CountryRepository, PlaceRepository, toastr, _) 
       
   $scope.upload = (file) ->
     ImageUploadService.uploadImage(file, $scope.tour).then (response) ->
-      console.log response
       TourRepository.addImage($scope.tour, response.data.name, response.data.url).then ->
         toastr.success 'Ok'
 
@@ -73,7 +72,6 @@ TourRepository, HotelRepository, CountryRepository, PlaceRepository, toastr, _) 
 
     tours = Entity.fromArray FakerFactory.tours(20, { countries: $scope.countries, places: $scope.places, hotels: $scope.hotels })
     angular.forEach tours, (tour) ->
-      console.log tour
       PersistenceService.saveResource('tour', tour)
     alert 'Seed finished'
 

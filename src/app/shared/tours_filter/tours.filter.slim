@@ -1,14 +1,16 @@
 .col-md-2
-  select.form-control id="" ng-change='onFilterChanged()' ng-model="selectedCountry" ng-options="country.name for country in countries track by country.objectId" 
-    option value="" -- Все страны --
+  vv-select items='countries' ng-change='onFilterChanged()' ng-model='selectedCountry' display-field='name' empty-text='All countries'
+  /select.form-control id="" ng-change='onFilterChanged()' ng-model="selectedCountry" ng-options="country.name for country in countries track by country.objectId" 
+    /option value="" -- Все страны --
 .col-md-2
-  select.form-control[id="" ng-change='onFilterChanged()' name="" ng-model="selectedPlace" 
-  ng-options="place.name for place in places | filter: {countryId: selectedCountry.objectId} track by place.objectId"]
-    option value="" -- Все места --
+  vv-select items='placesFiltered' ng-change='onFilterChanged()' ng-model='selectedPlace' display-field='name' empty-text='All places'
+  /select.form-control[id="" ng-change='onFilterChanged()' name="" ng-model="selectedPlace" 
+  /ng-options="place.name for place in places | filter: {countryId: selectedCountry.objectId} track by place.objectId"]
+    /option value="" -- Все места --
 .col-md-2
-  select.form-control[id="" ng-change='onFilterChanged()' name="" ng-model="selectedStars" 
-  ng-options="item.val for item in stars"]
-    option value="" -- Все отели --
+  vv-star-rating ng-model='selectedStars'
+  /select.form-control[id="" ng-change='onFilterChanged()' name="" ng-model="selectedStars" 
+  /ng-options="item.val for item in stars"]
+    /option value="" -- Все отели --
 a.btn.btn-danger ng-show='selectedStars || selectedPlace || selectedCountry' ng-click='reset()' Сброс
 .content ng-transclude=''
-
